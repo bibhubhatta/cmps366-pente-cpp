@@ -1,0 +1,11 @@
+---
+AlignConsecutiveDeclarations: 'true'
+AllowShortIfStatementsOnASingleLine: Never
+BreakBeforeBraces: Allman
+IndentWidth: 4
+PointerAlignment: Left
+SpaceBeforeCpp11BracedList: true
+TabWidth: 4
+UseTab: Never
+
+...
