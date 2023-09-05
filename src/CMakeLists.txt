@@ -6,9 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_library(
-        pente_src SHARED
-        foo.cpp
-)
+        pente_lib SHARED
+        SerialFile.cpp SerialFile.h)
 
-target_include_directories(pente_src
+target_include_directories(pente_lib
         INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})

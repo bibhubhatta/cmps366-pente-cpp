@@ -28,9 +28,8 @@ add_executable(
 target_link_libraries(
         tests
         PUBLIC
-        pente_src
+        pente_lib
         GTest::gtest_main
 )
-
 
 gtest_discover_tests(tests)
