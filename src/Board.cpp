@@ -32,14 +32,14 @@ void Board::set_stone(const std::string& position, char stone)
 
 int Board::get_row(const std::string& position)
 {
-    int row = position[0] - 'A';
+    int row = std::stoi(position.substr(1, position.length() - 1)) - 1;
     // TODO: Raise exception if position is invalid / out of bounds
     return row;
 }
 
 int Board::get_col(const std::string& position)
 {
-    int col = std::stoi(position.substr(1, position.length() - 1)) - 1;
+    int col = position[0] - 'A';
     // TODO: Raise exception if position is invalid / out of bounds
     return col;
 }
@@ -52,7 +52,8 @@ Board Board::from_string(const std::string& board_string)
     {
         for (int col = 0; col < 19; col++)
         {
-            std::string position = std::string(1, 'A' + row) + std::to_string(col + 1);
+            std::string position =
+                std::string(1, 'A' + col) + std::to_string(row + 1);
             char stone = board_string[row * 19 + col];
             board_.set_stone(position, stone);
         }

@@ -115,11 +115,11 @@ TEST_F(SerialTestFixture, Board)
 {
     auto  serial = Serial(serial_string_provided);
     Board board = serial.get_board();
-    for (char row = 'A'; row <= 'S'; row++)
+    for (char col = 'A'; col <= 'S'; col++)
     {
-        for (int col = 1; col <= 19; col++)
+        for (int row = 1; row <= 19; row++)
         {
-            std::string position = std::string(1, row) + std::to_string(col);
+            std::string position = std::string(1, col) + std::to_string(row);
 
             // Center is white
             if (position == "J10")
