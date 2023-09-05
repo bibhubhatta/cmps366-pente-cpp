@@ -1,83 +1,111 @@
-#include "Serial.h"
 #include <gtest/gtest.h>
 
-TEST(Serial, ScoresAndPairs)
-{
-    const std::string serial_string {"Board:\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOWOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "\n"
-                                     "Human:\n"
-                                     "Captured pairs: 0\n"
-                                     "Score: 0\n"
-                                     "\n"
-                                     "Computer:\n"
-                                     "Captured pairs: 0\n"
-                                     "Score: 0\n"
-                                     "\n"
-                                     "Next Player: Human - Black"};
+#include "Serial.h"
 
-    auto serial = Serial(serial_string);
+class SerialTestFixture : public ::testing::Test
+{
+  public:
+    void SetUp() override
+    {
+        serial_string_provided = "Board:\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOWOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "OOOOOOOOOOOOOOOOOOO\n"
+                        "\n"
+                        "Human:\n"
+                        "Captured pairs: 0\n"
+                        "Score: 0\n"
+                        "\n"
+                        "Computer:\n"
+                        "Captured pairs: 0\n"
+                        "Score: 0\n"
+                        "\n"
+                        "Next Player: Human - Black";
+
+        serial_string_custom = "Board:\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOWOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "OOOOOOOOOOOOOOOOOOO\n"
+                                 "\n"
+                                 "Human:\n"
+                                 "Captured pairs: 10\n"
+                                 "Score: 50\n"
+                                 "\n"
+                                 "Computer:\n"
+                                 "Captured pairs: 20\n"
+                                 "Score: 100\n"
+                                 "\n"
+                                 "Next Player: Human - Black";
+    }
+
+    std::string serial_string_provided;
+    std::string serial_string_custom;
+};
+
+TEST_F(SerialTestFixture, HumanScore)
+{
+    auto serial = Serial(serial_string_provided);
     EXPECT_EQ(serial.get_human_score(), 0);
-    EXPECT_EQ(serial.get_computer_score(), 0);
-    EXPECT_EQ(serial.get_human_captured_pairs(), 0);
-    EXPECT_EQ(serial.get_computer_captured_pairs(), 0);
+
+    serial = Serial(serial_string_custom);
+    EXPECT_EQ(serial.get_human_score(), 50);
 }
 
-TEST(Serial, ScoresAndPairs2)
+TEST_F(SerialTestFixture, HumanCapturedPairs)
 {
-    const std::string serial_string {"Board:\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOWOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "OOOOOOOOOOOOOOOOOOO\n"
-                                     "\n"
-                                     "Human:\n"
-                                     "Captured pairs: 2\n"
-                                     "Score: 25\n"
-                                     "\n"
-                                     "Computer:\n"
-                                     "Captured pairs: 3\n"
-                                     "Score: 50\n"
-                                     "\n"
-                                     "Next Player: Human - Black"};
+    auto serial = Serial(serial_string_provided);
+    EXPECT_EQ(serial.get_human_captured_pairs(), 0);
 
-    Serial serial {serial_string};
+    serial = Serial(serial_string_custom);
+    EXPECT_EQ(serial.get_human_captured_pairs(), 10);
+}
 
-    EXPECT_EQ(serial.get_human_score(), 25);
-    EXPECT_EQ(serial.get_computer_score(), 50);
-    EXPECT_EQ(serial.get_human_captured_pairs(), 2);
-    EXPECT_EQ(serial.get_computer_captured_pairs(), 3);
+TEST_F(SerialTestFixture, ComputerScore)
+{
+    auto serial = Serial(serial_string_provided);
+    EXPECT_EQ(serial.get_computer_score(), 0);
+
+    serial = Serial(serial_string_custom);
+    EXPECT_EQ(serial.get_computer_score(), 100);
+}
+
+TEST_F(SerialTestFixture, ComputerCapturedPairs)
+{
+    auto serial = Serial(serial_string_provided);
+    EXPECT_EQ(serial.get_computer_captured_pairs(), 0);
+
+    serial = Serial(serial_string_custom);
+    EXPECT_EQ(serial.get_computer_captured_pairs(), 20);
 }
