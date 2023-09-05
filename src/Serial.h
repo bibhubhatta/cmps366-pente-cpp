@@ -18,6 +18,10 @@ class Serial
 
     int get_computer_captured_pairs() const;
 
+    char get_human_stone() const;
+
+    char get_computer_stone() const;
+
     Board get_board() const;
 
   private:

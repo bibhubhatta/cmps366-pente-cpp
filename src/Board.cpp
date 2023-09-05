@@ -11,6 +11,9 @@ Board::Board()
         }
         board.push_back(row);
     }
+
+    captured_pairs['W'] = 0;
+    captured_pairs['B'] = 0;
 }
 
 char Board::get_stone(const std::string& position) const
@@ -44,7 +47,9 @@ int Board::get_col(const std::string& position)
     return col;
 }
 
-Board Board::from_string(const std::string& board_string)
+Board Board::from_string(const std::string& board_string,
+                         const int          no_captured_white_pairs,
+                         const int          no_captured_black_pairs)
 {
     auto board_ = Board();
 
@@ -59,5 +64,13 @@ Board Board::from_string(const std::string& board_string)
         }
     }
 
+    board_.captured_pairs['W'] = no_captured_white_pairs;
+    board_.captured_pairs['B'] = no_captured_black_pairs;
+
     return board_;
+}
+
+int Board::get_no_captured_pairs(char stone) const
+{
+    return captured_pairs.at(stone);
 }
