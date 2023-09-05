@@ -29,3 +29,15 @@ int Serial::get_computer_score() const { return get_number(27); }
 int Serial::get_human_captured_pairs() const { return get_number(22); }
 
 int Serial::get_computer_captured_pairs() const { return get_number(26); }
+
+Board Serial::get_board() const
+{
+    std::string board_string;
+    for (int i = 1; i < 20; i++)
+    {
+        board_string += lines[i];
+    }
+
+    Board board = Board::from_string(board_string);
+    return board;
+}

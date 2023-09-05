@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "Board.h"
 #include "Serial.h"
 
 class SerialTestFixture : public ::testing::Test
@@ -108,4 +109,26 @@ TEST_F(SerialTestFixture, ComputerCapturedPairs)
 
     serial = Serial(serial_string_custom);
     EXPECT_EQ(serial.get_computer_captured_pairs(), 20);
+}
+
+TEST_F(SerialTestFixture, Board)
+{
+    auto  serial = Serial(serial_string_provided);
+    Board board = serial.get_board();
+    for (char row = 'A'; row <= 'S'; row++)
+    {
+        for (int col = 1; col <= 19; col++)
+        {
+            std::string position = std::string(1, row) + std::to_string(col);
+
+            // Center is white
+            if (position == "J10")
+            {
+                EXPECT_EQ(board.get_stone(position), 'W');
+                continue;
+            }
+
+            EXPECT_EQ(board.get_stone(position), 'O');
+        }
+    }
 }
