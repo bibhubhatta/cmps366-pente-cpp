@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_library(
         pente_lib STATIC
-        SerialFile.cpp SerialFile.h)
+        Serial.cpp Serial.h)
 
 target_include_directories(pente_lib
         INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})

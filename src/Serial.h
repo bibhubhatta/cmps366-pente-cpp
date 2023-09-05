@@ -1,13 +1,12 @@
 #pragma once
 
-
-#include <vector>
 #include <string>
+#include <vector>
 
-class SerialFile {
-public:
-
-    SerialFile(const std::string &path);
+class Serial
+{
+  public:
+    Serial(const std::string& serial_string) ;
 
     int get_human_score() const;
 
@@ -17,7 +16,8 @@ public:
 
     int get_computer_captured_pairs() const;
 
-private:
+  private:
     std::vector<std::string> lines;
 
+    int get_number(int line_number) const;
 };
