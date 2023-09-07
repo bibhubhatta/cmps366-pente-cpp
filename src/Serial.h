@@ -27,5 +27,6 @@ class Serial
   private:
     std::vector<std::string> lines;
 
-    int get_number(int line_number) const;
+    int get_number_in_line(int line_number) const;
+    char other_stone(char stone) const;
 };

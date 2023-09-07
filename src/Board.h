@@ -22,6 +22,7 @@ class Board
 
     void set_stone(const std::string& position, char stone);
 
-    static int get_row(const std::string& position);
-    static int get_col(const std::string& position);
+    // TODO: Possibly create a Position class
+    static int get_row_number_from_position_string(const std::string& position);
+    static int get_col_number_from_position_string(const std::string& position);
 };

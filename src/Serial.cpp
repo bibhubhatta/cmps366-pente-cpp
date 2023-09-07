@@ -4,7 +4,7 @@
 
 Serial::Serial(const std::string& serial_string)
 {
-    // Parse the string into lines
+    // Parse the string into a vector of lines for easier access
     std::string        line;
     std::istringstream iss(serial_string);
     while (std::getline(iss, line))
@@ -13,8 +13,10 @@ Serial::Serial(const std::string& serial_string)
     }
 }
 
-int Serial::get_number(int line_number) const
+int Serial::get_number_in_line(int line_number) const
 {
+    // Get number from a line with key:value format
+    // Can be used to get score, captured pairs, etc
     std::string line = lines[line_number];
     std::string number_str = line.substr(line.find(":") + 1, line.length() - 1);
 
@@ -22,16 +24,20 @@ int Serial::get_number(int line_number) const
     return number;
 }
 
-int Serial::get_human_score() const { return get_number(23); }
+int Serial::get_human_score() const { return get_number_in_line(23); }
 
-int Serial::get_computer_score() const { return get_number(27); }
+int Serial::get_computer_score() const { return get_number_in_line(27); }
 
-int Serial::get_human_captured_pairs() const { return get_number(22); }
+int Serial::get_human_captured_pairs() const { return get_number_in_line(22); }
 
-int Serial::get_computer_captured_pairs() const { return get_number(26); }
+int Serial::get_computer_captured_pairs() const
+{
+    return get_number_in_line(26);
+}
 
 Board Serial::get_board() const
 {
+    // Prepare the parameters for the Board::from_string function
     std::string board_string;
     for (int i = 1; i < 20; i++)
     {
@@ -39,7 +45,6 @@ Board Serial::get_board() const
     }
 
     char human_stone = get_human_stone();
-    char computer_stone = get_computer_stone();
 
     int no_captured_black_pairs = 0;
     int no_captured_white_pairs = 0;
@@ -67,12 +72,12 @@ Board Serial::get_board() const
 
 char Serial::get_human_stone() const
 {
-    // Line 30: Next Player: Human - Black
+    // Line 30: "Next Player: Human - Black"
 
     // Get the string after the colon
     std::string line = lines[29];
     std::string player_stone =
-        line.substr(line.find(":") + 2, line.length() - 1);
+        line.substr(line.find(':') + 2, line.length() - 1);
 
     // Split the string by the dash
     std::string delimiter = " - ";
@@ -81,18 +86,25 @@ char Serial::get_human_stone() const
         player_stone.substr(player_stone.find(delimiter) + delimiter.length(),
                             player_stone.length() - 1);
 
+    char stone_char;
     if (player == "Human")
     {
-        return stone[0];
+        stone_char = stone[0];
     }
     else if (player == "Computer")
     {
-        return stone[0] == 'W' ? 'B' : 'W';
+        stone_char = other_stone(stone[0]);
     }
+    // TODO: Raise exception if player is neither Human nor Computer
+
+    return stone_char;
 }
 
 char Serial::get_computer_stone() const
 {
+    // Reverse of the human stone
     char human_stone = get_human_stone();
-    return human_stone == 'W' ? 'B' : 'W';
+    return other_stone(human_stone);
 }
+
+char Serial::other_stone(char stone) const { return stone == 'W' ? 'B' : 'W'; }
