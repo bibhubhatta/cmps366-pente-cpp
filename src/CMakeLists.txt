@@ -8,7 +8,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_library(
         pente_lib STATIC
         Serial.cpp Serial.h
-        Board.cpp Board.h)
+        Board.cpp Board.h
+        Position.cpp Position.h)
 
 target_include_directories(pente_lib
         INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})

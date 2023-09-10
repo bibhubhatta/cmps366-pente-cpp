@@ -21,35 +21,34 @@ Board::Board()
     captured_pairs['B'] = 0;
 }
 
-char Board::get_stone(const std::string& position) const
+char Board::get_stone_color(const Position& position) const
 {
-    int row = get_row_number_from_position_string(position);
-    int col = get_col_number_from_position_string(position);
+    int row = position.row;
+    int col = position.col;
+
     return board[row][col];
 }
 
-void Board::set_stone(const std::string& position, char stone)
+char Board::get_stone(const std::string& position_string) const
 {
-    int row = get_row_number_from_position_string(position);
-    int col = get_col_number_from_position_string(position);
+    Position position = Position::from_string(position_string);
+    return get_stone_color(position);
+}
+
+void Board::set_stone(const Position& position, char stone)
+{
+    int row = position.row;
+    int col = position.col;
 
     // TODO: Raise exception if stone is already set
 
     board[row][col] = stone;
 }
 
-int Board::get_row_number_from_position_string(const std::string& position)
+void Board::set_stone(const std::string& position_string, char stone)
 {
-    int row = std::stoi(position.substr(1, position.length() - 1)) - 1;
-    // TODO: Raise exception if position is invalid / out of bounds
-    return row;
-}
-
-int Board::get_col_number_from_position_string(const std::string& position)
-{
-    int col = position[0] - 'A';
-    // TODO: Raise exception if position is invalid / out of bounds
-    return col;
+    Position position = Position::from_string(position_string);
+    set_stone(position, stone);
 }
 
 Board Board::from_string(const std::string& board_string,
