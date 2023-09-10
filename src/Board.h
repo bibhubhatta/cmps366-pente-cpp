@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 
+typedef char               Stone;
+typedef std::vector<Stone> StoneSequence;
+
 class Board
 {
   public:
@@ -24,25 +27,23 @@ class Board
                              int                no_captured_white_pairs,
                              int                no_captured_black_pairs);
 
-    template <typename T> char get_stone(const T& position) const;
+    template <typename T> Stone get_stone(const T& position) const;
 
-    int get_no_captured_pairs(char stone) const;
+    int get_no_captured_pairs(Stone stone) const;
 
-    template <typename T> std::vector<char> get_row(T& position) const;
-    template <typename T> std::vector<char> get_col(T& position) const;
-    template <typename T>
-    std::vector<char> get_main_diagonal(T& position) const;
-    template <typename T>
-    std::vector<char> get_anti_diagonal(T& position) const;
+    template <typename T> StoneSequence get_row(T& position) const;
+    template <typename T> StoneSequence get_col(T& position) const;
+    template <typename T> StoneSequence get_main_diagonal(T& position) const;
+    template <typename T> StoneSequence get_anti_diagonal(T& position) const;
 
   private:
-    std::vector<std::vector<char>> board;
-    std::map<char, int>            captured_pairs;
+    std::vector<StoneSequence> board;
+    std::map<Stone, int>       captured_pairs;
 
-    template <typename T> void set_stone(const T& position, char stone);
+    template <typename T> void set_stone(const T& position, Stone stone);
 
     // These are private because the row and col indices are 0-based in the
     // internal representation, but 1-based in the external representation
-    std::vector<char> get_row(int row) const;
-    std::vector<char> get_col(int col) const;
+    StoneSequence get_row(int row) const;
+    StoneSequence get_col(int col) const;
 };

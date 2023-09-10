@@ -6,7 +6,7 @@ Board::Board()
     // Initialize board with empty stones
     for (int i = 0; i < 19; i++)
     {
-        std::vector<char> row;
+        StoneSequence row;
         for (int j = 0; j < 19; j++)
         {
             row.push_back('O');
@@ -21,7 +21,7 @@ Board::Board()
     captured_pairs['B'] = 0;
 }
 
-template <typename T> char Board::get_stone(const T& position) const
+template <typename T> Stone Board::get_stone(const T& position) const
 {
     Position position_ {position};
     int      row = position_.row;
@@ -30,10 +30,10 @@ template <typename T> char Board::get_stone(const T& position) const
     return board[row][col];
 }
 
-template char Board::get_stone<Position>(const Position& position) const;
-template char Board::get_stone<std::string>(const std::string& position) const;
+template Stone Board::get_stone<Position>(const Position& position) const;
+template Stone Board::get_stone<std::string>(const std::string& position) const;
 
-template <typename T> void Board::set_stone(const T& position, char stone)
+template <typename T> void Board::set_stone(const T& position, Stone stone)
 {
     Position position_ {position};
     int      row = position_.row;
@@ -44,9 +44,9 @@ template <typename T> void Board::set_stone(const T& position, char stone)
     board[row][col] = stone;
 }
 
-template void Board::set_stone<Position>(const Position& position, char stone);
+template void Board::set_stone<Position>(const Position& position, Stone stone);
 template void Board::set_stone<std::string>(const std::string& position,
-                                            char               stone);
+                                            Stone              stone);
 
 Board Board::from_string(const std::string& board_string,
                          const int          no_captured_white_pairs,
@@ -61,7 +61,7 @@ Board Board::from_string(const std::string& board_string,
         {
             std::string position =
                 std::string(1, 'A' + col) + std::to_string(row + 1);
-            char stone = board_string[row * 19 + col];
+            Stone stone = board_string[row * 19 + col];
             board_.set_stone(position, stone);
         }
     }
@@ -72,16 +72,16 @@ Board Board::from_string(const std::string& board_string,
     return board_;
 }
 
-int Board::get_no_captured_pairs(char stone) const
+int Board::get_no_captured_pairs(Stone stone) const
 {
     // The number of captured pairs is the numbers of pairs lost for a stone,
     // ie, captured by the opponent
     return captured_pairs.at(stone);
 }
 
-std::vector<char> Board::get_row(int row) const { return board[row]; }
+StoneSequence Board::get_row(int row) const { return board[row]; }
 
-template <typename T> std::vector<char> Board::get_row(T& position) const
+template <typename T> StoneSequence Board::get_row(T& position) const
 {
     Position position_ {position};
     int      row = position_.row;
@@ -89,13 +89,12 @@ template <typename T> std::vector<char> Board::get_row(T& position) const
     return board[row];
 }
 
-template std::vector<char> Board::get_row<Position>(Position& position) const;
-template std::vector<char>
-Board::get_row<std::string>(std::string& position) const;
+template StoneSequence Board::get_row<Position>(Position& position) const;
+template StoneSequence Board::get_row<std::string>(std::string& position) const;
 
-std::vector<char> Board::get_col(int col) const
+StoneSequence Board::get_col(int col) const
 {
-    std::vector<char> col_;
+    StoneSequence col_;
     for (int row = 0; row < 19; row++)
     {
         col_.push_back(board[row][col]);
@@ -103,7 +102,7 @@ std::vector<char> Board::get_col(int col) const
     return col_;
 }
 
-template <typename T> std::vector<char> Board::get_col(T& position) const
+template <typename T> StoneSequence Board::get_col(T& position) const
 {
     Position position_ {position};
     int      col = position_.col;
@@ -111,18 +110,16 @@ template <typename T> std::vector<char> Board::get_col(T& position) const
     return get_col(col);
 }
 
-template std::vector<char> Board::get_col<Position>(Position& position) const;
-template std::vector<char>
-Board::get_col<std::string>(std::string& position) const;
+template StoneSequence Board::get_col<Position>(Position& position) const;
+template StoneSequence Board::get_col<std::string>(std::string& position) const;
 
-template <typename T>
-std::vector<char> Board::get_main_diagonal(T& position) const
+template <typename T> StoneSequence Board::get_main_diagonal(T& position) const
 {
     Position position_ {position};
     int      row = position_.row;
     int      col = position_.col;
 
-    std::vector<char> diagonal;
+    StoneSequence diagonal;
 
     // Find the start of the diagonal
     int start_row = row;
@@ -152,19 +149,18 @@ std::vector<char> Board::get_main_diagonal(T& position) const
     return diagonal;
 }
 
-template std::vector<char>
+template StoneSequence
 Board::get_main_diagonal<Position>(Position& position) const;
-template std::vector<char>
+template StoneSequence
 Board::get_main_diagonal<std::string>(std::string& position) const;
 
-template <typename T>
-std::vector<char> Board::get_anti_diagonal(T& position) const
+template <typename T> StoneSequence Board::get_anti_diagonal(T& position) const
 {
     Position position_ {position};
     int      row = position_.row;
     int      col = position_.col;
 
-    std::vector<char> diagonal;
+    StoneSequence diagonal;
 
     // Find the start of the diagonal
     int start_row = row;
@@ -194,7 +190,7 @@ std::vector<char> Board::get_anti_diagonal(T& position) const
     return diagonal;
 }
 
-template std::vector<char>
+template StoneSequence
 Board::get_anti_diagonal<Position>(Position& position) const;
-template std::vector<char>
+template StoneSequence
 Board::get_anti_diagonal<std::string>(std::string& position) const;
