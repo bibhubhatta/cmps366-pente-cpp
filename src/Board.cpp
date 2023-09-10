@@ -114,3 +114,87 @@ template <typename T> std::vector<char> Board::get_col(T& position) const
 template std::vector<char> Board::get_col<Position>(Position& position) const;
 template std::vector<char>
 Board::get_col<std::string>(std::string& position) const;
+
+template <typename T>
+std::vector<char> Board::get_main_diagonal(T& position) const
+{
+    Position position_ {position};
+    int      row = position_.row;
+    int      col = position_.col;
+
+    std::vector<char> diagonal;
+
+    // Find the start of the diagonal
+    int start_row = row;
+    int start_col = col;
+    while (start_row > 0 && start_col > 0)
+    {
+        start_row--;
+        start_col--;
+    }
+
+    // Find the end of the diagonal
+    int end_row = row;
+    int end_col = col;
+    while (end_row < 18 && end_col < 18)
+    {
+        end_row++;
+        end_col++;
+    }
+
+    // Add the diagonal to the vector
+    for (int i = start_row, j = start_col; i <= end_row && j <= end_col;
+         i++, j++)
+    {
+        diagonal.push_back(board[i][j]);
+    }
+
+    return diagonal;
+}
+
+template std::vector<char>
+Board::get_main_diagonal<Position>(Position& position) const;
+template std::vector<char>
+Board::get_main_diagonal<std::string>(std::string& position) const;
+
+template <typename T>
+std::vector<char> Board::get_anti_diagonal(T& position) const
+{
+    Position position_ {position};
+    int      row = position_.row;
+    int      col = position_.col;
+
+    std::vector<char> diagonal;
+
+    // Find the start of the diagonal
+    int start_row = row;
+    int start_col = col;
+    while (start_row > 0 && start_col < 18)
+    {
+        start_row--;
+        start_col++;
+    }
+
+    // Find the end of the diagonal
+    int end_row = row;
+    int end_col = col;
+    while (end_row < 18 && end_col > 0)
+    {
+        end_row++;
+        end_col--;
+    }
+
+    // Add the diagonal to the vector
+    for (int i = start_row, j = start_col; i <= end_row && j >= end_col;
+         i++, j--)
+    {
+        diagonal.push_back(board[i][j]);
+    }
+
+    return diagonal;
+}
+
+template std::vector<char>
+Board::get_anti_diagonal<Position>(Position& position) const;
+template std::vector<char>
+Board::get_anti_diagonal<std::string>(std::string& position) const;

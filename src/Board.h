@@ -30,8 +30,12 @@ class Board
 
     template <typename T> std::vector<char> get_row(T& position) const;
     template <typename T> std::vector<char> get_col(T& position) const;
+    template <typename T>
+    std::vector<char> get_main_diagonal(T& position) const;
+    template <typename T>
+    std::vector<char> get_anti_diagonal(T& position) const;
 
-    private:
+  private:
     std::vector<std::vector<char>> board;
     std::map<char, int>            captured_pairs;
 
