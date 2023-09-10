@@ -22,7 +22,7 @@ include(GoogleTest)
 add_executable(
         tests
         testing_framework_test.cpp
-        tests.cpp
+        SerialTests.cpp
 )
 
 target_link_libraries(
