@@ -21,7 +21,7 @@ include(GoogleTest)
 
 add_executable(
         tests
-        testing_framework_test.cpp
+        FrameworkTests.cpp
         SerialTests.cpp
 )
 
