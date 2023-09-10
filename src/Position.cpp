@@ -2,12 +2,10 @@
 
 Position::Position(int row, int col) : row(row), col(col) {}
 
-Position Position::from_string(const std::string& position_string)
+Position::Position(const std::string& position_string)
+    : Position(get_row_number_from_position_string(position_string),
+               get_col_number_from_position_string(position_string))
 {
-    int row = get_row_number_from_position_string(position_string);
-    int col = get_col_number_from_position_string(position_string);
-
-    return {row, col};
 }
 
 int Position::get_row_number_from_position_string(const std::string& position)
@@ -37,3 +35,4 @@ bool Position::operator!=(const Position& other) const
 {
     return !(*this == other);
 }
+

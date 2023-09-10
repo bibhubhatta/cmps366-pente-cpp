@@ -24,8 +24,7 @@ class Board
                              int                no_captured_white_pairs,
                              int                no_captured_black_pairs);
 
-    char get_stone_color(const Position& position) const;
-    char get_stone(const std::string& position_string) const;
+    template <typename T> char get_stone(const T& position) const;
 
     int get_no_captured_pairs(char stone) const;
 
@@ -33,6 +32,5 @@ class Board
     std::vector<std::vector<char>> board;
     std::map<char, int>            captured_pairs;
 
-    void set_stone(const Position& position, char stone);
-    void set_stone(const std::string& position_string, char stone);
+    template <typename T> void set_stone(const T& position, char stone);
 };

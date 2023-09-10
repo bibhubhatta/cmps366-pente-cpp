@@ -5,16 +5,17 @@ class Position
 
 {
   public:
-    /// \brief Creates a Position from a string of the form
-    /// "<col_char><row_int>"
-    /// \param position_string
-    /// \return Position
-    static Position from_string(const std::string& position_string);
-
     /// \brief Represents a position on the board
     /// \param row
     /// \param col
     Position(int row, int col);
+
+    /// \brief Creates a Position from a string of the form
+    /// "<col_char><row_int>"
+    /// \param position_string
+    Position(const std::string& position_string);
+
+    Position(const Position& other) = default;
 
     const int row;
     const int col;

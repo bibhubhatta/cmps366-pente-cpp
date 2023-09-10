@@ -21,35 +21,32 @@ Board::Board()
     captured_pairs['B'] = 0;
 }
 
-char Board::get_stone_color(const Position& position) const
+template <typename T> char Board::get_stone(const T& position) const
 {
-    int row = position.row;
-    int col = position.col;
+    Position position_ {position};
+    int      row = position_.row;
+    int      col = position_.col;
 
     return board[row][col];
 }
 
-char Board::get_stone(const std::string& position_string) const
-{
-    Position position = Position::from_string(position_string);
-    return get_stone_color(position);
-}
+template char Board::get_stone<Position>(const Position& position) const;
+template char Board::get_stone<std::string>(const std::string& position) const;
 
-void Board::set_stone(const Position& position, char stone)
+template <typename T> void Board::set_stone(const T& position, char stone)
 {
-    int row = position.row;
-    int col = position.col;
+    Position position_ {position};
+    int      row = position_.row;
+    int      col = position_.col;
 
     // TODO: Raise exception if stone is already set
 
     board[row][col] = stone;
 }
 
-void Board::set_stone(const std::string& position_string, char stone)
-{
-    Position position = Position::from_string(position_string);
-    set_stone(position, stone);
-}
+template void Board::set_stone<Position>(const Position& position, char stone);
+template void Board::set_stone<std::string>(const std::string& position,
+                                            char               stone);
 
 Board Board::from_string(const std::string& board_string,
                          const int          no_captured_white_pairs,
