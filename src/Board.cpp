@@ -78,3 +78,17 @@ int Board::get_no_captured_pairs(char stone) const
     // ie, captured by the opponent
     return captured_pairs.at(stone);
 }
+
+std::vector<char> Board::get_row(int row) const { return board[row]; }
+
+template <typename T> std::vector<char> Board::get_row(T& position) const
+{
+    Position position_ {position};
+    int      row = position_.row;
+
+    return board[row];
+}
+
+template std::vector<char> Board::get_row<Position>(Position& position) const;
+template std::vector<char>
+Board::get_row<std::string>(std::string& position) const;

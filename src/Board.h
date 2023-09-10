@@ -28,9 +28,13 @@ class Board
 
     int get_no_captured_pairs(char stone) const;
 
+    template <typename T> std::vector<char> get_row(T& position) const;
+
   private:
     std::vector<std::vector<char>> board;
     std::map<char, int>            captured_pairs;
 
     template <typename T> void set_stone(const T& position, char stone);
+
+    std::vector<char> get_row(int row) const;
 };
