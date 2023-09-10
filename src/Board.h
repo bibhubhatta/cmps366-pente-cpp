@@ -29,12 +29,16 @@ class Board
     int get_no_captured_pairs(char stone) const;
 
     template <typename T> std::vector<char> get_row(T& position) const;
+    template <typename T> std::vector<char> get_col(T& position) const;
 
-  private:
+    private:
     std::vector<std::vector<char>> board;
     std::map<char, int>            captured_pairs;
 
     template <typename T> void set_stone(const T& position, char stone);
 
+    // These are private because the row and col indices are 0-based in the
+    // internal representation, but 1-based in the external representation
     std::vector<char> get_row(int row) const;
+    std::vector<char> get_col(int col) const;
 };

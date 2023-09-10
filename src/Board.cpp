@@ -92,3 +92,25 @@ template <typename T> std::vector<char> Board::get_row(T& position) const
 template std::vector<char> Board::get_row<Position>(Position& position) const;
 template std::vector<char>
 Board::get_row<std::string>(std::string& position) const;
+
+std::vector<char> Board::get_col(int col) const
+{
+    std::vector<char> col_;
+    for (int row = 0; row < 19; row++)
+    {
+        col_.push_back(board[row][col]);
+    }
+    return col_;
+}
+
+template <typename T> std::vector<char> Board::get_col(T& position) const
+{
+    Position position_ {position};
+    int      col = position_.col;
+
+    return get_col(col);
+}
+
+template std::vector<char> Board::get_col<Position>(Position& position) const;
+template std::vector<char>
+Board::get_col<std::string>(std::string& position) const;
