@@ -3,7 +3,7 @@
 #include "Board.h"
 #include "Serial.h"
 
-class SerialTestFixture : public ::testing::Test
+class SerialTests : public ::testing::Test
 {
   public:
     void SetUp() override
@@ -76,7 +76,7 @@ class SerialTestFixture : public ::testing::Test
     std::string serial_string_custom;
 };
 
-TEST_F(SerialTestFixture, HumanScore)
+TEST_F(SerialTests, getHumanScore)
 {
     auto serial = Serial(serial_string_provided);
     EXPECT_EQ(serial.get_human_score(), 0);
@@ -85,7 +85,7 @@ TEST_F(SerialTestFixture, HumanScore)
     EXPECT_EQ(serial.get_human_score(), 50);
 }
 
-TEST_F(SerialTestFixture, HumanCapturedPairs)
+TEST_F(SerialTests, getHumanCapturedPairs)
 {
     auto serial = Serial(serial_string_provided);
     EXPECT_EQ(serial.get_human_captured_pairs(), 0);
@@ -94,7 +94,7 @@ TEST_F(SerialTestFixture, HumanCapturedPairs)
     EXPECT_EQ(serial.get_human_captured_pairs(), 10);
 }
 
-TEST_F(SerialTestFixture, ComputerScore)
+TEST_F(SerialTests, getComputerScore)
 {
     auto serial = Serial(serial_string_provided);
     EXPECT_EQ(serial.get_computer_score(), 0);
@@ -103,7 +103,7 @@ TEST_F(SerialTestFixture, ComputerScore)
     EXPECT_EQ(serial.get_computer_score(), 100);
 }
 
-TEST_F(SerialTestFixture, ComputerCapturedPairs)
+TEST_F(SerialTests, getComputerCapturedPairs)
 {
     auto serial = Serial(serial_string_provided);
     EXPECT_EQ(serial.get_computer_captured_pairs(), 0);
@@ -112,7 +112,7 @@ TEST_F(SerialTestFixture, ComputerCapturedPairs)
     EXPECT_EQ(serial.get_computer_captured_pairs(), 20);
 }
 
-TEST_F(SerialTestFixture, Board)
+TEST_F(SerialTests, getBoard)
 {
     auto  serial = Serial(serial_string_provided);
     Board board = serial.get_board();
@@ -134,7 +134,7 @@ TEST_F(SerialTestFixture, Board)
     }
 }
 
-TEST_F(SerialTestFixture, BoardAllData)
+TEST_F(SerialTests, getBoardAllData)
 {
     auto  serial = Serial(serial_string_custom);
     Board board = serial.get_board();
