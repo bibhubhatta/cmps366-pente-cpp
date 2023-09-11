@@ -46,9 +46,13 @@ public:
     template<typename T>
     StoneSequence get_anti_diagonal(T &position) const;
 
+    int get_no_stone_on_board(Stone stone) const;
+
 private:
     StoneSequence board;
     std::map<Stone, int> captured_pairs;
+
+    Stone get_stone(int row, int col) const;
 
     template<typename T>
     void set_stone(const T &position, Stone stone);

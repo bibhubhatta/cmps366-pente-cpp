@@ -105,6 +105,23 @@ StoneSequence Board::get_col(int col) const {
     return col_;
 }
 
+int Board::get_no_stone_on_board(Stone stone) const {
+    int no_stone = 0;
+    for (int row = 0; row < no_rows; row++) {
+        for (int col = 0; col < no_cols; col++) {
+            if (get_stone(row, col) == stone) {
+                no_stone++;
+            }
+        }
+    }
+    return no_stone;
+}
+
+Stone Board::get_stone(int row, int col) const {
+    Position position{row, col};
+    return get_stone(position);
+}
+
 template<typename T>
 StoneSequence Board::get_col(T &position) const {
     Position position_{position};
