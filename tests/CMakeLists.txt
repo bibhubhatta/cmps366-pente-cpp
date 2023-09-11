@@ -24,6 +24,7 @@ add_executable(
         FrameworkTests.cpp
         SerialTests.cpp
         BoardTests.cpp
+        RosterTests.cpp
 )
 
 target_link_libraries(

@@ -9,7 +9,13 @@ add_library(
         pente_lib STATIC
         Serial.cpp Serial.h
         Board.cpp Board.h
-        Position.cpp Position.h)
+        Position.cpp Position.h
+        Roster.cpp Roster.h
+        Player.h
+        Human.cpp Human.h
+)
+
 
 target_include_directories(pente_lib
-        INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+        INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
+)
