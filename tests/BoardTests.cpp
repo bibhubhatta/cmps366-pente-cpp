@@ -106,3 +106,15 @@ TEST_F(BoardTests, getNoStoneOnBoard) {
     EXPECT_EQ(board.get_no_stone_on_board('W'), 1);
     EXPECT_EQ(board.get_no_stone_on_board('B'), 0);
 }
+
+TEST_F(BoardTests, getTotalNoStoneOnBoard) {
+    // Board after capturing a black pair at B1 and C1
+    test_board[0] = 'W';
+    test_board[3] = 'W';
+    int no_black_pairs_captured = 1;
+    int no_white_pairs_captured = 0;
+    Board board = Board::from_string(test_board, no_white_pairs_captured, no_black_pairs_captured);
+
+    EXPECT_EQ(board.get_total_no_stone_played('W'), 3);
+    EXPECT_EQ(board.get_total_no_stone_played('B'), 2);
+}

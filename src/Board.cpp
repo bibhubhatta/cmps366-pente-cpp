@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "Board.h"
 
 Board::Board(int no_rows, int no_cols) : no_rows(no_rows), no_cols(no_cols) {
@@ -70,7 +71,17 @@ Board Board::from_string(const std::string &board_string,
 int Board::get_no_captured_pairs(Stone stone) const {
     // The number of captured pairs is the numbers of pairs lost for a stone,
     // ie, captured by the opponent
-    return captured_pairs.at(stone);
+
+    int no_captured_pairs = 0;
+
+    try {
+        no_captured_pairs = captured_pairs.at(stone);
+    } catch (const std::out_of_range &oor) {
+        // It could be that the stone is not valid,
+        // but we are returning 0 in case the stone has not been captured yet
+    }
+
+    return no_captured_pairs;
 }
 
 StoneSequence Board::get_row(int row) const {
@@ -120,6 +131,10 @@ int Board::get_no_stone_on_board(Stone stone) const {
 Stone Board::get_stone(int row, int col) const {
     Position position{row, col};
     return get_stone(position);
+}
+
+int Board::get_total_no_stone_played(Stone stone) const {
+    return get_no_stone_on_board(stone) + get_no_captured_pairs(stone) * 2;
 }
 
 template<typename T>

@@ -46,7 +46,17 @@ public:
     template<typename T>
     StoneSequence get_anti_diagonal(T &position) const;
 
+    /// \brief Returns the number of stones of a given color on the board
+    /// This only counts the stones on the board, not the captured stones
+    /// \param stone
+    /// \return
     int get_no_stone_on_board(Stone stone) const;
+
+    /// \brief Returns the total number of stones on the board
+    /// This also counts the captured stones
+    /// \param stone
+    /// \return
+    int get_total_no_stone_played(Stone stone) const;
 
 private:
     StoneSequence board;
