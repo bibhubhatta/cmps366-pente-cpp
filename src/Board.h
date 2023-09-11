@@ -58,6 +58,10 @@ public:
     /// \return
     int get_total_no_stone_played(Stone stone) const;
 
+    /// \brief Returns the stone of the player whose turn it is
+    /// \return
+    Stone get_turn() const;
+
 private:
     StoneSequence board;
     std::map<Stone, int> captured_pairs;

@@ -137,6 +137,19 @@ int Board::get_total_no_stone_played(Stone stone) const {
     return get_no_stone_on_board(stone) + get_no_captured_pairs(stone) * 2;
 }
 
+Stone Board::get_turn() const {
+    int no_white_stones = get_total_no_stone_played('W');
+    int no_black_stones = get_total_no_stone_played('B');
+
+    if (no_white_stones == no_black_stones) {
+        return 'W';
+    } else if (no_white_stones == no_black_stones + 1) {
+        return 'B';
+    } else {
+        throw std::runtime_error("Invalid number of stones on board");
+    }
+}
+
 template<typename T>
 StoneSequence Board::get_col(T &position) const {
     Position position_{position};

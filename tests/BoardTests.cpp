@@ -118,3 +118,31 @@ TEST_F(BoardTests, getTotalNoStoneOnBoard) {
     EXPECT_EQ(board.get_total_no_stone_played('W'), 3);
     EXPECT_EQ(board.get_total_no_stone_played('B'), 2);
 }
+
+TEST_F(BoardTests, getTurn) {
+    Board board = Board::from_string(test_board, 0, 0);
+    EXPECT_EQ(board.get_turn(), 'B');
+}
+
+TEST_F(BoardTests, getTurn2) {
+    // Board after capturing a black pair at B1 and C1
+    test_board[0] = 'W';
+    test_board[3] = 'W';
+    int no_black_pairs_captured = 1;
+    int no_white_pairs_captured = 0;
+    Board board = Board::from_string(test_board, no_white_pairs_captured, no_black_pairs_captured);
+    EXPECT_EQ(board.get_turn(), 'B');
+}
+
+TEST_F(BoardTests, getTurn3) {
+    // Board at the start of the game
+    Board board;
+    EXPECT_EQ(board.get_turn(), 'W');
+}
+
+TEST_F(BoardTests, getInvalidTurn) {
+    test_board[0] = 'W';
+
+    Board board = Board::from_string(test_board, 0, 0);
+    EXPECT_THROW(board.get_turn(), std::runtime_error);
+}
