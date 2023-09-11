@@ -3,7 +3,8 @@
 #include "Human.h"
 #include "Roster.h"
 
-TEST(RosterTests, addPlayer) {
+TEST(RosterTests, addPlayer)
+{
     Roster roster;
 
     // Using a Human player for testing because Player is an abstract class

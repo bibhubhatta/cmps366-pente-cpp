@@ -2,9 +2,10 @@
 
 #include "Player.h"
 
-class Human : public Player {
-public:
+class Human : public Player
+{
+  public:
     using Player::Player;
 
-    Position get_move(const Board &board) const override;
+    Position get_move(const Board& board) const override;
 };
