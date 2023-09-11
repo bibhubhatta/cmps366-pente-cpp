@@ -161,7 +161,7 @@ StoneSequence Board::get_main_diagonal(T &position) const {
     // Add the diagonal to the vector
     for (int i = start_row, j = start_col; i <= end_row && j <= end_col;
          i++, j++) {
-        diagonal.push_back(get_stone(Position(i, j)));
+        diagonal.push_back(get_stone(i, j));
     }
 
     return diagonal;
@@ -200,7 +200,7 @@ StoneSequence Board::get_anti_diagonal(T &position) const {
     // Add the diagonal to the vector
     for (int i = start_row, j = start_col; i <= end_row && j >= end_col;
          i++, j--) {
-        diagonal.push_back(get_stone(Position(i, j)));
+        diagonal.push_back(get_stone(i, j));
     }
 
     return diagonal;
