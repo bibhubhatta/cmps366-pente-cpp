@@ -33,3 +33,7 @@
 
 # Build files
 *build*/
+
+# IDE files
+.idea/
+.vscode/
