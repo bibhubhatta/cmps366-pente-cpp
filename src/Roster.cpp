@@ -15,3 +15,15 @@ Score Roster::get_score(const Player& player) const
 {
     return scores.at(player.name);
 }
+
+Player* Roster::get_player(const std::string& name) const
+{
+    for (auto player : players)
+    {
+        if (player->name == name)
+        {
+            return player;
+        }
+    }
+    return nullptr;
+}

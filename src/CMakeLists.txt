@@ -13,6 +13,7 @@ add_library(
         Roster.cpp Roster.h
         Player.h
         Human.cpp Human.h
+        Computer.cpp Computer.h
 )
 
 

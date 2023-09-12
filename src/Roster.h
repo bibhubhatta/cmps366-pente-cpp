@@ -22,6 +22,8 @@ class Roster
 
     Score get_score(const Player& player) const;
 
+    Player* get_player(const std::string& name) const;
+
   private:
     // Storing pointers because Player is an abstract class
     std::vector<Player*> players;
