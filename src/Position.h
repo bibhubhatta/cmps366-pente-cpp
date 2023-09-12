@@ -6,6 +6,7 @@
 class Position
 {
   public:
+    static int distance(const Position& a, const Position& b);
     /// \brief Represents a position on the board
     /// \param row
     /// \param col
@@ -23,9 +24,14 @@ class Position
 
     std::string to_string() const;
 
+    int distance(const Position& other) const;
+
     bool operator==(const Position& other) const;
 
     bool operator!=(const Position& other) const;
+
+    // This probably doesn't make sense, but it's needed for std::map
+    bool operator<(const Position& other) const;
 
   private:
     static int get_row_number_from_position_string(const std::string& position);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -29,7 +30,8 @@ class Board
     /// \return Board
     static Board from_string(const std::string& board_string,
                              int                no_captured_white_pairs,
-                             int                no_captured_black_pairs);
+                             int no_captured_black_pairs, int no_rows = 19,
+                             int no_cols = 19);
 
     template <typename T> Stone get_stone(const T& position) const;
 
@@ -59,6 +61,8 @@ class Board
     /// \return
     Stone get_turn() const;
 
+    std::set<Position> get_available_positions() const;
+
   private:
     StoneSequence        board;
     std::map<Stone, int> captured_pairs;
@@ -72,4 +76,7 @@ class Board
     StoneSequence get_row(int row) const;
 
     StoneSequence get_col(int col) const;
+
+    Position           get_center() const;
+    std::set<Position> get_empty_positions() const;
 };

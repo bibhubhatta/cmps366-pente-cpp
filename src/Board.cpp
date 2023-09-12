@@ -1,3 +1,4 @@
+#include <set>
 #include <stdexcept>
 
 #include "Board.h"
@@ -52,18 +53,19 @@ template void Board::set_stone<std::string>(const std::string& position,
 
 Board Board::from_string(const std::string& board_string,
                          const int          no_captured_white_pairs,
-                         const int          no_captured_black_pairs)
+                         const int no_captured_black_pairs, const int no_rows,
+                         const int no_cols)
 {
-    auto board_ = Board();
+    auto board_ = Board(no_rows, no_cols);
 
     // Loop through board string and set stones
-    for (int row = 0; row < 19; row++)
+    for (int row = 0; row < no_rows; row++)
     {
-        for (int col = 0; col < 19; col++)
+        for (int col = 0; col < no_cols; col++)
         {
             std::string position =
                 std::string(1, 'A' + col) + std::to_string(row + 1);
-            Stone stone = board_string[row * 19 + col];
+            Stone stone = board_string[row * no_cols + col];
             board_.set_stone(position, stone);
         }
     }
@@ -172,6 +174,64 @@ Stone Board::get_turn() const
     {
         throw std::runtime_error("Invalid number of stones on board");
     }
+}
+
+std::set<Position> Board::get_available_positions() const
+{
+    std::set<Position> available_positions;
+    int                no_moves_so_far =
+        get_total_no_stone_played('W') + get_total_no_stone_played('B');
+
+    Position center = get_center();
+
+    // First move
+    if (no_moves_so_far == 0)
+    {
+        available_positions.insert(center);
+    }
+
+    else if (no_moves_so_far == 1)
+    {
+        // Second move
+        for (auto& position : get_empty_positions())
+        {
+            if (position.distance(center) >= 3)
+            {
+                available_positions.insert(position);
+            }
+        }
+    }
+
+    else
+    {
+        available_positions = get_empty_positions();
+    }
+
+    return available_positions;
+}
+
+Position Board::get_center() const
+{
+    int center_row = no_rows / 2;
+    int center_col = no_cols / 2;
+    return {center_row, center_col};
+}
+
+std::set<Position> Board::get_empty_positions() const
+{
+    std::set<Position> empty_positions;
+    for (int row = 0; row < no_rows; row++)
+    {
+        for (int col = 0; col < no_cols; col++)
+        {
+            if (get_stone(row, col) == 'O')
+            {
+                empty_positions.insert({row, col});
+            }
+        }
+    }
+
+    return empty_positions;
 }
 
 template <typename T> StoneSequence Board::get_col(T& position) const

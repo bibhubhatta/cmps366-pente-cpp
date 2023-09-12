@@ -35,3 +35,28 @@ bool Position::operator!=(const Position& other) const
 {
     return !(*this == other);
 }
+
+int Position::distance(const Position& a, const Position& b)
+{
+    int row_distance = std::abs(a.row - b.row);
+    int col_distance = std::abs(a.col - b.col);
+    return std::max(row_distance, col_distance);
+}
+
+int Position::distance(const Position& other) const
+{
+    return distance(*this, other);
+}
+
+bool Position::operator<(const Position& other) const
+{
+    if (row < other.row)
+    {
+        return true;
+    }
+    if (row > other.row)
+    {
+        return false;
+    }
+    return col < other.col;
+}
