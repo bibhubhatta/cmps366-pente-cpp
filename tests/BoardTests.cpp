@@ -199,3 +199,37 @@ TEST_F(BoardTests, getAvailablePositions_SecondMove)
 
     EXPECT_EQ(expected_available_positions, available_positions);
 }
+
+TEST_F(BoardTests, getAvailablePositions_ThirdMove)
+{
+    std::string board_str;
+    for (int i = 0; i < 19; i++)
+    {
+        for (int j = 0; j < 19; j++)
+        {
+            board_str += "O";
+        }
+    }
+
+    board_str[9 * 19 + 9] = 'W';
+    board_str[0] = 'B';
+
+    Board              board = Board::from_string(board_str, 0, 0, 19, 19);
+    std::set<Position> available_positions = board.get_available_positions();
+
+    // All the positions except the center and A1 are available
+    std::set<Position> expected_available_positions;
+
+    for (int row = 0; row < 19; row++)
+    {
+        for (int col = 0; col < 19; col++)
+        {
+            expected_available_positions.insert({row, col});
+        }
+    }
+
+    expected_available_positions.erase({0, 0});
+    expected_available_positions.erase({9, 9});
+
+    EXPECT_EQ(expected_available_positions, available_positions);
+}
