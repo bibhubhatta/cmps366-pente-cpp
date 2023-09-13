@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 #include "Board.h"
+#include "Exceptions.h"
 
 Board::Board(int no_rows, int no_cols) : no_rows(no_rows), no_cols(no_cols)
 {
@@ -179,8 +180,7 @@ Stone Board::get_turn() const
 std::set<Position> Board::get_available_positions() const
 {
     std::set<Position> available_positions;
-    int                no_moves_so_far =
-        get_total_no_stone_played('W') + get_total_no_stone_played('B');
+    int                no_moves_so_far = get_no_moves_so_far();
 
     Position center = get_center();
 
@@ -210,6 +210,11 @@ std::set<Position> Board::get_available_positions() const
     return available_positions;
 }
 
+int Board::get_no_moves_so_far() const
+{
+    return get_total_no_stone_played('W') + get_total_no_stone_played('B');
+}
+
 Position Board::get_center() const
 {
     int center_row = no_rows / 2;
@@ -233,6 +238,48 @@ std::set<Position> Board::get_empty_positions() const
 
     return empty_positions;
 }
+
+template <typename T> void Board::make_move(const T& position)
+{
+    Position position_ {position};
+
+    std::set<Position> available_positions = get_available_positions();
+
+    if (available_positions.find(position_) ==
+        available_positions.end()) // position not available
+    {
+        std::string reason = position_.to_string() + " is not available.";
+
+        int no_moves_so_far = get_no_moves_so_far();
+
+        if (no_moves_so_far == 0)
+        {
+            reason += " The first move must be at the center of the board.";
+        }
+        else if (no_moves_so_far == 1)
+        {
+            reason += " The second move must be at least 3 intersections away "
+                      "from the center.";
+        }
+        else if (position_.row >= no_rows || position_.row < 0 ||
+                 position_.col >= no_cols || position_.col < 0)
+        {
+            reason += " The position is out of the board.";
+        }
+        else
+        {
+            reason += " It is already occupied.";
+        }
+
+        throw InvalidMove(position_, reason);
+    }
+
+    Stone stone = get_turn();
+    set_stone(position, stone);
+}
+
+template void Board::make_move<Position>(const Position& position);
+template void Board::make_move<std::string>(const std::string& position);
 
 template <typename T> StoneSequence Board::get_col(T& position) const
 {

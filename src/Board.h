@@ -63,6 +63,8 @@ class Board
 
     std::set<Position> get_available_positions() const;
 
+    template <typename T> void make_move(const T& position);
+
   private:
     StoneSequence        board;
     std::map<Stone, int> captured_pairs;
@@ -79,4 +81,5 @@ class Board
 
     Position           get_center() const;
     std::set<Position> get_empty_positions() const;
+    int                get_no_moves_so_far() const;
 };

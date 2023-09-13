@@ -14,6 +14,7 @@ add_library(
         Player.h
         Human.cpp Human.h
         Computer.cpp Computer.h
+        Exceptions.h
 )
 
 

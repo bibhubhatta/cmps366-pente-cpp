@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "Board.h"
+#include "Exceptions.h"
 
 class BoardTests : public ::testing::Test
 {
@@ -232,4 +233,41 @@ TEST_F(BoardTests, getAvailablePositions_ThirdMove)
     expected_available_positions.erase({9, 9});
 
     EXPECT_EQ(expected_available_positions, available_positions);
+}
+
+TEST_F(BoardTests, makeMove)
+{
+    Board board;
+    board.make_move(std::string("J10"));
+    EXPECT_EQ(board.get_stone(Position(9, 9)), 'W');
+}
+
+TEST_F(BoardTests, makeIllegalFirstMove)
+{
+    Board board;
+    EXPECT_THROW(board.make_move(std::string("J9")), InvalidMove);
+}
+
+TEST_F(BoardTests, makeIllegalSecondMove)
+{
+    Board board;
+    board.make_move(std::string("J10"));
+    EXPECT_THROW(board.make_move(std::string("J9")), InvalidMove);
+}
+
+TEST_F(BoardTests, makeIllegalThirdMove)
+{
+    Board board;
+    board.make_move(std::string("J10"));
+    board.make_move(std::string("A11"));
+    EXPECT_THROW(board.make_move(std::string("J10")), InvalidMove);
+}
+
+TEST_F(BoardTests, makeMoveOutsideBoard)
+{
+    Board board;
+
+    board.make_move(std::string("J10"));
+    board.make_move(std::string("A11"));
+    EXPECT_THROW(board.make_move(std::string("T20")), InvalidMove);
 }
