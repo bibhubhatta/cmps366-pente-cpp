@@ -264,6 +264,21 @@ template <typename T> void Board::handle_capture(const T& position)
             set_stone(Position(row, col - 1), 'O');
         }
     }
+
+    // Handle captures to the right
+    if (col <= no_cols - 4)
+    {
+        StoneSequence right =
+            std::vector<Stone>(row_.begin() + col, row_.begin() + col + 4);
+
+        if (right ==
+            StoneSequence({stone, opponent_stone, opponent_stone, stone}))
+        {
+            captured_pairs[opponent_stone]++;
+            set_stone(Position(row, col + 1), 'O');
+            set_stone(Position(row, col + 2), 'O');
+        }
+    }
 }
 
 template <typename T> void Board::make_move(const T& position)
