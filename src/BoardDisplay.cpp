@@ -22,7 +22,7 @@ void BoardDisplay::render() const
         for (int j = 0; j < board.no_cols; j++)
         {
             char        stone = board.get_stone(Position(i, j));
-            std::string stone_str = fmt::format("{}", stone);
+            std::string stone_str = stone_representation.at(stone);
             row.emplace_back(stone_str);
         }
 
@@ -43,6 +43,18 @@ void BoardDisplay::render() const
     }
 
     grid.add_row(col_labels);
+
+    // Use unicode characters for the grid
+    grid.format()
+        .border_top("─")
+        .border_bottom("─")
+        .border_left("│")
+        .border_right("│")
+        .corner("┼");
+
+    // Set label colors
+    grid[board.no_rows].format().font_color(tabulate::Color::yellow);
+    grid.column(0).format().font_color(tabulate::Color::red);
 
     std::cout << grid << std::endl;
 }
