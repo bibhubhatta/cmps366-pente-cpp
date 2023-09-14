@@ -239,6 +239,33 @@ std::set<Position> Board::get_empty_positions() const
     return empty_positions;
 }
 
+template <typename T> void Board::handle_capture(const T& position)
+{
+    Position position_ {position};
+    int      row = position_.row;
+    int      col = position_.col;
+
+    Stone stone = get_stone(row, col);
+    Stone opponent_stone = stone == 'W' ? 'B' : 'W';
+
+    StoneSequence row_ = get_row(row);
+
+    // Handle captures to the left
+    if (col >= 3)
+    {
+        StoneSequence left =
+            std::vector<Stone>(row_.begin() + col - 3, row_.begin() + col + 1);
+
+        if (left ==
+            StoneSequence({stone, opponent_stone, opponent_stone, stone}))
+        {
+            captured_pairs[opponent_stone]++;
+            set_stone(Position(row, col - 2), 'O');
+            set_stone(Position(row, col - 1), 'O');
+        }
+    }
+}
+
 template <typename T> void Board::make_move(const T& position)
 {
     Position position_ {position};
@@ -276,6 +303,8 @@ template <typename T> void Board::make_move(const T& position)
 
     Stone stone = get_turn();
     set_stone(position, stone);
+
+    handle_capture(position);
 }
 
 template void Board::make_move<Position>(const Position& position);

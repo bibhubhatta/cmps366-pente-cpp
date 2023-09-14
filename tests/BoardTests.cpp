@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "Board.h"
+#include "BoardDisplay.h"
 #include "Exceptions.h"
 
 class BoardTests : public ::testing::Test
@@ -270,4 +271,24 @@ TEST_F(BoardTests, makeMoveOutsideBoard)
     board.make_move(std::string("J10"));
     board.make_move(std::string("A11"));
     EXPECT_THROW(board.make_move(std::string("T20")), InvalidMove);
+}
+
+TEST_F(BoardTests, capturePairToLeft)
+{
+    Board board;
+
+    board.make_move(std::string("J10"));
+    board.make_move(std::string("M10"));
+    board.make_move(std::string("K10"));
+    board.make_move(std::string("L10"));
+
+    EXPECT_EQ(board.get_no_captured_pairs('B'), 0);
+    board.make_move(std::string("N10"));
+
+    EXPECT_EQ(board.get_stone(std::string("K10")), 'W');
+    EXPECT_EQ(board.get_stone(std::string("L10")), 'O');
+    EXPECT_EQ(board.get_stone(std::string("M10")), 'O');
+    EXPECT_EQ(board.get_stone(std::string("N10")), 'W');
+
+    EXPECT_EQ(board.get_no_captured_pairs('B'), 1);
 }

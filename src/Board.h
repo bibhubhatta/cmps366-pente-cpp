@@ -82,4 +82,6 @@ class Board
     Position           get_center() const;
     std::set<Position> get_empty_positions() const;
     int                get_no_moves_so_far() const;
+
+    template <typename T> void handle_capture(const T& position);
 };
