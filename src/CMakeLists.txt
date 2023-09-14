@@ -13,6 +13,12 @@ FetchContent_Declare(fmt
 )
 FetchContent_MakeAvailable(fmt)
 
+FetchContent_Declare(tabulate
+        GIT_REPOSITORY https://github.com/p-ranav/tabulate.git
+        GIT_TAG master
+)
+FetchContent_MakeAvailable(tabulate)
+
 add_library(
         pente_lib STATIC
         Serial.cpp Serial.h
@@ -23,10 +29,12 @@ add_library(
         Human.cpp Human.h
         Computer.cpp Computer.h
         Exceptions.h
+        BoardDisplay.cpp BoardDisplay.h
 )
 
 target_link_libraries(pente_lib
         PUBLIC fmt::fmt
+        PUBLIC tabulate::tabulate
 )
 
 
