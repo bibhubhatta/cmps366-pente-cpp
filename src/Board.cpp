@@ -265,6 +265,25 @@ void Board::check_win() const
             }
         }
     }
+
+    // Check 5 in a column
+    for (int col_num = 0; col_num < no_cols; col_num++)
+    {
+        StoneSequence col = get_col(col_num);
+        for (int i = 0; i < no_rows - 4; i++)
+        {
+            StoneSequence sequence(col.begin() + i, col.begin() + i + 5);
+            if (sequence == black_win_sequence)
+            {
+                throw GameWon(BLACK_STONE, "5 in a column");
+            }
+
+            else if (sequence == white_win_sequence)
+            {
+                throw GameWon(WHITE_STONE, "5 in a column");
+            }
+        }
+    }
 }
 
 template <typename T> void Board::handle_capture(const T& position)

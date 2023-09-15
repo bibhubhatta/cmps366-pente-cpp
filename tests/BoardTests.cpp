@@ -505,3 +505,31 @@ TEST_F(BoardTests, winBy5InRow)
         EXPECT_EQ(e.reason, "5 in a row");
     }
 };
+
+TEST_F(BoardTests, winBy5InCol)
+{
+    Board board;
+
+    std::vector<std::string> moves = {"J10", "S15", "J9",  "S16", "J8",
+                                      "S17", "J7",  "S18", "J5"};
+
+    for (auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    try
+    {
+        board.make_move(std::string("S19"));
+        FAIL() << "Expected GameWon exception"
+               << "\n";
+    }
+    catch (const GameWon& e)
+    {
+        EXPECT_EQ(e.winner, 'B');
+        EXPECT_EQ(e.reason, "5 in a column");
+    }
+};
