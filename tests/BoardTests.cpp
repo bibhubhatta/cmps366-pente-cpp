@@ -446,3 +446,39 @@ TEST_F(BoardTests, capturePairDiagonalUpLeft)
 
     EXPECT_EQ(board.get_no_captured_pairs('B'), 1);
 }
+
+TEST_F(BoardTests, multipleCaptures)
+{
+    Board board;
+
+    std::vector<std::string> moves = {
+        "J10", "B6", "A7", "B4", "A4",  "B2", "A1", "C5", "D7",  "C4", "D1",
+        "C3",  "G7", "D6", "G4", "D5",  "G1", "D3", "S1", "D2",  "S3", "E5",
+        "S5",  "E4", "S7", "E3", "S13", "F6", "S9", "F4", "S11", "F2"};
+
+    for (auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    EXPECT_EQ(board.get_no_captured_pairs('B'), 0);
+
+    BoardDisplay display(board);
+    display.render();
+
+    board.make_move(std::string("D4"));
+
+    display.render();
+
+    for (int i = 0; i < moves.size(); i += 2)
+    {
+        EXPECT_EQ(board.get_stone(moves[i]), 'W');
+    }
+
+    for (int i = 1; i < moves.size(); i += 2)
+    {
+        EXPECT_EQ(board.get_stone(moves[i]), 'O');
+    }
+
+    EXPECT_EQ(board.get_no_captured_pairs('B'), 8);
+}
