@@ -284,6 +284,31 @@ void Board::check_win() const
             }
         }
     }
+
+    // Check 5 in main diagonals
+    for (int row = 0, col = no_cols - 1; row < no_rows && col >= 0;
+         row++, col--) // Positions of anti diagonal to get all main diagonal
+    {
+        Position      diagonal_center = Position(row, col);
+        StoneSequence main_diagonal = get_main_diagonal(diagonal_center);
+
+        // vector.size returns unsigned int, so we need to cast to int;
+        // otherwise overflow error occurs and the loop runs when it shouldn't
+        for (int i = 0; i < static_cast<int>(main_diagonal.size()) - 4; i++)
+        {
+            StoneSequence sequence(main_diagonal.begin() + i,
+                                   main_diagonal.begin() + i + 5);
+            if (sequence == black_win_sequence)
+            {
+                throw GameWon(BLACK_STONE, "5 in a diagonal");
+            }
+
+            else if (sequence == white_win_sequence)
+            {
+                throw GameWon(WHITE_STONE, "5 in a diagonal");
+            }
+        }
+    }
 }
 
 template <typename T> void Board::handle_capture(const T& position)
@@ -508,7 +533,7 @@ template <typename T> StoneSequence Board::get_main_diagonal(T& position) const
     // Find the end of the diagonal
     int end_row = row;
     int end_col = col;
-    while (end_row < 18 && end_col < 18)
+    while (end_row < (no_rows - 1) && end_col < (no_cols - 1))
     {
         end_row++;
         end_col++;
@@ -541,7 +566,7 @@ template <typename T> StoneSequence Board::get_anti_diagonal(T& position) const
     // Find the start of the diagonal
     int start_row = row;
     int start_col = col;
-    while (start_row > 0 && start_col < 18)
+    while (start_row > 0 && start_col < (no_cols - 1))
     {
         start_row--;
         start_col++;
@@ -550,7 +575,7 @@ template <typename T> StoneSequence Board::get_anti_diagonal(T& position) const
     // Find the end of the diagonal
     int end_row = row;
     int end_col = col;
-    while (end_row < 18 && end_col > 0)
+    while (end_row < (no_rows - 1) && end_col > 0)
     {
         end_row++;
         end_col--;
