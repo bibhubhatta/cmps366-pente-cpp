@@ -309,6 +309,31 @@ void Board::check_win() const
             }
         }
     }
+
+    // Check 5 in anti diagonals
+    for (int row = 0, col = 0; row < no_rows && col < no_cols;
+         row++, col++) // Positions of main diagonal to get all anti diagonal
+    {
+        Position      diagonal_center = Position(row, col);
+        StoneSequence anti_diagonal = get_anti_diagonal(diagonal_center);
+
+        // vector.size returns unsigned int, so we need to cast to int;
+        // otherwise overflow error occurs and the loop runs when it shouldn't
+        for (int i = 0; i < static_cast<int>(anti_diagonal.size()) - 4; i++)
+        {
+            StoneSequence sequence(anti_diagonal.begin() + i,
+                                   anti_diagonal.begin() + i + 5);
+            if (sequence == black_win_sequence)
+            {
+                throw GameWon(BLACK_STONE, "5 in a diagonal");
+            }
+
+            else if (sequence == white_win_sequence)
+            {
+                throw GameWon(WHITE_STONE, "5 in a diagonal");
+            }
+        }
+    }
 }
 
 template <typename T> void Board::handle_capture(const T& position)

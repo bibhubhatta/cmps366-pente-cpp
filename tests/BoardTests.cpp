@@ -561,3 +561,31 @@ TEST_F(BoardTests, winBy5InMainDiagonal)
         EXPECT_EQ(e.reason, "5 in a diagonal");
     }
 };
+
+TEST_F(BoardTests, winBy5InAntiDiagonal)
+{
+    Board board;
+
+    std::vector<std::string> moves = {"J10", "O19", "J11", "P18", "I10",
+                                      "Q17", "H9",  "R16", "G8"};
+
+    for (auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    try
+    {
+        board.make_move(std::string("S15"));
+        FAIL() << "Expected GameWon exception"
+               << "\n";
+    }
+    catch (const GameWon& e)
+    {
+        EXPECT_EQ(e.winner, 'B');
+        EXPECT_EQ(e.reason, "5 in a diagonal");
+    }
+};
