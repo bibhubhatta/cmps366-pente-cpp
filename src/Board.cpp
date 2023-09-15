@@ -239,6 +239,34 @@ std::set<Position> Board::get_empty_positions() const
     return empty_positions;
 }
 
+void Board::check_win() const
+{
+    StoneSequence black_win_sequence(
+        5, 'B'); // BLACK_STONE cannot be used here #AskProf
+    StoneSequence white_win_sequence(5, 'W');
+
+    // Check 5 in a row
+    for (int row_num = 0; row_num < no_rows; row_num++)
+    {
+        StoneSequence row = get_row(row_num);
+        for (int i = 0; i < no_cols - 4; i++)
+        {
+            StoneSequence sequence(row.begin() + i, row.begin() + i + 5);
+            if (sequence == black_win_sequence)
+            {
+                throw GameWon(
+                    BLACK_STONE,
+                    "5 in a row"); // BLACK_STONE can be used here #AskProf
+            }
+
+            else if (sequence == white_win_sequence)
+            {
+                throw GameWon(WHITE_STONE, "5 in a row");
+            }
+        }
+    }
+}
+
 template <typename T> void Board::handle_capture(const T& position)
 {
     Position position_ {position};
@@ -423,6 +451,7 @@ template <typename T> void Board::make_move(const T& position)
     set_stone(position, stone);
 
     handle_capture(position);
+    check_win();
 }
 
 template void Board::make_move<Position>(const Position& position);

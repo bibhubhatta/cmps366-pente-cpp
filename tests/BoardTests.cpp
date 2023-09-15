@@ -477,3 +477,31 @@ TEST_F(BoardTests, multipleCaptures)
 
     EXPECT_EQ(board.get_no_captured_pairs('B'), 8);
 }
+
+TEST_F(BoardTests, winBy5InRow)
+{
+    Board board;
+
+    std::vector<std::string> moves = {"J10", "C16", "K10", "D16",
+                                      "L10", "E16", "M10", "F16"};
+
+    for (auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    try
+    {
+        board.make_move(std::string("N10"));
+        FAIL() << "Expected GameWon exception"
+               << "\n";
+    }
+    catch (const GameWon& e)
+    {
+        EXPECT_EQ(e.winner, 'W');
+        EXPECT_EQ(e.reason, "5 in a row");
+    }
+};

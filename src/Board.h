@@ -13,6 +13,10 @@ typedef std::vector<Stone> StoneSequence;
 class Board
 {
   public:
+    static const Stone EMPTY = 'O';
+    static const Stone WHITE_STONE = 'W';
+    static const Stone BLACK_STONE = 'B';
+
     Board(int now_rows = 19, int no_cols = 19);
 
     const int no_rows;
@@ -84,4 +88,5 @@ class Board
     int                get_no_moves_so_far() const;
 
     template <typename T> void handle_capture(const T& position);
+    void                       check_win() const;
 };
