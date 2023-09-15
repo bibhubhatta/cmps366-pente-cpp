@@ -248,6 +248,9 @@ template <typename T> void Board::handle_capture(const T& position)
     Stone stone = get_stone(row, col);
     Stone opponent_stone = stone == 'W' ? 'B' : 'W';
 
+    StoneSequence capture_sequence = {stone, opponent_stone, opponent_stone,
+                                      stone};
+
     StoneSequence row_ = get_row(row);
 
     // Handle captures to the left
@@ -256,8 +259,7 @@ template <typename T> void Board::handle_capture(const T& position)
         StoneSequence left =
             std::vector<Stone>(row_.begin() + col - 3, row_.begin() + col + 1);
 
-        if (left ==
-            StoneSequence({stone, opponent_stone, opponent_stone, stone}))
+        if (left == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
             set_stone(Position(row, col - 2), 'O');
@@ -271,8 +273,7 @@ template <typename T> void Board::handle_capture(const T& position)
         StoneSequence right =
             std::vector<Stone>(row_.begin() + col, row_.begin() + col + 4);
 
-        if (right ==
-            StoneSequence({stone, opponent_stone, opponent_stone, stone}))
+        if (right == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
             set_stone(Position(row, col + 1), 'O');
@@ -289,8 +290,7 @@ template <typename T> void Board::handle_capture(const T& position)
             below.push_back(get_stone(i, col));
         }
 
-        if (below ==
-            StoneSequence({stone, opponent_stone, opponent_stone, stone}))
+        if (below == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
             set_stone(Position(row - 2, col), 'O');
@@ -307,8 +307,7 @@ template <typename T> void Board::handle_capture(const T& position)
             above.push_back(get_stone(i, col));
         }
 
-        if (above ==
-            StoneSequence({stone, opponent_stone, opponent_stone, stone}))
+        if (above == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
             set_stone(Position(row + 1, col), 'O');
