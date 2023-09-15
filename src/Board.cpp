@@ -297,6 +297,24 @@ template <typename T> void Board::handle_capture(const T& position)
             set_stone(Position(row - 1, col), 'O');
         }
     }
+
+    // Handle captures above
+    if (row <= no_rows - 4)
+    {
+        StoneSequence above;
+        for (int i = row; i <= row + 3; i++)
+        {
+            above.push_back(get_stone(i, col));
+        }
+
+        if (above ==
+            StoneSequence({stone, opponent_stone, opponent_stone, stone}))
+        {
+            captured_pairs[opponent_stone]++;
+            set_stone(Position(row + 1, col), 'O');
+            set_stone(Position(row + 2, col), 'O');
+        }
+    }
 }
 
 template <typename T> void Board::make_move(const T& position)
