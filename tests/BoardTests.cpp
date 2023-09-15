@@ -463,12 +463,7 @@ TEST_F(BoardTests, multipleCaptures)
 
     EXPECT_EQ(board.get_no_captured_pairs('B'), 0);
 
-    BoardDisplay display(board);
-    display.render();
-
     board.make_move(std::string("D4"));
-
-    display.render();
 
     for (int i = 0; i < moves.size(); i += 2)
     {
