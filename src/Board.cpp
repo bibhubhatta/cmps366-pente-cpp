@@ -314,6 +314,23 @@ template <typename T> void Board::handle_capture(const T& position)
             set_stone(Position(row + 2, col), 'O');
         }
     }
+
+    // Handle captures in the diagonal - down right
+    if (row <= no_rows - 4 && col <= no_cols - 4)
+    {
+        StoneSequence diagonal;
+        for (int i = row, j = col; i >= row - 3 && j <= col + 3; i--, j++)
+        {
+            diagonal.push_back(get_stone(i, j));
+        }
+
+        if (diagonal == capture_sequence)
+        {
+            captured_pairs[opponent_stone]++;
+            set_stone(Position(row - 1, col + 1), 'O');
+            set_stone(Position(row - 2, col + 2), 'O');
+        }
+    }
 }
 
 template <typename T> void Board::make_move(const T& position)
