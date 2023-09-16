@@ -463,7 +463,14 @@ TEST_F(BoardTests, multipleCaptures)
 
     EXPECT_EQ(board.get_no_captured_pairs('B'), 0);
 
-    board.make_move(std::string("D4"));
+    try
+    {
+        board.make_move(std::string("D4"));
+    }
+    catch (const GameWon& e)
+    {
+        // This is expected because the move captures more than 5 pairs
+    };
 
     for (int i = 0; i < moves.size(); i += 2)
     {
@@ -589,3 +596,33 @@ TEST_F(BoardTests, winBy5InAntiDiagonal)
         EXPECT_EQ(e.reason, "5 in a diagonal");
     }
 };
+
+TEST_F(BoardTests, winBy5Captures)
+{
+    Board board;
+
+    std::vector<std::string> moves = {
+        "J10", "B6", "A7", "B4", "A4",  "B2", "A1", "C5", "D7",  "C4", "D1",
+        "C3",  "G7", "D6", "G4", "D5",  "G1", "D3", "S1", "D2",  "S3", "E5",
+        "S5",  "E4", "S7", "E3", "S13", "F6", "S9", "F4", "S11", "F2"};
+
+    for (auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    try
+    {
+        board.make_move(std::string("D4"));
+        FAIL() << "Expected GameWon exception"
+               << "\n";
+    }
+    catch (const GameWon& e)
+    {
+        EXPECT_EQ(e.winner, 'W');
+        EXPECT_EQ(e.reason, "5 or more pairs captures");
+    }
+}

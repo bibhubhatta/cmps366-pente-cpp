@@ -239,7 +239,7 @@ std::set<Position> Board::get_empty_positions() const
     return empty_positions;
 }
 
-void Board::check_win() const
+void Board::check_win_by_sequence() const
 {
     StoneSequence black_win_sequence(
         5, 'B'); // BLACK_STONE cannot be used here #AskProf
@@ -333,6 +333,19 @@ void Board::check_win() const
                 throw GameWon(WHITE_STONE, "5 in a diagonal");
             }
         }
+    }
+}
+
+void Board::check_win_by_no_capture() const
+{
+    // WHITE_STONE and BLACK_STONE cannot be used here #AskProf
+    if (captured_pairs.at('W') >= 5)
+    {
+        throw GameWon('B', "5 or more pairs captures");
+    }
+    else if (captured_pairs.at('B') >= 5)
+    {
+        throw GameWon('W', "5 or more pairs captures");
     }
 }
 
@@ -520,7 +533,8 @@ template <typename T> void Board::make_move(const T& position)
     set_stone(position, stone);
 
     handle_capture(position);
-    check_win();
+    check_win_by_sequence();
+    check_win_by_no_capture();
 }
 
 template void Board::make_move<Position>(const Position& position);

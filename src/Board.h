@@ -80,7 +80,6 @@ class Board
     // These are private because the row and col indices are 0-based in the
     // internal representation, but 1-based in the external representation
     StoneSequence get_row(int row) const;
-
     StoneSequence get_col(int col) const;
 
     Position           get_center() const;
@@ -88,5 +87,6 @@ class Board
     int                get_no_moves_so_far() const;
 
     template <typename T> void handle_capture(const T& position);
-    void                       check_win() const;
+    void                       check_win_by_sequence() const;
+    void                       check_win_by_no_capture() const;
 };
