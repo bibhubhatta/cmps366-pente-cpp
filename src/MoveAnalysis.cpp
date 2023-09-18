@@ -2,12 +2,14 @@
 #include "Exceptions.h"
 
 template <typename T>
-MoveAnalysis::MoveAnalysis(const Board board, T move) : board(board), move(move)
+MoveAnalysis::MoveAnalysis(const Board& board, const T& move)
+    : board(board), move(move)
 {
 }
 
-template MoveAnalysis::MoveAnalysis(const Board board, std::string move);
-template MoveAnalysis::MoveAnalysis(const Board board, Position move);
+template MoveAnalysis::MoveAnalysis(const Board&       board,
+                                    const std::string& move);
+template MoveAnalysis::MoveAnalysis(const Board& board, const Position& move);
 
 bool MoveAnalysis::is_only_move() const
 {

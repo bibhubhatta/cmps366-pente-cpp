@@ -7,7 +7,7 @@
 class MoveAnalysis
 {
   public:
-    template <typename T> MoveAnalysis(const Board board, T move);
+    template <typename T> MoveAnalysis(const Board& board, const T& move);
     bool is_only_move() const;
     bool is_winning_move() const;
 
