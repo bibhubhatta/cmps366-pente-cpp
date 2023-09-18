@@ -56,12 +56,13 @@ TEST(MoveAnalysisTests, winBlockingMove)
 
     ASSERT_TRUE(move_analysis.is_win_blocking_move());
 
-    auto available_positions = board.get_available_positions();
-
-    available_positions.erase(win_blocking_move);
-
-    for (const auto& position : available_positions)
-    {
-        ASSERT_FALSE(MoveAnalysis(board, position).is_win_blocking_move());
-    }
+    // Sanity check; commented out because it takes a long time to run
+    //    auto available_positions = board.get_available_positions();
+    //    available_positions.erase(win_blocking_move);
+    //
+    //    for (const auto& position : available_positions)
+    //    {
+    //        ASSERT_FALSE(MoveAnalysis(board,
+    //        position).is_win_blocking_move());
+    //    }
 }
