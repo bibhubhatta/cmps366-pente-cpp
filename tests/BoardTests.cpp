@@ -470,7 +470,7 @@ TEST_F(BoardTests, multipleCaptures)
     catch (const GameWon& e)
     {
         // This is expected because the move captures more than 5 pairs
-    };
+    }
 
     for (int i = 0; i < moves.size(); i += 2)
     {
@@ -511,7 +511,7 @@ TEST_F(BoardTests, winBy5InRow)
         EXPECT_EQ(e.winner, 'W');
         EXPECT_EQ(e.reason, "5 in a row");
     }
-};
+}
 
 TEST_F(BoardTests, winBy5InCol)
 {
@@ -539,7 +539,7 @@ TEST_F(BoardTests, winBy5InCol)
         EXPECT_EQ(e.winner, 'B');
         EXPECT_EQ(e.reason, "5 in a column");
     }
-};
+}
 
 TEST_F(BoardTests, winBy5InMainDiagonal)
 {
@@ -567,7 +567,7 @@ TEST_F(BoardTests, winBy5InMainDiagonal)
         EXPECT_EQ(e.winner, 'W');
         EXPECT_EQ(e.reason, "5 in a diagonal");
     }
-};
+}
 
 TEST_F(BoardTests, winBy5InAntiDiagonal)
 {
@@ -595,7 +595,7 @@ TEST_F(BoardTests, winBy5InAntiDiagonal)
         EXPECT_EQ(e.winner, 'B');
         EXPECT_EQ(e.reason, "5 in a diagonal");
     }
-};
+}
 
 TEST_F(BoardTests, winBy5Captures)
 {
