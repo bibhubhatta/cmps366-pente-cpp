@@ -26,6 +26,7 @@ add_executable(
         BoardTests.cpp
         RosterTests.cpp
         PositionTest.cpp
+        MoveAnalysisTests.cpp
 )
 
 target_link_libraries(

@@ -30,6 +30,7 @@ add_library(
         Computer.cpp Computer.h
         Exceptions.h
         BoardDisplay.cpp BoardDisplay.h
+        MoveAnalysis.cpp MoveAnalysis.h
 )
 
 target_link_libraries(pente_lib
