@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "BoardDisplay.h"
 #include "MoveAnalysis.h"
 
 TEST(MoveAnalysisTests, firstMove)
@@ -54,4 +55,13 @@ TEST(MoveAnalysisTests, winBlockingMove)
     auto move_analysis = MoveAnalysis(board, win_blocking_move);
 
     ASSERT_TRUE(move_analysis.is_win_blocking_move());
+
+    auto available_positions = board.get_available_positions();
+
+    available_positions.erase(win_blocking_move);
+
+    for (const auto& position : available_positions)
+    {
+        ASSERT_FALSE(MoveAnalysis(board, position).is_win_blocking_move());
+    }
 }
