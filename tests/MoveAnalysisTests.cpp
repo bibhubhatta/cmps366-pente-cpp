@@ -66,3 +66,28 @@ TEST(MoveAnalysisTests, winBlockingMove)
     //        position).is_win_blocking_move());
     //    }
 }
+
+TEST(MoveAnalysisTests, capturingMove)
+{
+    Board                    board;
+    std::vector<std::string> moves = {"J10", "C4", "E4", "D4"};
+
+    for (const auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    std::string capturing_move = "B4";
+
+    auto move_analysis = MoveAnalysis(board, capturing_move);
+
+    ASSERT_TRUE(move_analysis.is_capturing_move());
+
+    // Sanity check
+    auto available_moves = board.get_available_positions();
+    available_moves.erase(capturing_move);
+    for (auto move : available_moves)
+    {
+        ASSERT_FALSE(MoveAnalysis(board, move).is_capturing_move());
+    }
+}

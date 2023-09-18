@@ -1,6 +1,7 @@
-#include "MoveAnalysis.h"
-#include "Exceptions.h"
 #include <algorithm>
+
+#include "Exceptions.h"
+#include "MoveAnalysis.h"
 
 template <typename T>
 MoveAnalysis::MoveAnalysis(const Board& board, const T& move)
@@ -59,4 +60,20 @@ bool MoveAnalysis::is_win_blocking_move() const
     }
 
     return true;
+}
+
+bool MoveAnalysis::is_capturing_move() const
+{
+    auto current_player = board.get_turn();
+    auto opponent = current_player == Board::WHITE_STONE ? Board::BLACK_STONE
+                                                         : Board::WHITE_STONE;
+    auto captured_pairs_before = board.get_no_captured_pairs(opponent);
+
+    Board board_ = board;
+
+    board_.make_move(move);
+
+    auto captured_pairs_after = board_.get_no_captured_pairs(opponent);
+
+    return captured_pairs_after > captured_pairs_before;
 }
