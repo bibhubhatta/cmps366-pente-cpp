@@ -37,3 +37,21 @@ TEST(MoveAnalysisTests, winningMove)
         Position(std::string("R8")); // testing another constructor
     ASSERT_TRUE(MoveAnalysis(board, white_winning_move).is_winning_move());
 }
+
+TEST(MoveAnalysisTests, winBlockingMove)
+{
+    Board                    board;
+    std::vector<std::string> moves = {"J10", "M10", "I10", "K10",
+                                      "H10", "L10", "G10"};
+
+    for (const auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    std::string win_blocking_move = "F10";
+
+    auto move_analysis = MoveAnalysis(board, win_blocking_move);
+
+    ASSERT_TRUE(move_analysis.is_win_blocking_move());
+}
