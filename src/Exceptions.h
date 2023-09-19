@@ -7,6 +7,7 @@
 
 #include <fmt/format.h>
 
+#include "Board.h"
 #include "Position.h"
 
 class InvalidMove : public std::exception

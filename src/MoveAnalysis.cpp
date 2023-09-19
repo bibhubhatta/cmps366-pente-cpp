@@ -64,6 +64,11 @@ bool MoveAnalysis::is_win_blocking_move() const
 
 bool MoveAnalysis::is_capturing_move() const
 {
+    return capture_differential() > 0;
+}
+
+int MoveAnalysis::capture_differential() const
+{
     auto current_player = board.get_turn();
     auto opponent = current_player == Board::WHITE_STONE ? Board::BLACK_STONE
                                                          : Board::WHITE_STONE;
@@ -75,5 +80,5 @@ bool MoveAnalysis::is_capturing_move() const
 
     auto captured_pairs_after = board_.get_no_captured_pairs(opponent);
 
-    return captured_pairs_after > captured_pairs_before;
+    return captured_pairs_after - captured_pairs_before;
 }
