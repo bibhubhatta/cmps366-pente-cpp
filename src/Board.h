@@ -8,6 +8,7 @@
 #include "Position.h"
 
 typedef char               Stone;
+typedef int                Score;
 typedef std::vector<Stone> StoneSequence;
 
 class Board
@@ -68,6 +69,8 @@ class Board
     std::set<Position> get_available_positions() const;
 
     template <typename T> void make_move(const T& position);
+
+    Score get_score(Stone stone) const;
 
   private:
     StoneSequence        board;

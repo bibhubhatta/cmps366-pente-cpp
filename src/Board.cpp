@@ -1,3 +1,4 @@
+#include <iostream>
 #include <set>
 #include <stdexcept>
 
@@ -347,6 +348,13 @@ void Board::check_win_by_no_capture() const
     {
         throw GameWon('W', "5 or more pairs captures");
     }
+}
+
+Score Board::get_score(Stone stone) const
+{
+    std::cout << "Implement Board::get_score"
+              << std::endl; // TODO: Implement Board::get_score
+    return 0;
 }
 
 template <typename T> void Board::handle_capture(const T& position)

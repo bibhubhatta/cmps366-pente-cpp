@@ -52,3 +52,14 @@ class GameWon : public GameOver
     const Stone       winner;
     const std::string message;
 };
+
+class GameDrawn : public GameOver
+{
+  public:
+    GameDrawn(const std::string& reason)
+        : GameOver(reason), message("Game drawn. " + reason)
+    {
+    }
+
+    const std::string message;
+};
