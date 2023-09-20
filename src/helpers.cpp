@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <random>
 #include <stdexcept>
 
@@ -19,4 +20,14 @@ typename Container::value_type get_random_element(const Container& container)
     std::advance(it, random_index);
 
     return *it;
+}
+
+// Function to check if a container contains a given element
+template <typename Container>
+bool contains(const Container&                      container,
+              const typename Container::value_type& element)
+{
+
+    return std::find(std::begin(container), std::end(container), element) !=
+           std::end(container);
 }

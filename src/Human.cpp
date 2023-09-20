@@ -4,6 +4,7 @@
 #include "BoardDisplay.h"
 #include "Exceptions.h"
 #include "Human.h"
+#include "helpers.h"
 
 Position Human::get_move(const Board& board) const
 {
@@ -57,7 +58,8 @@ Position Human::get_move(const Board& board) const
 
 bool Human::won_toss()
 {
-    char choice = '\0';
+    std::vector<char> choices {'h', 't'};
+    char              choice = '\0';
     while (true) // Loop to validate input
     {
         std::cout << "Tossing coin..." << std::endl;
@@ -66,7 +68,7 @@ bool Human::won_toss()
         std::cin >> choice;
         choice = tolower(choice);
 
-        if (choice == 'h' || choice == 't')
+        if (contains(choices, choice))
         {
             break;
         }
@@ -77,7 +79,7 @@ bool Human::won_toss()
         }
     }
 
-    char result = (std::rand() % 2 == 0) ? 'h' : 't';
+    char result = get_random_element(choices);
     std::cout << "The coin landed on " << result << "." << std::endl;
 
     if (choice == result)
