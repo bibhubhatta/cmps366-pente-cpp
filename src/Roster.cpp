@@ -1,22 +1,21 @@
 #include "Roster.h"
 
-void Roster::add_player(Player& player)
+void Roster::add_player(Player* player)
 {
-    players.push_back(&player);
-    scores[player.name] = 0;
+    players.push_back(player);
+    scores[player] = 0;
 }
 
-void Roster::add_score(const Player& player, Score score)
+void Roster::add_score(Player* player, Score score) { scores[player] += score; }
+
+Score Roster::get_score(Player* player) const { return scores.at(player); }
+
+std::vector<Player*> Roster::get_players() const
 {
-    scores[player.name] += score;
+    return std::vector<Player*> {players};
 }
 
-Score Roster::get_score(const Player& player) const
-{
-    return scores.at(player.name);
-}
-
-Player* Roster::get_player(const std::string& name) const
+Player* Roster::get_player_by_name(const std::string& name) const
 {
     for (auto player : players)
     {

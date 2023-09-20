@@ -13,21 +13,18 @@ class Roster
   public:
     Roster() = default;
 
-    // player is not const because it is being added to a vector
-    // and the only way to store it is as a pointer; pointers' objects
-    // cannot be const
-    void add_player(Player& player);
+    void add_player(Player* player);
 
-    void add_score(const Player& player, Score score);
+    void add_score(Player* player, Score score);
 
-    Score get_score(const Player& player) const;
+    Score get_score(Player* player) const;
 
-    Player* get_player(const std::string& name) const;
+    std::vector<Player*> get_players() const;
+
+    Player* get_player_by_name(const std::string& name) const;
 
   private:
     // Storing pointers because Player is an abstract class
-    std::vector<Player*> players;
-    // Mapping player to score using string because I could not figure out how
-    // to use Player/pointer to player as a key
-    std::map<std::string, Score> scores;
+    std::vector<Player*>     players;
+    std::map<Player*, Score> scores;
 };

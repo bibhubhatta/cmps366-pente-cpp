@@ -31,6 +31,9 @@ add_library(
         Exceptions.h
         BoardDisplay.cpp BoardDisplay.h
         MoveAnalysis.cpp MoveAnalysis.h
+        Tournament.cpp Tournament.h
+        Round.cpp Round.h
+        TournamentAnnouncement.cpp TournamentAnnouncement.h
 )
 
 target_link_libraries(pente_lib
@@ -42,3 +45,6 @@ target_link_libraries(pente_lib
 target_include_directories(pente_lib
         INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+add_executable(pente main.cpp)
+target_link_libraries(pente pente_lib)
