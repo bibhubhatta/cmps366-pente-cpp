@@ -1,13 +1,58 @@
 #include <iostream>
 #include <random>
 
+#include "BoardDisplay.h"
+#include "Exceptions.h"
 #include "Human.h"
 
 Position Human::get_move(const Board& board) const
 {
-    // TODO: Implement this
-    // Stub for testing and compilation
-    return Position {0, 0};
+    BoardDisplay display(board);
+    display.render();
+
+    Stone stone = board.get_turn();
+    std::cout << "It is " << name << "'s turn (" << stone << ")." << std::endl;
+
+    std::string input;
+    while (true) // Loop to validate input
+    {
+        std::cout << "Enter a move (e.g. A10): ";
+        std::cin >> input;
+
+        char col = input[0];
+        col = toupper(col);
+        std::string row_str = input.substr(1);
+
+        input = col + row_str;
+
+        try
+        {
+            Position position {input};
+            Board    board_copy = board;
+            board_copy.make_move(position);
+        }
+        catch (const InvalidMove& e)
+        {
+            std::cout << e.what() << std::endl;
+            std::cout << "Please try again." << std::endl;
+            continue;
+        }
+        catch (const GameOver& e)
+        {
+            // Pass because this is a valid move
+        }
+        catch (const std::exception& e)
+        {
+            std::cout << "Invalid input.";
+            std::cout << e.what() << std::endl;
+            std::cout << "Please try again." << std::endl;
+            continue;
+        }
+
+        break;
+    }
+
+    return {input};
 }
 
 bool Human::won_toss()
