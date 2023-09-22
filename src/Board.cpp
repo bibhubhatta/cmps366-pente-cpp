@@ -250,19 +250,16 @@ void Board::check_win_by_sequence() const
     for (int row_num = 0; row_num < no_rows; row_num++)
     {
         StoneSequence row = get_row(row_num);
-        for (int i = 0; i < no_cols - 4; i++)
+
+        std::vector<StoneSequence> sequences = get_stone_sequences(row);
+
+        for (auto const& sequence : sequences)
         {
-            StoneSequence sequence(row.begin() + i, row.begin() + i + 5);
-            if (sequence == black_win_sequence)
+            if (sequence.size() == no_consecutive_stones_to_win)
             {
                 throw GameWon(
-                    BLACK_STONE,
-                    "5 in a row"); // BLACK_STONE can be used here #AskProf
-            }
-
-            else if (sequence == white_win_sequence)
-            {
-                throw GameWon(WHITE_STONE, "5 in a row");
+                    sequence.at(0),
+                    fmt::format("{} in a row", no_consecutive_stones_to_win));
             }
         }
     }
@@ -271,17 +268,16 @@ void Board::check_win_by_sequence() const
     for (int col_num = 0; col_num < no_cols; col_num++)
     {
         StoneSequence col = get_col(col_num);
-        for (int i = 0; i < no_rows - 4; i++)
-        {
-            StoneSequence sequence(col.begin() + i, col.begin() + i + 5);
-            if (sequence == black_win_sequence)
-            {
-                throw GameWon(BLACK_STONE, "5 in a column");
-            }
 
-            else if (sequence == white_win_sequence)
+        std::vector<StoneSequence> sequences = get_stone_sequences(col);
+
+        for (auto const& sequence : sequences)
+        {
+            if (sequence.size() == no_consecutive_stones_to_win)
             {
-                throw GameWon(WHITE_STONE, "5 in a column");
+                throw GameWon(sequence.at(0),
+                              fmt::format("{} in a column",
+                                          no_consecutive_stones_to_win));
             }
         }
     }
@@ -293,20 +289,16 @@ void Board::check_win_by_sequence() const
         Position      diagonal_center = Position(row, col);
         StoneSequence main_diagonal = get_main_diagonal(diagonal_center);
 
-        // vector.size returns unsigned int, so we need to cast to int;
-        // otherwise overflow error occurs and the loop runs when it shouldn't
-        for (int i = 0; i < static_cast<int>(main_diagonal.size()) - 4; i++)
-        {
-            StoneSequence sequence(main_diagonal.begin() + i,
-                                   main_diagonal.begin() + i + 5);
-            if (sequence == black_win_sequence)
-            {
-                throw GameWon(BLACK_STONE, "5 in a diagonal");
-            }
+        std::vector<StoneSequence> sequences =
+            get_stone_sequences(main_diagonal);
 
-            else if (sequence == white_win_sequence)
+        for (auto const& sequence : sequences)
+        {
+            if (sequence.size() == no_consecutive_stones_to_win)
             {
-                throw GameWon(WHITE_STONE, "5 in a diagonal");
+                throw GameWon(sequence.at(0),
+                              fmt::format("{} in a diagonal",
+                                          no_consecutive_stones_to_win));
             }
         }
     }
@@ -318,20 +310,16 @@ void Board::check_win_by_sequence() const
         Position      diagonal_center = Position(row, col);
         StoneSequence anti_diagonal = get_anti_diagonal(diagonal_center);
 
-        // vector.size returns unsigned int, so we need to cast to int;
-        // otherwise overflow error occurs and the loop runs when it shouldn't
-        for (int i = 0; i < static_cast<int>(anti_diagonal.size()) - 4; i++)
-        {
-            StoneSequence sequence(anti_diagonal.begin() + i,
-                                   anti_diagonal.begin() + i + 5);
-            if (sequence == black_win_sequence)
-            {
-                throw GameWon(BLACK_STONE, "5 in a diagonal");
-            }
+        std::vector<StoneSequence> sequences =
+            get_stone_sequences(anti_diagonal);
 
-            else if (sequence == white_win_sequence)
+        for (auto const& sequence : sequences)
+        {
+            if (sequence.size() == no_consecutive_stones_to_win)
             {
-                throw GameWon(WHITE_STONE, "5 in a diagonal");
+                throw GameWon(sequence.at(0),
+                              fmt::format("{} in a diagonal",
+                                          no_consecutive_stones_to_win));
             }
         }
     }

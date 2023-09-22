@@ -22,6 +22,7 @@ class Board
 
     const int no_rows;
     const int no_cols;
+    const int no_consecutive_stones_to_win = 5;
 
     /**
      * @brief Creates a board from a string; the string must be a single line
