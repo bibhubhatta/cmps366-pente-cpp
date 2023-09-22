@@ -414,44 +414,27 @@ std::vector<BoardSequence> Board::get_all_stone_sequences(Stone stone) const
 {
     std::vector<BoardSequence> all_sequences;
 
-    // Get all rows
-    for (int row = 0; row < no_rows; row++)
+    std::vector<BoardSequence> all_board_sequences;
+
+    std::vector<std::vector<BoardSequence>> all_rows_cols_diagonals = {
+        get_all_rows(), get_all_cols(), get_all_main_diagonals(),
+        get_all_anti_diagonals()};
+
+    for (auto const& row_col_diagonal : all_rows_cols_diagonals)
     {
-        BoardSequence row_ = get_row(row);
-        auto          sequences = get_stone_sequences(row_, stone);
-        all_sequences.insert(all_sequences.end(), sequences.begin(),
-                             sequences.end());
+        for (auto const& sequence : row_col_diagonal)
+        {
+            all_board_sequences.push_back(sequence);
+        }
     }
 
-    // Get all columns
-    for (int col = 0; col < no_cols; col++)
+    for (auto const& sequence : all_board_sequences)
     {
-        BoardSequence col_ = get_col(col);
-        auto          sequences = get_stone_sequences(col_, stone);
-        all_sequences.insert(all_sequences.end(), sequences.begin(),
-                             sequences.end());
-    }
-
-    // Get all main diagonals
-    for (int row = 0, col = no_cols - 1; row < no_rows && col >= 0;
-         row++, col--) // Positions of anti diagonal to get all main diagonal
-    {
-        auto          diagonal_center = Position(row, col);
-        BoardSequence main_diagonal = get_main_diagonal(diagonal_center);
-        auto          sequences = get_stone_sequences(main_diagonal, stone);
-        all_sequences.insert(all_sequences.end(), sequences.begin(),
-                             sequences.end());
-    }
-
-    // Get all anti diagonals
-    for (int row = 0, col = 0; row < no_rows && col < no_cols;
-         row++, col++) // Positions of main diagonal to get all anti diagonal
-    {
-        auto          diagonal_center = Position(row, col);
-        BoardSequence anti_diagonal = get_anti_diagonal(diagonal_center);
-        auto          sequences = get_stone_sequences(anti_diagonal, stone);
-        all_sequences.insert(all_sequences.end(), sequences.begin(),
-                             sequences.end());
+        auto stone_sequences = get_stone_sequences(sequence, stone);
+        for (auto const& stone_sequence : stone_sequences)
+        {
+            all_sequences.push_back(stone_sequence);
+        }
     }
 
     return all_sequences;
