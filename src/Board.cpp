@@ -355,6 +355,7 @@ Score Board::get_score(Stone stone) const
 
     auto all_stone_sequences = get_all_stone_sequences(stone);
 
+    // Add score for sequences
     for (const auto& sequence : all_stone_sequences)
     {
         if (sequence.size() >= no_consecutive_stones_to_win)
@@ -366,6 +367,10 @@ Score Board::get_score(Stone stone) const
             score += 1;
         }
     }
+
+    // Add score for captured pairs
+    Stone opponent_stone = stone == WHITE_STONE ? BLACK_STONE : WHITE_STONE;
+    score += captured_pairs.at(opponent_stone);
 
     return score;
 }

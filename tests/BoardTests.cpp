@@ -746,3 +746,36 @@ TEST_F(BoardTests, getScore5consecutive)
     EXPECT_EQ(board.get_score('W'), 5);
     EXPECT_EQ(board.get_score('B'), 1);
 }
+
+TEST_F(BoardTests, getScoreMultipleCaptures)
+{
+    Board board;
+
+    std::vector<std::string> moves = {
+        "J10", "B6", "A7", "B4", "A4",  "B2", "A1", "C5", "D7",  "C4", "D1",
+        "C3",  "G7", "D6", "G4", "D5",  "G1", "D3", "S1", "D2",  "S3", "E5",
+        "S5",  "E4", "S7", "E3", "S13", "F6", "S9", "F4", "S11", "F2"};
+
+    for (const auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    EXPECT_EQ(board.get_score('W'), 0);
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    try
+    {
+        board.make_move(std::string("D4"));
+    }
+    catch (const GameWon& e)
+    {
+        // This is expected because the move captures more than 5 pairs
+    }
+
+    EXPECT_EQ(board.get_score('W'), 8);
+
+    board_display.render();
+}
