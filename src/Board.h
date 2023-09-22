@@ -99,10 +99,13 @@ class Board
     int                get_no_moves_so_far() const;
 
     template <typename T> void handle_capture(const T& position);
-    void                       check_win_by_sequence() const;
-    void                       check_win_by_no_capture() const;
-    void                       check_win_by_row() const;
-    void                       check_win_by_column() const;
-    void                       check_win_by_main_diagonal() const;
-    void                       check_win_by_anti_diagonal() const;
+
+    void check_win_by_sequence() const;
+    void check_win_by_no_capture() const;
+    void check_win_by_row() const;
+    void check_win_by_column() const;
+    void check_win_by_main_diagonal() const;
+    void check_win_by_anti_diagonal() const;
+
+    std::vector<BoardSequence> get_all_stone_sequences(Stone stone) const;
 };

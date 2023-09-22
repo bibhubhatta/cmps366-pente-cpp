@@ -695,3 +695,22 @@ TEST_F(BoardTests, getStoneSequencesForParticularStone)
     EXPECT_EQ(Board::get_stone_sequences(col, Board::BLACK_STONE),
               expected_black_stone_sequences);
 }
+
+TEST_F(BoardTests, getScore4InRow)
+{
+    Board board;
+
+    std::vector<std::string> moves = {"J10", "C16", "K10", "D16",
+                                      "L10", "E16", "M10", "G16"};
+
+    for (auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    EXPECT_EQ(board.get_score('W'), 1);
+    EXPECT_EQ(board.get_score('B'), 0);
+}
