@@ -497,9 +497,6 @@ TEST_F(BoardTests, winBy5InRow)
         board.make_move(move);
     }
 
-    BoardDisplay board_display(board);
-    board_display.render();
-
     try
     {
         board.make_move(std::string("N10"));
@@ -524,9 +521,6 @@ TEST_F(BoardTests, winBy5InCol)
     {
         board.make_move(move);
     }
-
-    BoardDisplay board_display(board);
-    board_display.render();
 
     try
     {
@@ -553,9 +547,6 @@ TEST_F(BoardTests, winBy5InMainDiagonal)
         board.make_move(move);
     }
 
-    BoardDisplay board_display(board);
-    board_display.render();
-
     try
     {
         board.make_move(std::string("E1"));
@@ -580,9 +571,6 @@ TEST_F(BoardTests, winBy5InAntiDiagonal)
     {
         board.make_move(move);
     }
-
-    BoardDisplay board_display(board);
-    board_display.render();
 
     try
     {
@@ -611,9 +599,6 @@ TEST_F(BoardTests, winBy5Captures)
         board.make_move(move);
     }
 
-    BoardDisplay board_display(board);
-    board_display.render();
-
     try
     {
         board.make_move(std::string("D4"));
@@ -638,9 +623,6 @@ TEST_F(BoardTests, getStoneSequences)
     {
         board.make_move(move);
     }
-
-    BoardDisplay board_display(board);
-    board_display.render();
 
     std::vector<BoardSequence> expected_stone_sequences = {
         BoardSequence(3, Board::BLACK_STONE),
@@ -669,9 +651,6 @@ TEST_F(BoardTests, getStoneSequencesForParticularStone)
         std::string move {"J" + std::to_string(row_num)};
         board.make_move(move);
     }
-
-    BoardDisplay board_display(board);
-    board_display.render();
 
     std::vector<BoardSequence> expected_black_stone_sequences = {
         BoardSequence(1, Board::BLACK_STONE),
@@ -708,9 +687,6 @@ TEST_F(BoardTests, getScore4InRow)
         board.make_move(move);
     }
 
-    BoardDisplay board_display(board);
-    board_display.render();
-
     EXPECT_EQ(board.get_score('W'), 1);
     EXPECT_EQ(board.get_score('B'), 0);
 }
@@ -727,9 +703,6 @@ TEST_F(BoardTests, getScore5consecutive)
     {
         board.make_move(move);
     }
-
-    BoardDisplay board_display(board);
-    board_display.render();
 
     try
     {
@@ -763,9 +736,6 @@ TEST_F(BoardTests, getScoreMultipleCaptures)
 
     EXPECT_EQ(board.get_score('W'), 0);
 
-    BoardDisplay board_display(board);
-    board_display.render();
-
     try
     {
         board.make_move(std::string("D4"));
@@ -776,6 +746,4 @@ TEST_F(BoardTests, getScoreMultipleCaptures)
     }
 
     EXPECT_EQ(board.get_score('W'), 8);
-
-    board_display.render();
 }
