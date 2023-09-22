@@ -13,15 +13,15 @@ Board::Board(int no_rows, int no_cols) : no_rows(no_rows), no_cols(no_cols)
     {
         for (int j = 0; j < no_cols; j++)
         {
-            board.push_back('O');
+            board.push_back(EMPTY);
         }
     }
 
     // Initialize captured pairs
     // The number of captured pairs is the numbers of pairs lost, ie, captured
     // by the opponent
-    captured_pairs['W'] = 0;
-    captured_pairs['B'] = 0;
+    captured_pairs[WHITE_STONE] = 0;
+    captured_pairs[BLACK_STONE] = 0;
 }
 
 template <typename T> Stone Board::get_stone(const T& position) const
@@ -72,8 +72,8 @@ Board Board::from_string(const std::string& board_string,
         }
     }
 
-    board_.captured_pairs['W'] = no_captured_white_pairs;
-    board_.captured_pairs['B'] = no_captured_black_pairs;
+    board_.captured_pairs[WHITE_STONE] = no_captured_white_pairs;
+    board_.captured_pairs[BLACK_STONE] = no_captured_black_pairs;
 
     return board_;
 }
@@ -161,16 +161,16 @@ int Board::get_total_no_stone_played(Stone stone) const
 
 Stone Board::get_turn() const
 {
-    int no_white_stones = get_total_no_stone_played('W');
-    int no_black_stones = get_total_no_stone_played('B');
+    int no_white_stones = get_total_no_stone_played(WHITE_STONE);
+    int no_black_stones = get_total_no_stone_played(BLACK_STONE);
 
     if (no_white_stones == no_black_stones)
     {
-        return 'W';
+        return WHITE_STONE;
     }
     else if (no_white_stones == no_black_stones + 1)
     {
-        return 'B';
+        return BLACK_STONE;
     }
     else
     {
@@ -213,7 +213,8 @@ std::set<Position> Board::get_available_positions() const
 
 int Board::get_no_moves_so_far() const
 {
-    return get_total_no_stone_played('W') + get_total_no_stone_played('B');
+    return get_total_no_stone_played(WHITE_STONE) +
+           get_total_no_stone_played(BLACK_STONE);
 }
 
 Position Board::get_center() const
@@ -230,7 +231,7 @@ std::set<Position> Board::get_empty_positions() const
     {
         for (int col = 0; col < no_cols; col++)
         {
-            if (get_stone(row, col) == 'O')
+            if (get_stone(row, col) == EMPTY)
             {
                 empty_positions.insert({row, col});
             }
@@ -336,14 +337,15 @@ void Board::check_win_by_anti_diagonal() const
 
 void Board::check_win_by_no_capture() const
 {
-    // WHITE_STONE and BLACK_STONE cannot be used here #AskProf
-    if (captured_pairs.at('W') >= 5)
+    if (captured_pairs.at(WHITE_STONE) >= no_captured_pairs_to_win)
     {
-        throw GameWon('B', "5 or more pairs captures");
+        throw GameWon(BLACK_STONE, fmt::format("{} or more pairs captures",
+                                               no_captured_pairs_to_win));
     }
-    else if (captured_pairs.at('B') >= 5)
+    else if (captured_pairs.at(BLACK_STONE) >= no_captured_pairs_to_win)
     {
-        throw GameWon('W', "5 or more pairs captures");
+        throw GameWon(WHITE_STONE, fmt::format("{} or more pairs captures",
+                                               no_captured_pairs_to_win));
     }
 }
 
@@ -409,7 +411,7 @@ template <typename T> void Board::handle_capture(const T& position)
     int      col = position_.col;
 
     Stone stone = get_stone(row, col);
-    Stone opponent_stone = stone == 'W' ? 'B' : 'W';
+    Stone opponent_stone = stone == WHITE_STONE ? BLACK_STONE : WHITE_STONE;
 
     StoneSequence capture_sequence = {stone, opponent_stone, opponent_stone,
                                       stone};
@@ -425,8 +427,8 @@ template <typename T> void Board::handle_capture(const T& position)
         if (left == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
-            set_stone(Position(row, col - 2), 'O');
-            set_stone(Position(row, col - 1), 'O');
+            set_stone(Position(row, col - 2), EMPTY);
+            set_stone(Position(row, col - 1), EMPTY);
         }
     }
 
@@ -439,8 +441,8 @@ template <typename T> void Board::handle_capture(const T& position)
         if (right == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
-            set_stone(Position(row, col + 1), 'O');
-            set_stone(Position(row, col + 2), 'O');
+            set_stone(Position(row, col + 1), EMPTY);
+            set_stone(Position(row, col + 2), EMPTY);
         }
     }
 
@@ -456,8 +458,8 @@ template <typename T> void Board::handle_capture(const T& position)
         if (below == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
-            set_stone(Position(row - 2, col), 'O');
-            set_stone(Position(row - 1, col), 'O');
+            set_stone(Position(row - 2, col), EMPTY);
+            set_stone(Position(row - 1, col), EMPTY);
         }
     }
 
@@ -473,8 +475,8 @@ template <typename T> void Board::handle_capture(const T& position)
         if (above == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
-            set_stone(Position(row + 1, col), 'O');
-            set_stone(Position(row + 2, col), 'O');
+            set_stone(Position(row + 1, col), EMPTY);
+            set_stone(Position(row + 2, col), EMPTY);
         }
     }
 
@@ -490,8 +492,8 @@ template <typename T> void Board::handle_capture(const T& position)
         if (diagonal == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
-            set_stone(Position(row - 1, col + 1), 'O');
-            set_stone(Position(row - 2, col + 2), 'O');
+            set_stone(Position(row - 1, col + 1), EMPTY);
+            set_stone(Position(row - 2, col + 2), EMPTY);
         }
     }
 
@@ -507,8 +509,8 @@ template <typename T> void Board::handle_capture(const T& position)
         if (diagonal == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
-            set_stone(Position(row + 1, col + 1), 'O');
-            set_stone(Position(row + 2, col + 2), 'O');
+            set_stone(Position(row + 1, col + 1), EMPTY);
+            set_stone(Position(row + 2, col + 2), EMPTY);
         }
     }
 
@@ -524,8 +526,8 @@ template <typename T> void Board::handle_capture(const T& position)
         if (diagonal == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
-            set_stone(Position(row - 1, col - 1), 'O');
-            set_stone(Position(row - 2, col - 2), 'O');
+            set_stone(Position(row - 1, col - 1), EMPTY);
+            set_stone(Position(row - 2, col - 2), EMPTY);
         }
     }
 
@@ -541,8 +543,8 @@ template <typename T> void Board::handle_capture(const T& position)
         if (diagonal == capture_sequence)
         {
             captured_pairs[opponent_stone]++;
-            set_stone(Position(row + 1, col - 1), 'O');
-            set_stone(Position(row + 2, col - 2), 'O');
+            set_stone(Position(row + 1, col - 1), EMPTY);
+            set_stone(Position(row + 2, col - 2), EMPTY);
         }
     }
 }
