@@ -7,9 +7,9 @@
 
 #include "Position.h"
 
-typedef char               Stone;
-typedef int                Score;
-typedef std::vector<Stone> BoardSequence;
+using Stone = char;
+using Score = int;
+using BoardSequence = std::vector<Stone>;
 
 class Board
 {
