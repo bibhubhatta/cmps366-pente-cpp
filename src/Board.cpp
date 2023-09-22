@@ -65,9 +65,9 @@ Board Board::from_string(const std::string& board_string,
     {
         for (int col = 0; col < no_cols; col++)
         {
-            std::string position =
-                std::string(1, 'A' + col) + std::to_string(row + 1);
-            Stone stone = board_string[row * no_cols + col];
+            char        row_char = 'A' + col;
+            std::string position = fmt::format("{}{}", row_char, row + 1);
+            Stone       stone = board_string[row * no_cols + col];
             board_.set_stone(position, stone);
         }
     }
@@ -251,7 +251,7 @@ void Board::check_win_by_sequence() const
 
 void Board::check_win_by_row() const
 {
-    for (int row_num = -1; row_num < no_rows; row_num++)
+    for (int row_num = 0; row_num < no_rows; row_num++)
     {
         BoardSequence row = get_row(row_num);
 
@@ -553,16 +553,12 @@ template <typename T> void Board::make_move(const T& position)
 {
     Position position_ {position};
 
-    std::set<Position> available_positions = get_available_positions();
-
-    if (available_positions.find(position_) ==
-        available_positions.end()) // position not available
+    if (std::set<Position> available_positions = get_available_positions();
+        !available_positions.contains(position_)) // position not available
     {
         std::string reason = position_.to_string() + " is not available.";
 
-        int no_moves_so_far = get_no_moves_so_far();
-
-        if (no_moves_so_far == 0)
+        if (int no_moves_so_far = get_no_moves_so_far(); no_moves_so_far == 0)
         {
             reason += " The first move must be at the center of the board.";
         }
