@@ -100,4 +100,8 @@ class Board
     template <typename T> void handle_capture(const T& position);
     void                       check_win_by_sequence() const;
     void                       check_win_by_no_capture() const;
+    void                       check_win_by_row() const;
+    void                       check_win_by_column() const;
+    void                       check_win_by_main_diagonal() const;
+    void                       check_win_by_anti_diagonal() const;
 };

@@ -242,12 +242,15 @@ std::set<Position> Board::get_empty_positions() const
 
 void Board::check_win_by_sequence() const
 {
-    StoneSequence black_win_sequence(
-        5, 'B'); // BLACK_STONE cannot be used here #AskProf
-    StoneSequence white_win_sequence(5, 'W');
+    check_win_by_row();
+    check_win_by_column();
+    check_win_by_main_diagonal();
+    check_win_by_anti_diagonal();
+}
 
-    // Check 5 in a row
-    for (int row_num = 0; row_num < no_rows; row_num++)
+void Board::check_win_by_row() const
+{
+    for (int row_num = -1; row_num < no_rows; row_num++)
     {
         StoneSequence row = get_row(row_num);
 
@@ -263,8 +266,10 @@ void Board::check_win_by_sequence() const
             }
         }
     }
+}
 
-    // Check 5 in a column
+void Board::check_win_by_column() const
+{
     for (int col_num = 0; col_num < no_cols; col_num++)
     {
         StoneSequence col = get_col(col_num);
@@ -281,8 +286,10 @@ void Board::check_win_by_sequence() const
             }
         }
     }
+}
 
-    // Check 5 in main diagonals
+void Board::check_win_by_main_diagonal() const
+{
     for (int row = 0, col = no_cols - 1; row < no_rows && col >= 0;
          row++, col--) // Positions of anti diagonal to get all main diagonal
     {
@@ -302,8 +309,10 @@ void Board::check_win_by_sequence() const
             }
         }
     }
+}
 
-    // Check 5 in anti diagonals
+void Board::check_win_by_anti_diagonal() const
+{
     for (int row = 0, col = 0; row < no_rows && col < no_cols;
          row++, col++) // Positions of main diagonal to get all anti diagonal
     {
