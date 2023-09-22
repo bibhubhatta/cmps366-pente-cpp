@@ -626,3 +626,34 @@ TEST_F(BoardTests, winBy5Captures)
         EXPECT_EQ(e.reason, "5 or more pairs captures");
     }
 }
+
+TEST_F(BoardTests, getStoneSequences)
+{
+    Board board;
+
+    std::vector<std::string> moves = {"J10", "N10", "K10", "O10", "L10", "C10",
+                                      "F10", "D10", "G10", "B10", "Q10"};
+
+    for (auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    std::vector<StoneSequence> expected_stone_sequences = {
+        StoneSequence(3, Board::BLACK_STONE),
+        StoneSequence(2, Board::WHITE_STONE),
+        StoneSequence(3, Board::WHITE_STONE),
+        StoneSequence(2, Board::BLACK_STONE),
+        StoneSequence(1, Board::WHITE_STONE),
+    };
+
+    std::string                position = "J10";
+    StoneSequence              row = board.get_row(position);
+    std::vector<StoneSequence> stone_sequences =
+        Board::get_stone_sequences(row);
+
+    EXPECT_EQ(stone_sequences, expected_stone_sequences);
+}

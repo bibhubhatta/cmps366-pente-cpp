@@ -14,9 +14,9 @@ typedef std::vector<Stone> StoneSequence;
 class Board
 {
   public:
-    static const Stone EMPTY = 'O';
-    static const Stone WHITE_STONE = 'W';
-    static const Stone BLACK_STONE = 'B';
+    inline static const Stone EMPTY = 'O';
+    inline static const Stone WHITE_STONE = 'W';
+    inline static const Stone BLACK_STONE = 'B';
 
     Board(int now_rows = 19, int no_cols = 19);
 
@@ -39,6 +39,9 @@ class Board
                              int                no_captured_white_pairs,
                              int no_captured_black_pairs, int no_rows = 19,
                              int no_cols = 19);
+
+    static std::vector<StoneSequence>
+    get_stone_sequences(const StoneSequence& sequence);
 
     template <typename T> Stone get_stone(const T& position) const;
 

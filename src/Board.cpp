@@ -357,6 +357,37 @@ Score Board::get_score(Stone stone) const
     return 0;
 }
 
+std::vector<StoneSequence>
+Board::get_stone_sequences(const StoneSequence& sequence)
+{
+    std::vector<StoneSequence> sequences;
+    StoneSequence              current_sequence;
+
+    int index = 0;
+
+    while (index < sequence.size())
+    {
+        if (sequence[index] == EMPTY)
+        {
+            index++;
+            continue;
+        }
+
+        current_sequence.push_back(sequence[index]);
+        while (index < sequence.size() - 1 &&
+               sequence[index] == sequence[index + 1])
+        {
+            current_sequence.push_back(sequence[index]);
+            index++;
+        }
+        sequences.push_back(current_sequence);
+        current_sequence.clear();
+        index++;
+    }
+
+    return sequences;
+}
+
 template <typename T> void Board::handle_capture(const T& position)
 {
     Position position_ {position};
