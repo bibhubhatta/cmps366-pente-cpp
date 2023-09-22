@@ -355,7 +355,7 @@ Score Board::get_score(Stone stone) const
 
     auto all_stone_sequences = get_all_stone_sequences(stone);
 
-    for (auto sequence : all_stone_sequences)
+    for (const auto& sequence : all_stone_sequences)
     {
         if (sequence.size() == no_consecutive_stones_to_win)
         {

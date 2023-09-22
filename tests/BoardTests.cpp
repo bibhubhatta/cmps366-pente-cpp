@@ -714,3 +714,35 @@ TEST_F(BoardTests, getScore4InRow)
     EXPECT_EQ(board.get_score('W'), 1);
     EXPECT_EQ(board.get_score('B'), 0);
 }
+
+TEST_F(BoardTests, getScore5consecutive)
+{
+    // Copied from winBy5InDiagonal
+    Board board;
+
+    std::vector<std::string> moves = {"J10", "S15", "I5",  "S16", "H4",
+                                      "S17", "G3",  "S18", "F2",  "S1"};
+
+    for (auto& move : moves)
+    {
+        board.make_move(move);
+    }
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    try
+    {
+        board.make_move(std::string("E1"));
+        FAIL() << "Expected GameWon exception"
+               << "\n";
+    }
+    catch (const GameWon& e)
+    {
+        EXPECT_EQ(e.winner, 'W');
+        EXPECT_EQ(e.reason, "5 in a diagonal");
+    }
+
+    EXPECT_EQ(board.get_score('W'), 5);
+    EXPECT_EQ(board.get_score('B'), 1);
+}
