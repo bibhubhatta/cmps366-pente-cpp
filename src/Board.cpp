@@ -470,11 +470,18 @@ std::vector<BoardSequence> Board::get_all_anti_diagonals() const
 {
     std::vector<BoardSequence> all_anti_diagonals;
 
-    for (int row = 0, col = 0; row < no_rows && col < no_cols;
-         row++, col++) // Positions of main diagonal to get all anti diagonal
+    for (int row = 0; row < no_rows; row++)
     {
-        auto          diagonal_center = Position(row, col);
-        BoardSequence anti_diagonal = get_anti_diagonal(diagonal_center);
+        auto          diagonal_start = Position(row, no_cols - 1);
+        BoardSequence anti_diagonal = get_anti_diagonal(diagonal_start);
+
+        all_anti_diagonals.push_back(anti_diagonal);
+    }
+
+    for (int col = no_cols - 1; col > 0; col--)
+    {
+        auto          diagonal_start = Position(0, col);
+        BoardSequence anti_diagonal = get_anti_diagonal(diagonal_start);
 
         all_anti_diagonals.push_back(anti_diagonal);
     }
@@ -486,11 +493,18 @@ std::vector<BoardSequence> Board::get_all_main_diagonals() const
 {
     std::vector<BoardSequence> all_main_diagonals;
 
-    for (int row = 0, col = no_cols - 1; row < no_rows && col >= 0;
-         row++, col--) // Positions of anti diagonal to get all main diagonal
+    for (int row = 0; row < no_rows; row++)
     {
-        auto          diagonal_center = Position(row, col);
-        BoardSequence main_diagonal = get_main_diagonal(diagonal_center);
+        auto          diagonal_start = Position(row, 0);
+        BoardSequence main_diagonal = get_main_diagonal(diagonal_start);
+
+        all_main_diagonals.push_back(main_diagonal);
+    }
+
+    for (int col = 1; col < no_cols; col++)
+    {
+        auto          diagonal_start = Position(0, col);
+        BoardSequence main_diagonal = get_main_diagonal(diagonal_start);
 
         all_main_diagonals.push_back(main_diagonal);
     }

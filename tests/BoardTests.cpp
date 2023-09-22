@@ -746,3 +746,21 @@ TEST_F(BoardTests, getScoreMultipleCaptures)
 
     EXPECT_EQ(board.get_score('W'), 8);
 }
+
+TEST_F(BoardTests, getAllDiagonals)
+{
+
+    std::vector<std::pair<int, int>> sizes {
+        {19, 19}, {2, 3}, {5, 4}, {4, 5}, {3, 2}};
+
+    for (const auto& [m, n] : sizes)
+    {
+        Board board(m, n);
+
+        auto all_main_diagonals = board.get_all_main_diagonals();
+        auto all_anti_diagonals = board.get_all_anti_diagonals();
+
+        EXPECT_EQ(all_main_diagonals.size(), m + n - 1);
+        EXPECT_EQ(all_anti_diagonals.size(), m + n - 1);
+    }
+}
