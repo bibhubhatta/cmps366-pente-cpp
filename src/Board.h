@@ -42,6 +42,8 @@ class Board
 
     static std::vector<StoneSequence>
     get_stone_sequences(const StoneSequence& sequence);
+    static std::vector<StoneSequence>
+    get_stone_sequences(const StoneSequence& sequence, const Stone& stone);
 
     template <typename T> Stone get_stone(const T& position) const;
 

@@ -388,6 +388,23 @@ Board::get_stone_sequences(const StoneSequence& sequence)
     return sequences;
 }
 
+std::vector<StoneSequence>
+Board::get_stone_sequences(const StoneSequence& sequence, const Stone& stone)
+{
+    auto                       all_sequences = get_stone_sequences(sequence);
+    std::vector<StoneSequence> filtered_sequence;
+
+    for (auto seq : all_sequences)
+    {
+        if (seq.at(0) == stone)
+        {
+            filtered_sequence.push_back(seq);
+        }
+    }
+
+    return filtered_sequence;
+}
+
 template <typename T> void Board::handle_capture(const T& position)
 {
     Position position_ {position};

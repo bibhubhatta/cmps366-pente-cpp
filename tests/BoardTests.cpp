@@ -657,3 +657,41 @@ TEST_F(BoardTests, getStoneSequences)
 
     EXPECT_EQ(stone_sequences, expected_stone_sequences);
 }
+
+TEST_F(BoardTests, getStoneSequencesForParticularStone)
+{
+    Board board;
+
+    std::vector<int> row_nums {10, 1, 9, 3, 17, 4, 8, 5, 16, 6};
+
+    for (const int& row_num : row_nums)
+    {
+        std::string move {"J" + std::to_string(row_num)};
+        board.make_move(move);
+    }
+
+    BoardDisplay board_display(board);
+    board_display.render();
+
+    std::vector<StoneSequence> expected_black_stone_sequences = {
+        StoneSequence(1, Board::BLACK_STONE),
+        StoneSequence(4, Board::BLACK_STONE),
+    };
+
+    std::vector<StoneSequence> expected_white_stone_sequences = {
+        StoneSequence(3, Board::WHITE_STONE),
+        StoneSequence(2, Board::WHITE_STONE),
+    };
+
+    std::string   position = "J10";
+    StoneSequence col = board.get_col(position);
+
+    std::vector<StoneSequence> stone_sequences =
+        Board::get_stone_sequences(col);
+
+    EXPECT_EQ(Board::get_stone_sequences(col, Board::WHITE_STONE),
+              expected_white_stone_sequences);
+
+    EXPECT_EQ(Board::get_stone_sequences(col, Board::BLACK_STONE),
+              expected_black_stone_sequences);
+}
