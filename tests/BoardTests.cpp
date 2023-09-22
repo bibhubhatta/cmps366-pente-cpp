@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "Board.h"
-#include "BoardDisplay.h"
 #include "Exceptions.h"
 
 class BoardTests : public ::testing::Test

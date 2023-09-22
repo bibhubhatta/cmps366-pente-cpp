@@ -1,4 +1,3 @@
-#include <iostream>
 #include <set>
 #include <stdexcept>
 
@@ -34,7 +33,6 @@ template <typename T> Stone Board::get_stone(const T& position) const
 }
 
 template Stone Board::get_stone<Position>(const Position& position) const;
-
 template Stone Board::get_stone<std::string>(const std::string& position) const;
 
 template <typename T> void Board::set_stone(const T& position, Stone stone)
@@ -49,7 +47,6 @@ template <typename T> void Board::set_stone(const T& position, Stone stone)
 }
 
 template void Board::set_stone<Position>(const Position& position, Stone stone);
-
 template void Board::set_stone<std::string>(const std::string& position,
                                             Stone              stone);
 
@@ -118,7 +115,6 @@ template <typename T> BoardSequence Board::get_row(T& position) const
 }
 
 template BoardSequence Board::get_row<Position>(Position& position) const;
-
 template BoardSequence Board::get_row<std::string>(std::string& position) const;
 
 BoardSequence Board::get_col(int col) const
@@ -251,10 +247,8 @@ void Board::check_win_by_sequence() const
 
 void Board::check_win_by_row() const
 {
-    for (int row_num = 0; row_num < no_rows; row_num++)
+    for (const auto& row : get_all_rows())
     {
-        BoardSequence row = get_row(row_num);
-
         std::vector<BoardSequence> sequences = get_stone_sequences(row);
 
         for (auto const& sequence : sequences)
@@ -271,10 +265,8 @@ void Board::check_win_by_row() const
 
 void Board::check_win_by_column() const
 {
-    for (int col_num = 0; col_num < no_cols; col_num++)
+    for (const auto& col : get_all_cols())
     {
-        BoardSequence col = get_col(col_num);
-
         std::vector<BoardSequence> sequences = get_stone_sequences(col);
 
         for (auto const& sequence : sequences)
@@ -291,12 +283,10 @@ void Board::check_win_by_column() const
 
 void Board::check_win_by_main_diagonal() const
 {
-    for (int row = 0, col = no_cols - 1; row < no_rows && col >= 0;
-         row++, col--) // Positions of anti diagonal to get all main diagonal
-    {
-        auto          diagonal_center = Position(row, col);
-        BoardSequence main_diagonal = get_main_diagonal(diagonal_center);
+    auto all_main_diagonals = get_all_main_diagonals();
 
+    for (auto const& main_diagonal : all_main_diagonals)
+    {
         std::vector<BoardSequence> sequences =
             get_stone_sequences(main_diagonal);
 
@@ -314,11 +304,8 @@ void Board::check_win_by_main_diagonal() const
 
 void Board::check_win_by_anti_diagonal() const
 {
-    for (int row = 0, col = 0; row < no_rows && col < no_cols;
-         row++, col++) // Positions of main diagonal to get all anti diagonal
+    for (const auto& anti_diagonal : get_all_anti_diagonals())
     {
-        auto          diagonal_center = Position(row, col);
-        BoardSequence anti_diagonal = get_anti_diagonal(diagonal_center);
 
         std::vector<BoardSequence> sequences =
             get_stone_sequences(anti_diagonal);
@@ -468,6 +455,64 @@ std::vector<BoardSequence> Board::get_all_stone_sequences(Stone stone) const
     }
 
     return all_sequences;
+}
+
+std::vector<BoardSequence> Board::get_all_rows() const
+{
+    std::vector<BoardSequence> all_rows;
+
+    for (int row = 0; row < no_rows; row++)
+    {
+        BoardSequence row_ = get_row(row);
+        all_rows.push_back(row_);
+    }
+
+    return all_rows;
+}
+
+std::vector<BoardSequence> Board::get_all_cols() const
+{
+    std::vector<BoardSequence> all_cols;
+
+    for (int col = 0; col < no_cols; col++)
+    {
+        BoardSequence col_ = get_col(col);
+        all_cols.push_back(col_);
+    }
+
+    return all_cols;
+}
+
+std::vector<BoardSequence> Board::get_all_anti_diagonals() const
+{
+    std::vector<BoardSequence> all_anti_diagonals;
+
+    for (int row = 0, col = 0; row < no_rows && col < no_cols;
+         row++, col++) // Positions of main diagonal to get all anti diagonal
+    {
+        auto          diagonal_center = Position(row, col);
+        BoardSequence anti_diagonal = get_anti_diagonal(diagonal_center);
+
+        all_anti_diagonals.push_back(anti_diagonal);
+    }
+
+    return all_anti_diagonals;
+}
+
+std::vector<BoardSequence> Board::get_all_main_diagonals() const
+{
+    std::vector<BoardSequence> all_main_diagonals;
+
+    for (int row = 0, col = no_cols - 1; row < no_rows && col >= 0;
+         row++, col--) // Positions of anti diagonal to get all main diagonal
+    {
+        auto          diagonal_center = Position(row, col);
+        BoardSequence main_diagonal = get_main_diagonal(diagonal_center);
+
+        all_main_diagonals.push_back(main_diagonal);
+    }
+
+    return all_main_diagonals;
 }
 
 template <typename T> void Board::handle_capture(const T& position)

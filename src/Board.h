@@ -81,6 +81,13 @@ class Board
 
     Score get_score(Stone stone) const;
 
+    std::vector<BoardSequence> get_all_rows() const;
+    std::vector<BoardSequence> get_all_cols() const;
+    std::vector<BoardSequence> get_all_main_diagonals() const;
+    std::vector<BoardSequence> get_all_anti_diagonals() const;
+
+    std::vector<BoardSequence> get_all_stone_sequences(Stone stone) const;
+
   private:
     BoardSequence        board;
     std::map<Stone, int> captured_pairs;
@@ -106,6 +113,4 @@ class Board
     void check_win_by_column() const;
     void check_win_by_main_diagonal() const;
     void check_win_by_anti_diagonal() const;
-
-    std::vector<BoardSequence> get_all_stone_sequences(Stone stone) const;
 };
