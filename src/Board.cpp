@@ -294,7 +294,7 @@ void Board::check_win_by_main_diagonal() const
     for (int row = 0, col = no_cols - 1; row < no_rows && col >= 0;
          row++, col--) // Positions of anti diagonal to get all main diagonal
     {
-        Position      diagonal_center = Position(row, col);
+        auto          diagonal_center = Position(row, col);
         BoardSequence main_diagonal = get_main_diagonal(diagonal_center);
 
         std::vector<BoardSequence> sequences =
@@ -317,7 +317,7 @@ void Board::check_win_by_anti_diagonal() const
     for (int row = 0, col = 0; row < no_rows && col < no_cols;
          row++, col++) // Positions of main diagonal to get all anti diagonal
     {
-        Position      diagonal_center = Position(row, col);
+        auto          diagonal_center = Position(row, col);
         BoardSequence anti_diagonal = get_anti_diagonal(diagonal_center);
 
         std::vector<BoardSequence> sequences =
@@ -421,7 +421,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures to the left
     if (col >= 3)
     {
-        BoardSequence left =
+        auto left =
             std::vector<Stone>(row_.begin() + col - 3, row_.begin() + col + 1);
 
         if (left == capture_sequence)
@@ -435,7 +435,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures to the right
     if (col <= no_cols - 4)
     {
-        BoardSequence right =
+        auto right =
             std::vector<Stone>(row_.begin() + col, row_.begin() + col + 4);
 
         if (right == capture_sequence)
