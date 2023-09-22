@@ -98,9 +98,9 @@ int Board::get_no_captured_pairs(Stone stone) const
     return no_captured_pairs;
 }
 
-StoneSequence Board::get_row(int row) const
+BoardSequence Board::get_row(int row) const
 {
-    StoneSequence row_;
+    BoardSequence row_;
     for (int col = 0; col < 19; col++)
     {
         Stone stone = get_stone(Position(row, col));
@@ -109,7 +109,7 @@ StoneSequence Board::get_row(int row) const
     return row_;
 }
 
-template <typename T> StoneSequence Board::get_row(T& position) const
+template <typename T> BoardSequence Board::get_row(T& position) const
 {
     Position position_ {position};
     int      row = position_.row;
@@ -117,13 +117,13 @@ template <typename T> StoneSequence Board::get_row(T& position) const
     return get_row(row);
 }
 
-template StoneSequence Board::get_row<Position>(Position& position) const;
+template BoardSequence Board::get_row<Position>(Position& position) const;
 
-template StoneSequence Board::get_row<std::string>(std::string& position) const;
+template BoardSequence Board::get_row<std::string>(std::string& position) const;
 
-StoneSequence Board::get_col(int col) const
+BoardSequence Board::get_col(int col) const
 {
-    StoneSequence col_;
+    BoardSequence col_;
     for (int row = 0; row < no_rows; row++)
     {
         Stone stone = get_stone(Position(row, col));
@@ -253,9 +253,9 @@ void Board::check_win_by_row() const
 {
     for (int row_num = -1; row_num < no_rows; row_num++)
     {
-        StoneSequence row = get_row(row_num);
+        BoardSequence row = get_row(row_num);
 
-        std::vector<StoneSequence> sequences = get_stone_sequences(row);
+        std::vector<BoardSequence> sequences = get_stone_sequences(row);
 
         for (auto const& sequence : sequences)
         {
@@ -273,9 +273,9 @@ void Board::check_win_by_column() const
 {
     for (int col_num = 0; col_num < no_cols; col_num++)
     {
-        StoneSequence col = get_col(col_num);
+        BoardSequence col = get_col(col_num);
 
-        std::vector<StoneSequence> sequences = get_stone_sequences(col);
+        std::vector<BoardSequence> sequences = get_stone_sequences(col);
 
         for (auto const& sequence : sequences)
         {
@@ -295,9 +295,9 @@ void Board::check_win_by_main_diagonal() const
          row++, col--) // Positions of anti diagonal to get all main diagonal
     {
         Position      diagonal_center = Position(row, col);
-        StoneSequence main_diagonal = get_main_diagonal(diagonal_center);
+        BoardSequence main_diagonal = get_main_diagonal(diagonal_center);
 
-        std::vector<StoneSequence> sequences =
+        std::vector<BoardSequence> sequences =
             get_stone_sequences(main_diagonal);
 
         for (auto const& sequence : sequences)
@@ -318,9 +318,9 @@ void Board::check_win_by_anti_diagonal() const
          row++, col++) // Positions of main diagonal to get all anti diagonal
     {
         Position      diagonal_center = Position(row, col);
-        StoneSequence anti_diagonal = get_anti_diagonal(diagonal_center);
+        BoardSequence anti_diagonal = get_anti_diagonal(diagonal_center);
 
-        std::vector<StoneSequence> sequences =
+        std::vector<BoardSequence> sequences =
             get_stone_sequences(anti_diagonal);
 
         for (auto const& sequence : sequences)
@@ -356,11 +356,11 @@ Score Board::get_score(Stone stone) const
     return 0;
 }
 
-std::vector<StoneSequence>
-Board::get_stone_sequences(const StoneSequence& sequence)
+std::vector<BoardSequence>
+Board::get_stone_sequences(const BoardSequence& sequence)
 {
-    std::vector<StoneSequence> sequences;
-    StoneSequence              current_sequence;
+    std::vector<BoardSequence> sequences;
+    BoardSequence              current_sequence;
 
     int index = 0;
 
@@ -387,11 +387,11 @@ Board::get_stone_sequences(const StoneSequence& sequence)
     return sequences;
 }
 
-std::vector<StoneSequence>
-Board::get_stone_sequences(const StoneSequence& sequence, const Stone& stone)
+std::vector<BoardSequence>
+Board::get_stone_sequences(const BoardSequence& sequence, const Stone& stone)
 {
     auto                       all_sequences = get_stone_sequences(sequence);
-    std::vector<StoneSequence> filtered_sequence;
+    std::vector<BoardSequence> filtered_sequence;
 
     for (auto seq : all_sequences)
     {
@@ -413,15 +413,15 @@ template <typename T> void Board::handle_capture(const T& position)
     Stone stone = get_stone(row, col);
     Stone opponent_stone = stone == WHITE_STONE ? BLACK_STONE : WHITE_STONE;
 
-    StoneSequence capture_sequence = {stone, opponent_stone, opponent_stone,
+    BoardSequence capture_sequence = {stone, opponent_stone, opponent_stone,
                                       stone};
 
-    StoneSequence row_ = get_row(row);
+    BoardSequence row_ = get_row(row);
 
     // Handle captures to the left
     if (col >= 3)
     {
-        StoneSequence left =
+        BoardSequence left =
             std::vector<Stone>(row_.begin() + col - 3, row_.begin() + col + 1);
 
         if (left == capture_sequence)
@@ -435,7 +435,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures to the right
     if (col <= no_cols - 4)
     {
-        StoneSequence right =
+        BoardSequence right =
             std::vector<Stone>(row_.begin() + col, row_.begin() + col + 4);
 
         if (right == capture_sequence)
@@ -449,7 +449,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures below
     if (row >= 3)
     {
-        StoneSequence below;
+        BoardSequence below;
         for (int i = row; i >= row - 3; i--)
         {
             below.push_back(get_stone(i, col));
@@ -466,7 +466,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures above
     if (row <= no_rows - 4)
     {
-        StoneSequence above;
+        BoardSequence above;
         for (int i = row; i <= row + 3; i++)
         {
             above.push_back(get_stone(i, col));
@@ -483,7 +483,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures in the diagonal - down right
     if (row <= no_rows - 4 && col <= no_cols - 4)
     {
-        StoneSequence diagonal;
+        BoardSequence diagonal;
         for (int i = row, j = col; i >= row - 3 && j <= col + 3; i--, j++)
         {
             diagonal.push_back(get_stone(i, j));
@@ -500,7 +500,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures in the diagonal - up right
     if (row >= 3 && col <= no_cols - 4)
     {
-        StoneSequence diagonal;
+        BoardSequence diagonal;
         for (int i = row, j = col; i <= row + 3 && j <= col + 3; i++, j++)
         {
             diagonal.push_back(get_stone(i, j));
@@ -517,7 +517,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures in the diagonal - down left
     if (row <= no_rows - 4 && col >= 3)
     {
-        StoneSequence diagonal;
+        BoardSequence diagonal;
         for (int i = row, j = col; i >= row - 3 && j >= col - 3; i--, j--)
         {
             diagonal.push_back(get_stone(i, j));
@@ -534,7 +534,7 @@ template <typename T> void Board::handle_capture(const T& position)
     // Handle captures in the diagonal - up left
     if (row >= 3 && col >= 3)
     {
-        StoneSequence diagonal;
+        BoardSequence diagonal;
         for (int i = row, j = col; i <= row + 3 && j >= col - 3; i++, j--)
         {
             diagonal.push_back(get_stone(i, j));
@@ -595,7 +595,7 @@ template <typename T> void Board::make_move(const T& position)
 template void Board::make_move<Position>(const Position& position);
 template void Board::make_move<std::string>(const std::string& position);
 
-template <typename T> StoneSequence Board::get_col(T& position) const
+template <typename T> BoardSequence Board::get_col(T& position) const
 {
     Position position_ {position};
     int      col = position_.col;
@@ -603,17 +603,17 @@ template <typename T> StoneSequence Board::get_col(T& position) const
     return get_col(col);
 }
 
-template StoneSequence Board::get_col<Position>(Position& position) const;
+template BoardSequence Board::get_col<Position>(Position& position) const;
 
-template StoneSequence Board::get_col<std::string>(std::string& position) const;
+template BoardSequence Board::get_col<std::string>(std::string& position) const;
 
-template <typename T> StoneSequence Board::get_main_diagonal(T& position) const
+template <typename T> BoardSequence Board::get_main_diagonal(T& position) const
 {
     Position position_ {position};
     int      row = position_.row;
     int      col = position_.col;
 
-    StoneSequence diagonal;
+    BoardSequence diagonal;
 
     // Find the start of the diagonal
     int start_row = row;
@@ -643,19 +643,19 @@ template <typename T> StoneSequence Board::get_main_diagonal(T& position) const
     return diagonal;
 }
 
-template StoneSequence
+template BoardSequence
 Board::get_main_diagonal<Position>(Position& position) const;
 
-template StoneSequence
+template BoardSequence
 Board::get_main_diagonal<std::string>(std::string& position) const;
 
-template <typename T> StoneSequence Board::get_anti_diagonal(T& position) const
+template <typename T> BoardSequence Board::get_anti_diagonal(T& position) const
 {
     Position position_ {position};
     int      row = position_.row;
     int      col = position_.col;
 
-    StoneSequence diagonal;
+    BoardSequence diagonal;
 
     // Find the start of the diagonal
     int start_row = row;
@@ -685,8 +685,8 @@ template <typename T> StoneSequence Board::get_anti_diagonal(T& position) const
     return diagonal;
 }
 
-template StoneSequence
+template BoardSequence
 Board::get_anti_diagonal<Position>(Position& position) const;
 
-template StoneSequence
+template BoardSequence
 Board::get_anti_diagonal<std::string>(std::string& position) const;

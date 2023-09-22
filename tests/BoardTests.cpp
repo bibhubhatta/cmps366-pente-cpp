@@ -642,17 +642,17 @@ TEST_F(BoardTests, getStoneSequences)
     BoardDisplay board_display(board);
     board_display.render();
 
-    std::vector<StoneSequence> expected_stone_sequences = {
-        StoneSequence(3, Board::BLACK_STONE),
-        StoneSequence(2, Board::WHITE_STONE),
-        StoneSequence(3, Board::WHITE_STONE),
-        StoneSequence(2, Board::BLACK_STONE),
-        StoneSequence(1, Board::WHITE_STONE),
+    std::vector<BoardSequence> expected_stone_sequences = {
+        BoardSequence(3, Board::BLACK_STONE),
+        BoardSequence(2, Board::WHITE_STONE),
+        BoardSequence(3, Board::WHITE_STONE),
+        BoardSequence(2, Board::BLACK_STONE),
+        BoardSequence(1, Board::WHITE_STONE),
     };
 
     std::string                position = "J10";
-    StoneSequence              row = board.get_row(position);
-    std::vector<StoneSequence> stone_sequences =
+    BoardSequence              row = board.get_row(position);
+    std::vector<BoardSequence> stone_sequences =
         Board::get_stone_sequences(row);
 
     EXPECT_EQ(stone_sequences, expected_stone_sequences);
@@ -673,20 +673,20 @@ TEST_F(BoardTests, getStoneSequencesForParticularStone)
     BoardDisplay board_display(board);
     board_display.render();
 
-    std::vector<StoneSequence> expected_black_stone_sequences = {
-        StoneSequence(1, Board::BLACK_STONE),
-        StoneSequence(4, Board::BLACK_STONE),
+    std::vector<BoardSequence> expected_black_stone_sequences = {
+        BoardSequence(1, Board::BLACK_STONE),
+        BoardSequence(4, Board::BLACK_STONE),
     };
 
-    std::vector<StoneSequence> expected_white_stone_sequences = {
-        StoneSequence(3, Board::WHITE_STONE),
-        StoneSequence(2, Board::WHITE_STONE),
+    std::vector<BoardSequence> expected_white_stone_sequences = {
+        BoardSequence(3, Board::WHITE_STONE),
+        BoardSequence(2, Board::WHITE_STONE),
     };
 
     std::string   position = "J10";
-    StoneSequence col = board.get_col(position);
+    BoardSequence col = board.get_col(position);
 
-    std::vector<StoneSequence> stone_sequences =
+    std::vector<BoardSequence> stone_sequences =
         Board::get_stone_sequences(col);
 
     EXPECT_EQ(Board::get_stone_sequences(col, Board::WHITE_STONE),

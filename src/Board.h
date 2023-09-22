@@ -9,7 +9,7 @@
 
 typedef char               Stone;
 typedef int                Score;
-typedef std::vector<Stone> StoneSequence;
+typedef std::vector<Stone> BoardSequence;
 
 class Board
 {
@@ -42,22 +42,22 @@ class Board
                              int no_captured_black_pairs, int no_rows = 19,
                              int no_cols = 19);
 
-    static std::vector<StoneSequence>
-    get_stone_sequences(const StoneSequence& sequence);
-    static std::vector<StoneSequence>
-    get_stone_sequences(const StoneSequence& sequence, const Stone& stone);
+    static std::vector<BoardSequence>
+    get_stone_sequences(const BoardSequence& sequence);
+    static std::vector<BoardSequence>
+    get_stone_sequences(const BoardSequence& sequence, const Stone& stone);
 
     template <typename T> Stone get_stone(const T& position) const;
 
     int get_no_captured_pairs(Stone stone) const;
 
-    template <typename T> StoneSequence get_row(T& position) const;
+    template <typename T> BoardSequence get_row(T& position) const;
 
-    template <typename T> StoneSequence get_col(T& position) const;
+    template <typename T> BoardSequence get_col(T& position) const;
 
-    template <typename T> StoneSequence get_main_diagonal(T& position) const;
+    template <typename T> BoardSequence get_main_diagonal(T& position) const;
 
-    template <typename T> StoneSequence get_anti_diagonal(T& position) const;
+    template <typename T> BoardSequence get_anti_diagonal(T& position) const;
 
     /**
      * @brief Returns the number of stones of a given color on the board
@@ -82,7 +82,7 @@ class Board
     Score get_score(Stone stone) const;
 
   private:
-    StoneSequence        board;
+    BoardSequence        board;
     std::map<Stone, int> captured_pairs;
 
     Stone get_stone(int row, int col) const;
@@ -91,8 +91,8 @@ class Board
 
     // These are private because the row and col indices are 0-based in the
     // internal representation, but 1-based in the external representation
-    StoneSequence get_row(int row) const;
-    StoneSequence get_col(int col) const;
+    BoardSequence get_row(int row) const;
+    BoardSequence get_col(int col) const;
 
     Position           get_center() const;
     std::set<Position> get_empty_positions() const;
