@@ -2,6 +2,7 @@
 
 #include "BoardDisplay.h"
 #include "RoundDisplay.h"
+#include "UnicodeDisplayHelpers.h"
 
 using namespace tabulate;
 
@@ -14,13 +15,7 @@ tabulate::Table RoundDisplay::get_table() const
     Table round_table;
     round_table.add_row({board_table, score_table});
 
-    // Use unicode characters
-    round_table.format()
-        .border_top("─")
-        .border_bottom("─")
-        .border_left("│")
-        .border_right("│")
-        .corner("┼");
+    use_unicode_borders(round_table);
     //    round_table.column(1).format().font_align(FontAlign::center);
 
     return round_table;

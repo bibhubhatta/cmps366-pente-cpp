@@ -36,6 +36,7 @@ add_library(
         TournamentAnnouncement.cpp TournamentAnnouncement.h
         helpers.cpp helpers.h
         RoundDisplay.cpp RoundDisplay.h
+        UnicodeDisplayHelpers.cpp UnicodeDisplayHelpers.h
 )
 
 target_link_libraries(pente_lib

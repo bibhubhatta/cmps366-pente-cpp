@@ -4,6 +4,7 @@
 #include <tabulate/table.hpp>
 
 #include "BoardDisplay.h"
+#include "UnicodeDisplayHelpers.h"
 
 using namespace tabulate;
 
@@ -46,13 +47,7 @@ Table BoardDisplay::board_grid() const
 
     grid.add_row(col_labels);
 
-    // Use unicode characters for the grid
-    grid.format()
-        .border_top("─")
-        .border_bottom("─")
-        .border_left("│")
-        .border_right("│")
-        .corner("┼");
+    use_unicode_borders(grid);
 
     // Set label colors
     grid[board.no_rows].format().font_color(tabulate::Color::yellow);
