@@ -9,8 +9,13 @@ class Round
 {
   public:
     Round(const Roster& roster);
-    void  play();
+    void play();
+
     Score get_score(Player* player) const;
+    Board get_board() const;
+
+    std::vector<Player*> get_players() const;
+    Player*              get_winner() const;
 
   private:
     Roster                   roster;

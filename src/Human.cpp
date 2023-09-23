@@ -8,12 +8,6 @@
 
 Position Human::get_move(const Board& board) const
 {
-    BoardDisplay display(board);
-    display.render();
-
-    Stone stone = board.get_turn();
-    std::cout << "It is " << name << "'s turn (" << stone << ")." << std::endl;
-
     std::string input;
     while (true) // Loop to validate input
     {

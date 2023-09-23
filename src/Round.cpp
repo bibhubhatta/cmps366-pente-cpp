@@ -4,6 +4,7 @@
 #include "Exceptions.h"
 #include "Human.h"
 #include "Round.h"
+#include "RoundDisplay.h"
 
 Round::Round(const Roster& roster) : roster(roster) {}
 
@@ -12,11 +13,15 @@ void Round::play()
     Player* current_player = first_player();
     Player* other_player = next_player(current_player);
 
+    RoundDisplay display(*this);
+
     player_to_stone[current_player] = Board::WHITE_STONE;
     player_to_stone[other_player] = Board::BLACK_STONE;
 
     while (true)
     {
+        display.show();
+
         Position current_move = current_player->get_move(board);
 
         try
@@ -121,3 +126,13 @@ Player* Round::next_player(Player* player) const
 
     throw std::runtime_error("No other player found");
 }
+
+Board Round::get_board() const { return board; }
+
+std::vector<Player*> Round::get_players() const
+{
+    std::vector<Player*> players {get_human_player(), get_computer_player()};
+    return players;
+}
+
+Player* Round::get_winner() const { return winner; }
