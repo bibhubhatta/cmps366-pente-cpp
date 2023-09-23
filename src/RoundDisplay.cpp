@@ -15,8 +15,7 @@ tabulate::Table RoundDisplay::get_table() const
     Table round_table;
     round_table.add_row({board_table, score_table});
 
-    use_unicode_borders(round_table);
-    //    round_table.column(1).format().font_align(FontAlign::center);
+    round_table.format().width(50).hide_border();
 
     return round_table;
 }
@@ -30,6 +29,9 @@ tabulate::Table RoundDisplay::score_table() const
         score_table.add_row(
             {player->name, std::to_string(round.get_score(player))});
     }
+
+    use_unicode_borders(score_table);
+
     return score_table;
 }
 
