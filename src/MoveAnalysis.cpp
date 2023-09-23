@@ -82,3 +82,34 @@ int MoveAnalysis::capture_differential() const
 
     return captured_pairs_after - captured_pairs_before;
 }
+
+Score MoveAnalysis::pseudo_score_after_move() const
+{
+    Board board_ = board;
+    Stone current_player = board_.get_turn();
+
+    board_.make_move(move);
+    Score score = 0;
+
+    auto all_stone_sequences = board_.get_all_stone_sequences(current_player);
+
+    std::map<int, int> sequence_length_count;
+
+    for (auto const& sequence : all_stone_sequences)
+    {
+        sequence_length_count[sequence.size()]++;
+    }
+
+    for (auto [length, count] : sequence_length_count)
+    {
+        if (length == 1)
+        {
+            score += 0; // No score for single stones
+            continue;
+        }
+
+        score += count * length;
+    }
+
+    return score;
+}

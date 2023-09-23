@@ -18,6 +18,8 @@ class MoveAnalysis
     /// \return
     bool is_win_blocking_move() const;
 
+    Score pseudo_score_after_move() const;
+
     const Board    board;
     const Position move;
     int            capture_differential() const;

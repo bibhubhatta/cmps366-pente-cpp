@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "BoardDisplay.h"
+// #include "BoardDisplay.h"
 #include "MoveAnalysis.h"
 
 TEST(MoveAnalysisTests, firstMove)
@@ -89,5 +89,20 @@ TEST(MoveAnalysisTests, capturingMove)
     for (auto move : available_moves)
     {
         ASSERT_FALSE(MoveAnalysis(board, move).is_capturing_move());
+    }
+}
+
+TEST(MoveAnalysisTest, pseudoScoreAfterMove)
+{
+    Board board;
+
+    std::vector<std::pair<std::string, Score>> moves = {
+        {"J10", 0}, {"C4", 0}, {"J9", 2}, {"D5", 2}, {"I9", 6}, {"E6", 3}};
+
+    for (const auto& [move, score] : moves)
+    {
+        MoveAnalysis move_analysis(board, move);
+        ASSERT_EQ(move_analysis.pseudo_score_after_move(), score);
+        board.make_move(move);
     }
 }
