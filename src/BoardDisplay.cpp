@@ -5,11 +5,13 @@
 
 #include "BoardDisplay.h"
 
+using namespace tabulate;
+
 BoardDisplay::BoardDisplay(const Board& board) : board(board) {}
 
-void BoardDisplay::render() const
+Table BoardDisplay::board_grid() const
 {
-    tabulate::Table grid;
+    Table grid;
 
     for (int i = board.no_rows - 1; i >= 0; i--)
     {
@@ -56,5 +58,11 @@ void BoardDisplay::render() const
     grid[board.no_rows].format().font_color(tabulate::Color::yellow);
     grid.column(0).format().font_color(tabulate::Color::red);
 
-    std::cout << grid << std::endl;
+    return grid;
+}
+
+void BoardDisplay::render() const
+{
+    Table grid = board_grid();
+    fmt::print("{}\n", grid.str());
 }

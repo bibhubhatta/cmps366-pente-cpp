@@ -2,12 +2,17 @@
 
 #include <unordered_map>
 
+#include "tabulate/table.hpp"
+
 #include "Board.h"
 
 class BoardDisplay
 {
   public:
     BoardDisplay(const Board& board);
+
+    tabulate::Table board_grid() const;
+
     void render() const;
 
   private:
