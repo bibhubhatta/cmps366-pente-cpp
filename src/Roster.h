@@ -6,7 +6,7 @@
 
 #include "Player.h"
 
-typedef int Score;
+using Score = int;
 
 class Roster
 {
@@ -22,6 +22,8 @@ class Roster
     std::vector<Player*> get_players() const;
 
     Player* get_player_by_name(const std::string& name) const;
+
+    Player* get_winner() const;
 
   private:
     // Storing pointers because Player is an abstract class

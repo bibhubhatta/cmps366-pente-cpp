@@ -20,3 +20,7 @@ void Tournament::update_scores(const Round& round)
         roster.add_score(player, round.get_score(player));
     }
 }
+
+Roster Tournament::get_roster() const { return roster; }
+
+Player* Tournament::get_winner() const { return roster.get_winner(); }

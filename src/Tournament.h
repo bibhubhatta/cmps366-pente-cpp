@@ -12,6 +12,9 @@ class Tournament
     void add_player(Player* player);
     void play_a_round();
 
+    Roster  get_roster() const;
+    Player* get_winner() const;
+
   private:
     Roster roster;
     void   update_scores(const Round& round);

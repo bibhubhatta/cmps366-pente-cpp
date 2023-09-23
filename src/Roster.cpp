@@ -26,3 +26,20 @@ Player* Roster::get_player_by_name(const std::string& name) const
     }
     return nullptr;
 }
+
+Player* Roster::get_winner() const
+{
+    Score   highest_score = 0;
+    Player* winner = nullptr;
+
+    for (auto [player, score] : scores)
+    {
+        if (score > highest_score)
+        {
+            highest_score = score;
+            winner = player;
+        }
+    }
+
+    return winner;
+}
