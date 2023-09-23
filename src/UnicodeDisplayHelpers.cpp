@@ -14,6 +14,28 @@ void use_unicode_borders(tabulate::Table& table)
 
     for (auto& row : table)
     {
+        auto no_columns = row.size();
+        int  column_index = 0;
+        for (auto& column : row)
+        {
+            if (column_index == 0)
+            {
+                column.format().corner_top_left("├").corner_bottom_left("├");
+            }
+
+            if (column_index == no_columns - 1)
+            {
+                column.format().corner_top_right("┤").corner_bottom_right("┤");
+            }
+
+            if (column_index > 0 && column_index < no_columns - 1)
+            {
+                column.format().border_left("│").border_right("│");
+            }
+
+            column_index++;
+        }
+
         if (row_index == 0)
         {
             format_top_row(row);
