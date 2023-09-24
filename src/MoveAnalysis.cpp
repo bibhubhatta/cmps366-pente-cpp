@@ -85,6 +85,31 @@ int MoveAnalysis::win_delta() const
     return new_score - current_score;
 }
 
+int MoveAnalysis::lose_delta() const
+{
+
+    auto board_ = static_cast<ExperimentalBoard>(board);
+
+    Stone current_player = board_.get_turn();
+    Stone opponent = current_player == Board::WHITE_STONE ? Board::BLACK_STONE
+                                                          : Board::WHITE_STONE;
+
+    Score opponent_score = board_.get_score(opponent);
+
+    board_.set_stone(move, opponent);
+
+    try
+    {
+        board_.check_win();
+    }
+    catch (const std::exception& e)
+    {
+    }
+
+    Score new_opponent_score = board_.get_score(opponent);
+    return new_opponent_score - opponent_score;
+}
+
 int MoveAnalysis::capture_delta() const
 {
     auto current_player = board.get_turn();
@@ -132,28 +157,4 @@ Score MoveAnalysis::pseudo_score_after_move() const
     return score;
 }
 
-bool MoveAnalysis::is_opponent_winning_move() const
-{
-    auto board_ = static_cast<ExperimentalBoard>(board);
-
-    Stone current_player = board_.get_turn();
-    Stone opponent = current_player == Board::WHITE_STONE ? Board::BLACK_STONE
-                                                          : Board::WHITE_STONE;
-
-    board_.set_stone(move, opponent);
-
-    try
-    {
-        board_.check_win();
-    }
-    catch (const GameWon& e)
-    {
-        return true;
-    }
-    catch (const std::exception& e)
-    {
-        return false;
-    }
-
-    return false;
-}
+bool MoveAnalysis::is_opponent_winning_move() const { return lose_delta() > 0; }

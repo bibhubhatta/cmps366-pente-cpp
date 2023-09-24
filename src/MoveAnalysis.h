@@ -26,4 +26,5 @@ class MoveAnalysis
     const Position move;
     int            capture_delta() const;
     int            win_delta() const;
+    int            lose_delta() const;
 };
