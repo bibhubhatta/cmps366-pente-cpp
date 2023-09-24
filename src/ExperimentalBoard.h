@@ -12,4 +12,5 @@ template <typename T>
 void ExperimentalBoard::set_stone(const T& position, Stone stone)
 {
     Board::set_stone(position, stone);
+    Board::handle_capture(position);
 }

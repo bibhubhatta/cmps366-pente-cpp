@@ -97,6 +97,8 @@ class Board
   protected:
     template <typename T> void set_stone(const T& position, Stone stone);
 
+    template <typename T> void handle_capture(const T& position);
+
   private:
     BoardSequence        board;
     std::map<Stone, int> captured_pairs;
@@ -111,8 +113,6 @@ class Board
     Position           get_center() const;
     std::set<Position> get_empty_positions() const;
     int                get_no_moves_so_far() const;
-
-    template <typename T> void handle_capture(const T& position);
 
     void check_win_by_sequence() const;
     void check_win_by_no_capture() const;
