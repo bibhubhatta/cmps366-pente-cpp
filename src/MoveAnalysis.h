@@ -24,4 +24,5 @@ class MoveAnalysis
     const Board    board;
     const Position move;
     int            capture_delta() const;
+    int            win_delta() const;
 };

@@ -66,6 +66,24 @@ bool MoveAnalysis::is_losing_move() const { return !is_win_blocking_move(); }
 
 bool MoveAnalysis::is_capturing_move() const { return capture_delta() > 0; }
 
+int MoveAnalysis::win_delta() const
+{
+    Stone current_player = board.get_turn();
+    Score current_score = board.get_score(current_player);
+    Board board_ = board;
+
+    try
+    {
+        board_.make_move(move);
+    }
+    catch (const std::exception& e)
+    {
+    }
+
+    Score new_score = board_.get_score(current_player);
+    return new_score - current_score;
+}
+
 int MoveAnalysis::capture_delta() const
 {
     auto current_player = board.get_turn();
