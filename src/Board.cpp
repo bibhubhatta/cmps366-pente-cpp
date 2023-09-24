@@ -253,7 +253,7 @@ void Board::check_win_by_row() const
 
         for (auto const& sequence : sequences)
         {
-            if (sequence.size() == no_consecutive_stones_to_win)
+            if (sequence.size() >= no_consecutive_stones_to_win)
             {
                 throw GameWon(
                     sequence.at(0),
@@ -271,7 +271,7 @@ void Board::check_win_by_column() const
 
         for (auto const& sequence : sequences)
         {
-            if (sequence.size() == no_consecutive_stones_to_win)
+            if (sequence.size() >= no_consecutive_stones_to_win)
             {
                 throw GameWon(sequence.at(0),
                               fmt::format("{} in a column",
@@ -292,7 +292,7 @@ void Board::check_win_by_main_diagonal() const
 
         for (auto const& sequence : sequences)
         {
-            if (sequence.size() == no_consecutive_stones_to_win)
+            if (sequence.size() >= no_consecutive_stones_to_win)
             {
                 throw GameWon(sequence.at(0),
                               fmt::format("{} in a diagonal",
@@ -312,7 +312,7 @@ void Board::check_win_by_anti_diagonal() const
 
         for (auto const& sequence : sequences)
         {
-            if (sequence.size() == no_consecutive_stones_to_win)
+            if (sequence.size() >= no_consecutive_stones_to_win)
             {
                 throw GameWon(sequence.at(0),
                               fmt::format("{} in a diagonal",
