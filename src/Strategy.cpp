@@ -6,6 +6,8 @@
 #include "Strategy.h"
 #include "helpers.h"
 
+Strategy::Strategy(Board board) : board(board) {}
+
 StrategicMove Strategy::get_move()
 {
     std::string rationale;
@@ -38,12 +40,6 @@ StrategicMove Strategy::get_move()
         {
             capturing_move_deltas.emplace(move_analysis.capture_delta(),
                                           move.to_string());
-            continue;
-        }
-
-        if (move_analysis.is_losing_move())
-        {
-            losing_moves.insert(move);
             continue;
         }
     }

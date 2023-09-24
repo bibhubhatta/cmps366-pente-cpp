@@ -7,7 +7,8 @@ using StrategicMove = std::pair<Position, std::string>;
 class Strategy
 {
   public:
-    Strategy(Board board) {};
+    Strategy(Board board);
+    ;
 
     StrategicMove get_move();
 
