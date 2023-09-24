@@ -26,19 +26,24 @@ void Round::play()
 
         try
         {
-            move_history.emplace_back(current_player, current_move);
+
             board.make_move(current_move);
         }
         catch (const GameWon& e)
         {
             winner = current_player;
             is_over = true;
-            break;
         }
         catch (const GameDrawn& e)
         {
             is_draw = true;
             is_over = true;
+        }
+
+        move_history.emplace_back(current_player, current_move);
+
+        if (is_over)
+        {
             break;
         }
 
