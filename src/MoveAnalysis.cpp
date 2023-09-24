@@ -85,7 +85,7 @@ int MoveAnalysis::win_delta() const
     return new_score - current_score;
 }
 
-int MoveAnalysis::lose_delta() const
+int MoveAnalysis::opponent_win_delta() const
 {
 
     auto board_ = static_cast<ExperimentalBoard>(board);
@@ -107,7 +107,7 @@ int MoveAnalysis::lose_delta() const
     }
 
     Score new_opponent_score = board_.get_score(opponent);
-    return new_opponent_score - opponent_score;
+    return opponent_score - new_opponent_score;
 }
 
 int MoveAnalysis::capture_delta() const
@@ -157,4 +157,7 @@ Score MoveAnalysis::pseudo_score_after_move() const
     return score;
 }
 
-bool MoveAnalysis::is_opponent_winning_move() const { return lose_delta() > 0; }
+bool MoveAnalysis::is_opponent_winning_move() const
+{
+    return opponent_win_delta() < 0;
+}
