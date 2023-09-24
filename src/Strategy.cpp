@@ -51,7 +51,7 @@ StrategicMove Strategy::get_move()
         return {Position(winning_move), rationale};
     }
 
-    if (winning_move_deltas.size() > 1)
+    else if (winning_move_deltas.size() > 1)
     {
         // If there is only one highest win delta, then we can just choose that
         // move. Otherwise, hold off
@@ -86,6 +86,11 @@ StrategicMove Strategy::get_move()
         }
     }
 
+    else
+    {
+        rationale = fmt::format("{}There are no winning moves.", rationale);
+    }
+
     if (!capturing_move_deltas.empty())
     {
         auto [highest_capture_delta, highest_capture_delta_move] =
@@ -99,10 +104,12 @@ StrategicMove Strategy::get_move()
 
         return {Position(highest_capture_delta_move), rationale};
     }
+    else
+    {
+        rationale = fmt::format("{} There are no capturing moves.", rationale);
+    }
 
-    rationale = fmt::format("{}There are no winning or capturing moves. "
-                            "So, choosing a random move.",
-                            rationale);
+    rationale = fmt::format("{} Choosing a random available move.", rationale);
 
     auto random_move = get_random_element(available_moves);
     return {random_move, rationale};

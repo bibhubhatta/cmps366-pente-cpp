@@ -8,7 +8,6 @@ class Strategy
 {
   public:
     Strategy(Board board);
-    ;
 
     StrategicMove get_move();
 
