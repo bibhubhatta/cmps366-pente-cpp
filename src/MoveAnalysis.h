@@ -17,6 +17,7 @@ class MoveAnalysis
     /// it will return true; even if the move is a winning move for the player
     /// \return
     bool is_win_blocking_move() const;
+    bool is_losing_move() const;
 
     Score pseudo_score_after_move() const;
 

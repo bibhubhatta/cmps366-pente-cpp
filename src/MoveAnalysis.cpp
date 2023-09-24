@@ -62,6 +62,8 @@ bool MoveAnalysis::is_win_blocking_move() const
     return true;
 }
 
+bool MoveAnalysis::is_losing_move() const { return !is_win_blocking_move(); }
+
 bool MoveAnalysis::is_capturing_move() const
 {
     return capture_differential() > 0;
