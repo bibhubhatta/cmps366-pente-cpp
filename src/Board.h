@@ -87,6 +87,8 @@ class Board
     std::vector<BoardSequence> get_all_anti_diagonals() const;
 
     std::vector<BoardSequence> get_all_stone_sequences(Stone stone) const;
+    std::vector<BoardSequence> get_stone_sequences(Stone    stone,
+                                                   Position position) const;
 
     int get_no_stone_sequences(Stone stone, int sequence_length) const;
 

@@ -22,6 +22,7 @@ StrategicMove Strategy::get_move()
 
     std::priority_queue<std::pair<int, std::string>> winning_move_deltas;
     std::priority_queue<std::pair<int, std::string>> capturing_move_deltas;
+    std::priority_queue<std::pair<int, std::string>> pseudo_scores;
 
     std::set<Position> losing_moves;
 
@@ -42,6 +43,9 @@ StrategicMove Strategy::get_move()
                                           move.to_string());
             continue;
         }
+
+        pseudo_scores.emplace(move_analysis.pseudo_score_after_move(),
+                              move.to_string());
     }
 
     if (winning_move_deltas.size() == 1)
@@ -71,7 +75,7 @@ StrategicMove Strategy::get_move()
             rationale =
                 fmt::format("{}There are {} winning moves. "
                             "So, choosing the one that gets the most points. "
-                            "It wins {} points.",
+                            "It wins {} more points than current score.",
                             rationale, no_winning_moves, highest_win_delta);
 
             return {Position(highest_win_delta_move), rationale};
@@ -107,6 +111,17 @@ StrategicMove Strategy::get_move()
     else
     {
         rationale = fmt::format("{} There are no capturing moves.", rationale);
+    }
+
+    if (pseudo_scores.top().first != 0)
+    {
+        auto const& [highest_pseudo_score, highest_pseudo_score_move] =
+            pseudo_scores.top();
+
+        rationale =
+            fmt::format("{} Choosing the most optimal move.", rationale);
+
+        return {Position(highest_pseudo_score_move), rationale};
     }
 
     rationale = fmt::format("{} Choosing a random available move.", rationale);
