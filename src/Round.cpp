@@ -26,6 +26,7 @@ void Round::play()
 
         try
         {
+            move_history.emplace_back(current_player, current_move);
             board.make_move(current_move);
         }
         catch (const GameWon& e)
@@ -152,3 +153,4 @@ int Round::get_no_four_in_sequence(Player* Player) const
     Stone stone = get_stone(Player);
     return board.get_no_stone_sequences(stone, 4);
 }
+MoveHistory Round::get_move_history() const { return move_history; }

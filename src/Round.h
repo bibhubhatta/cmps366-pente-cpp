@@ -5,6 +5,8 @@
 #include "Human.h"
 #include "Roster.h"
 
+using MoveHistory = std::vector<std::pair<Player*, Position>>;
+
 class Round
 {
   public:
@@ -20,10 +22,13 @@ class Round
     int                  get_no_captures(Player* Player) const;
     int                  get_no_four_in_sequence(Player* Player) const;
 
+    MoveHistory get_move_history() const;
+
   private:
     Roster                   roster;
     Board                    board {19, 19};
     std::map<Player*, Stone> player_to_stone;
+    MoveHistory              move_history;
 
     Player* winner = nullptr;
     bool    is_draw = false;
