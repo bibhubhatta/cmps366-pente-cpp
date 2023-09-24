@@ -76,7 +76,7 @@ Player* Round::first_player() const
         }
         else
         {
-            return get_computer_player();
+            return next_player(human);
         }
     }
 
