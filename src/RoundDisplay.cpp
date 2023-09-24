@@ -23,11 +23,20 @@ tabulate::Table RoundDisplay::get_table() const
 tabulate::Table RoundDisplay::score_table() const
 {
     Table score_table;
-    score_table.add_row({"Player", "Score"});
+    score_table.add_row({"Player", "Stone", "Captures", "4Seq", "Score"});
     for (auto player : round.get_players())
     {
+        std::string player_name = player->name;
+        char        stone = round.get_stone(player);
+        int         no_captures = round.get_no_captures(player);
+        int         no_four_in_sequence = round.get_no_four_in_sequence(player);
+        Score       score = round.get_score(player);
+
+        std::string stone_str {stone};
+
         score_table.add_row(
-            {player->name, std::to_string(round.get_score(player))});
+            {player_name, stone_str, std::to_string(no_captures),
+             std::to_string(no_four_in_sequence), std::to_string(score)});
     }
 
     use_unicode_borders(score_table);

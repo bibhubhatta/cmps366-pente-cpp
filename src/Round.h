@@ -16,6 +16,9 @@ class Round
 
     std::vector<Player*> get_players() const;
     Player*              get_winner() const;
+    Stone                get_stone(Player* Player) const;
+    int                  get_no_captures(Player* Player) const;
+    int                  get_no_four_in_sequence(Player* Player) const;
 
   private:
     Roster                   roster;

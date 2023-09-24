@@ -512,6 +512,23 @@ std::vector<BoardSequence> Board::get_all_main_diagonals() const
     return all_main_diagonals;
 }
 
+int Board::get_no_stone_sequences(Stone stone, int sequence_length) const
+{
+    int no_sequences = 0;
+
+    auto all_stone_sequences = get_all_stone_sequences(stone);
+
+    for (auto const& sequence : all_stone_sequences)
+    {
+        if (sequence.size() == sequence_length)
+        {
+            no_sequences++;
+        }
+    }
+
+    return no_sequences;
+}
+
 template <typename T> void Board::handle_capture(const T& position)
 {
     Position position_ {position};

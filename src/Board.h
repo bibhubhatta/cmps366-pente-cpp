@@ -88,6 +88,8 @@ class Board
 
     std::vector<BoardSequence> get_all_stone_sequences(Stone stone) const;
 
+    int get_no_stone_sequences(Stone stone, int sequence_length) const;
+
   private:
     BoardSequence        board;
     std::map<Stone, int> captured_pairs;

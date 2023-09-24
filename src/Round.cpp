@@ -136,3 +136,19 @@ std::vector<Player*> Round::get_players() const
 }
 
 Player* Round::get_winner() const { return winner; }
+
+Stone Round::get_stone(Player* Player) const
+{
+    return player_to_stone.at(Player);
+}
+
+int Round::get_no_captures(Player* Player) const
+{
+    return board.get_no_captured_pairs(get_stone(Player));
+}
+
+int Round::get_no_four_in_sequence(Player* Player) const
+{
+    Stone stone = get_stone(Player);
+    return board.get_no_stone_sequences(stone, 4);
+}
