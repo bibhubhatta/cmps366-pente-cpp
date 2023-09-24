@@ -550,6 +550,12 @@ std::vector<BoardSequence> Board::get_stone_sequences(Stone    stone,
     return all_sequences_from_position;
 }
 
+void Board::check_win() const
+{
+    check_win_by_sequence();
+    check_win_by_no_capture();
+}
+
 template <typename T> void Board::handle_capture(const T& position)
 {
     Position position_ {position};

@@ -18,6 +18,7 @@ class MoveAnalysis
     /// \return
     bool is_win_blocking_move() const;
     bool is_losing_move() const;
+    bool is_opponent_winning_move() const;
 
     Score pseudo_score_after_move() const;
 

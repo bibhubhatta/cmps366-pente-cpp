@@ -38,6 +38,7 @@ add_library(
         RoundDisplay.cpp RoundDisplay.h
         UnicodeDisplayHelpers.cpp UnicodeDisplayHelpers.h
         Strategy.cpp Strategy.h
+        ExperimentalBoard.h
 )
 
 target_link_libraries(pente_lib

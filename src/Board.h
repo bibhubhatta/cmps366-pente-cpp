@@ -92,13 +92,16 @@ class Board
 
     int get_no_stone_sequences(Stone stone, int sequence_length) const;
 
+    void check_win() const;
+
+  protected:
+    template <typename T> void set_stone(const T& position, Stone stone);
+
   private:
     BoardSequence        board;
     std::map<Stone, int> captured_pairs;
 
     Stone get_stone(int row, int col) const;
-
-    template <typename T> void set_stone(const T& position, Stone stone);
 
     // These are private because the row and col indices are 0-based in the
     // internal representation, but 1-based in the external representation

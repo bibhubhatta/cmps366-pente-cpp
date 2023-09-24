@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-// #include "BoardDisplay.h"
 #include "MoveAnalysis.h"
 
 TEST(MoveAnalysisTests, firstMove)
@@ -97,12 +96,62 @@ TEST(MoveAnalysisTest, pseudoScoreAfterMove)
     Board board;
 
     std::vector<std::pair<std::string, Score>> moves = {
-        {"J10", 0}, {"C4", 0}, {"J9", 2}, {"D5", 2}, {"I9", 6}, {"E6", 3}};
+        {"J10", 0}, {"C4", 0}, {"J9", 2}, {"D5", 2}, {"I9", 4}, {"E6", 3}};
 
     for (const auto& [move, score] : moves)
     {
         MoveAnalysis move_analysis(board, move);
         ASSERT_EQ(move_analysis.pseudo_score_after_move(), score);
         board.make_move(move);
+    }
+}
+
+TEST(MoveAnalysisTest, opponentWinningMove)
+{
+    Board board;
+
+    std::vector<std::string> moves = {"J10", "C4", "J9", "D5",
+                                      "J8",  "E6", "J7"};
+
+    for (const auto& move : moves)
+    {
+        MoveAnalysis move_analysis(board, move);
+        ASSERT_FALSE(move_analysis.is_opponent_winning_move());
+        board.make_move(move);
+    }
+
+    std::vector<std::string> opponent_winning_moves = {"J6", "J11"};
+
+    for (const auto& move : opponent_winning_moves)
+    {
+        MoveAnalysis move_analysis(board, move);
+        ASSERT_TRUE(move_analysis.is_opponent_winning_move());
+    }
+}
+
+TEST(MoveAnalysisTest, opponentWinningMove2)
+{
+    Board board;
+
+    std::vector<std::string> moves = {
+        "J10", "B6", "A7", "B4", "A4", "B2", "A1",  "C5", "D7", "C4",
+        "D1",  "C3", "G7", "D6", "G4", "D5", "G1",  "D3", "S1", "D2",
+        "S3",  "E5", "S5", "E4", "S7", "E3", "S13", "F6", "S9", "F4",
+    };
+
+    for (const auto& move : moves)
+    {
+        MoveAnalysis move_analysis(board, move);
+        std::cout << move;
+        ASSERT_FALSE(move_analysis.is_opponent_winning_move());
+        board.make_move(move);
+    }
+
+    std::vector<std::string> opponent_winning_moves = {"D4"};
+
+    for (const auto& move : opponent_winning_moves)
+    {
+        MoveAnalysis move_analysis(board, move);
+        ASSERT_TRUE(move_analysis.is_opponent_winning_move());
     }
 }

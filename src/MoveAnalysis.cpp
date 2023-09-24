@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "Exceptions.h"
+#include "ExperimentalBoard.h"
 #include "MoveAnalysis.h"
 
 template <typename T>
@@ -129,4 +130,30 @@ Score MoveAnalysis::pseudo_score_after_move() const
     }
 
     return score;
+}
+
+bool MoveAnalysis::is_opponent_winning_move() const
+{
+    auto board_ = static_cast<ExperimentalBoard>(board);
+
+    Stone current_player = board_.get_turn();
+    Stone opponent = current_player == Board::WHITE_STONE ? Board::BLACK_STONE
+                                                          : Board::WHITE_STONE;
+
+    board_.set_stone(move, opponent);
+
+    try
+    {
+        board_.check_win();
+    }
+    catch (const GameWon& e)
+    {
+        return true;
+    }
+    catch (const std::exception& e)
+    {
+        return false;
+    }
+
+    return false;
 }
