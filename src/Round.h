@@ -4,6 +4,7 @@
 #include "Computer.h"
 #include "Human.h"
 #include "Roster.h"
+#include <string>
 
 using MoveHistory = std::vector<std::pair<Player*, Position>>;
 
@@ -24,15 +25,18 @@ class Round
 
     MoveHistory get_move_history() const;
 
+    std::string get_winning_reason() const;
+
   private:
     Roster                   roster;
     Board                    board {19, 19};
     std::map<Player*, Stone> player_to_stone;
     MoveHistory              move_history;
 
-    Player* winner = nullptr;
-    bool    is_draw = false;
-    bool    is_over = false;
+    Player*     winner = nullptr;
+    bool        is_draw = false;
+    bool        is_over = false;
+    std::string win_by;
 
     Player*              first_player() const;
     std::vector<Player*> sorted_players() const;

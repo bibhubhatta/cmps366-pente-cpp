@@ -95,3 +95,19 @@ void RoundDisplay::show() const
     //    std::cout << get_table() << std::endl;
     fmt::print("{}\n", get_table().str());
 }
+
+void RoundDisplay::announce_scores_and_winner() const
+{
+    Table score_table = RoundDisplay(round).score_table();
+
+    Table winner_table;
+    winner_table.add_row({"Winner", "Score", "Win By"});
+    winner_table.add_row({round.get_winner()->name,
+                          std::to_string(round.get_score(round.get_winner())),
+                          round.get_winning_reason()});
+    use_unicode_borders(winner_table);
+
+    fmt::print("\n{}\n", "Final Round Scores");
+    fmt::print("{}\n", score_table.str());
+    fmt::print("{}\n", winner_table.str());
+}

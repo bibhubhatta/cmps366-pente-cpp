@@ -17,6 +17,8 @@ class RoundDisplay
 
     void show() const;
 
+    void announce_scores_and_winner() const;
+
   private:
     const Round&    round;
     tabulate::Table history_table(int no_history_entries) const;

@@ -33,6 +33,7 @@ void Round::play()
         {
             winner = current_player;
             is_over = true;
+            win_by = e.reason;
         }
         catch (const GameDrawn& e)
         {
@@ -49,6 +50,8 @@ void Round::play()
 
         current_player = next_player(current_player);
     }
+
+    display.announce_scores_and_winner();
 }
 
 Score Round::get_score(Player* player) const
@@ -159,3 +162,5 @@ int Round::get_no_four_in_sequence(Player* Player) const
     return board.get_no_stone_sequences(stone, 4);
 }
 MoveHistory Round::get_move_history() const { return move_history; }
+
+std::string Round::get_winning_reason() const { return win_by; }
