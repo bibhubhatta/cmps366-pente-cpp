@@ -52,3 +52,7 @@ target_include_directories(pente_lib
 
 add_executable(pente main.cpp)
 target_link_libraries(pente pente_lib)
+
+
+add_executable(h_v_h main_human_v_human.cpp)
+target_link_libraries(h_v_h pente_lib)
