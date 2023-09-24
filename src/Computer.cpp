@@ -1,11 +1,15 @@
 #include "Computer.h"
+#include <iostream>
 
+#include "Strategy.h"
 #include "helpers.h"
 
 Position Computer::get_move(const Board& board) const
 {
-    std::set<Position> available_moves = board.get_available_positions();
-    auto               random_move = get_random_element(available_moves);
+    auto [move, rationale] = Strategy(board).get_move();
 
-    return random_move;
+    std::cout << "Computer's move: " << move.to_string() << std::endl;
+    std::cout << "Rationale: " << rationale << std::endl;
+
+    return move;
 }
