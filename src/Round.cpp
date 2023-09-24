@@ -132,7 +132,7 @@ Board Round::get_board() const { return board; }
 
 std::vector<Player*> Round::get_players() const
 {
-    std::vector<Player*> players {get_human_player(), get_computer_player()};
+    std::vector<Player*> players = roster.get_players();
     return players;
 }
 
