@@ -145,7 +145,7 @@ Stone Round::get_stone(Player* Player) const
 
 int Round::get_no_captures(Player* Player) const
 {
-    return board.get_no_captured_pairs(get_stone(Player));
+    return board.get_no_captured_pairs(get_stone(next_player(Player)));
 }
 
 int Round::get_no_four_in_sequence(Player* Player) const

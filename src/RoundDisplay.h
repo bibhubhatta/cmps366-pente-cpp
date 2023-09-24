@@ -18,5 +18,6 @@ class RoundDisplay
     void show() const;
 
   private:
-    const Round& round;
+    const Round&    round;
+    tabulate::Table history_table(int no_history_entries) const;
 };
