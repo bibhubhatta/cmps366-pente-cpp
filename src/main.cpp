@@ -5,7 +5,8 @@
 
 int main()
 {
-    Tournament tournament;
+    Tournament             tournament;
+    TournamentAnnouncement announcement {tournament};
 
     Human    human("Human");
     Computer computer("Computer");
@@ -16,6 +17,7 @@ int main()
     while (true)
     {
         tournament.play_a_round();
+        announcement.announce_scores();
 
         if (human.wants_to_play_again())
         {
@@ -27,5 +29,5 @@ int main()
         }
     }
 
-    TournamentAnnouncement(tournament).announce_results();
+    announcement.announce_results();
 }
