@@ -1,9 +1,9 @@
 #include <iostream>
-#include <random>
 
 #include "BoardDisplay.h"
 #include "Exceptions.h"
 #include "Human.h"
+#include "Strategy.h"
 #include "helpers.h"
 
 Position Human::get_move(const Board& board) const
@@ -11,8 +11,14 @@ Position Human::get_move(const Board& board) const
     std::string input;
     while (true) // Loop to validate input
     {
-        std::cout << "Enter a move (e.g. A10): ";
+        std::cout << "Enter a move (e.g. A10) or ask for help (h): ";
         std::cin >> input;
+
+        if (input == "h")
+        {
+            get_help(board);
+            continue;
+        }
 
         char col = input[0];
         col = toupper(col);
@@ -116,4 +122,12 @@ bool Human::wants_to_play_again()
     {
         return false;
     }
+}
+
+void Human::get_help(const Board& board)
+{
+    Strategy strategy(board);
+    auto [position, rationale] = strategy.get_move();
+
+    fmt::print("{} because {}\n", position.to_string(), rationale);
 }

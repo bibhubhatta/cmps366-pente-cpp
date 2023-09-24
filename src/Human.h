@@ -11,4 +11,5 @@ class Human : public Player
 
     static bool won_toss();
     static bool wants_to_play_again();
+    static void get_help(const Board& board);
 };
