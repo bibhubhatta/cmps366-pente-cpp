@@ -28,6 +28,8 @@ class Round
 
     std::string get_winning_reason() const;
 
+    bool is_round_over() const;
+
   private:
     Roster                   roster;
     Board                    board {19, 19};

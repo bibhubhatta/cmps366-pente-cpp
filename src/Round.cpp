@@ -169,3 +169,5 @@ int Round::get_no_four_in_sequence(Player* Player) const
 MoveHistory Round::get_move_history() const { return move_history; }
 
 std::string Round::get_winning_reason() const { return win_by; }
+
+bool Round::is_round_over() const { return is_over; }
