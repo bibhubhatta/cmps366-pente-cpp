@@ -113,7 +113,8 @@ StrategicMove Strategy::get_move()
 
     if (opponent_winning_move_deltas.size() == 1)
     {
-        auto [highest_opponent_win_delta, highest_opponent_win_delta_move] =
+        auto const& [highest_opponent_win_delta,
+                     highest_opponent_win_delta_move] =
             opponent_winning_move_deltas.top();
 
         rationale =
@@ -160,7 +161,7 @@ StrategicMove Strategy::get_move()
 
     else if (capturing_move_deltas.size() == 1)
     {
-        auto [highest_capture_delta, highest_capture_delta_move] =
+        auto const& [highest_capture_delta, highest_capture_delta_move] =
             capturing_move_deltas.top();
 
         rationale = fmt::format("it is a capturing move. {}", rationale);
@@ -192,8 +193,8 @@ StrategicMove Strategy::get_move()
 
     else if (opponent_capture_deltas.size() == 1)
     {
-        auto [highest_opponent_capture_delta,
-              highest_opponent_capture_delta_move] =
+        auto const& [highest_opponent_capture_delta,
+                     highest_opponent_capture_delta_move] =
             opponent_capture_deltas.top();
 
         rationale =
