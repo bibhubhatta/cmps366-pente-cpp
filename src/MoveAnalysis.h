@@ -20,6 +20,7 @@ class MoveAnalysis
     bool is_losing_move() const;
     bool is_opponent_winning_move() const;
     bool is_opponent_scoring_move() const;
+    bool is_opponent_capturing_move() const;
 
     Score pseudo_score_after_move() const;
 
@@ -28,4 +29,5 @@ class MoveAnalysis
     int            capture_delta() const;
     int            score_delta() const;
     int            opponent_score_delta() const;
+    int            opponent_capture_delta() const;
 };

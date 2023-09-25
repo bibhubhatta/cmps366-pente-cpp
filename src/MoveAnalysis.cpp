@@ -186,3 +186,27 @@ bool MoveAnalysis::is_opponent_scoring_move() const
 {
     return opponent_score_delta() < 0;
 }
+
+bool MoveAnalysis::is_opponent_capturing_move() const
+{
+    return opponent_capture_delta() < 0;
+}
+
+int MoveAnalysis::opponent_capture_delta() const
+{
+
+    ExperimentalBoard board_ = static_cast<ExperimentalBoard>(board);
+
+    auto current_player = board_.get_turn();
+    auto opponent = current_player == Board::WHITE_STONE ? Board::BLACK_STONE
+                                                         : Board::WHITE_STONE;
+
+    auto captured_pairs_before = board_.get_no_captured_pairs(current_player);
+
+    board_.set_stone(move, opponent);
+
+    auto captured_pairs_after = board_.get_no_captured_pairs(current_player);
+
+    // delta is negative because we want to know how many pairs we lose
+    return captured_pairs_before - captured_pairs_after;
+}

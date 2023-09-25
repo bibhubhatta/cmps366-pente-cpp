@@ -24,6 +24,7 @@ StrategicMove Strategy::get_move()
     std::priority_queue<std::pair<int, std::string>>
         opponent_winning_move_deltas;
     std::priority_queue<std::pair<int, std::string>> capturing_move_deltas;
+    std::priority_queue<std::pair<int, std::string>> opponent_capture_deltas;
     std::priority_queue<std::pair<int, std::string>> pseudo_scores;
 
     std::set<Position> losing_moves;
@@ -50,6 +51,13 @@ StrategicMove Strategy::get_move()
         {
             capturing_move_deltas.emplace(move_analysis.capture_delta(),
                                           move.to_string());
+            continue;
+        }
+
+        if (move_analysis.is_opponent_capturing_move())
+        {
+            opponent_capture_deltas.emplace(
+                move_analysis.opponent_capture_delta(), move.to_string());
             continue;
         }
 
@@ -136,25 +144,72 @@ StrategicMove Strategy::get_move()
     else
     {
         rationale =
-            fmt::format("{} There are no opponent scoring moves.", rationale);
+            fmt::format("{} There are no opponent winning moves.", rationale);
     }
 
-    if (!capturing_move_deltas.empty())
+    if (capturing_move_deltas.size() > 1)
     {
         auto [highest_capture_delta, highest_capture_delta_move] =
             capturing_move_deltas.top();
 
         rationale = fmt::format(
-            "{}There are {} capturing moves. "
-            "So, choosing the one that gets the most points. "
+            "{} There are {} capturing moves. "
+            "So, choosing the capturing move that gets the most points. "
             "It captures {} points.",
             rationale, capturing_move_deltas.size(), highest_capture_delta);
 
         return {Position(highest_capture_delta_move), rationale};
     }
+
+    else if (capturing_move_deltas.size() == 1)
+    {
+        auto [highest_capture_delta, highest_capture_delta_move] =
+            capturing_move_deltas.top();
+
+        rationale = fmt::format("it is a capturing move. {}", rationale);
+
+        return {Position(highest_capture_delta_move), rationale};
+    }
+
     else
     {
         rationale = fmt::format("{} There are no capturing moves.", rationale);
+    }
+
+    if (opponent_capture_deltas.size() > 1)
+    {
+        // opponent_captur_delta returns negative as it represents the number of
+        // pairs we loose
+        auto [highest_opponent_capture_delta,
+              highest_opponent_capture_delta_move] =
+            opponent_capture_deltas.top();
+
+        rationale = fmt::format("{} There are {} opponent capturing moves. "
+                                "So, choosing the capturing move that gives "
+                                "opponent the least capture. "
+                                "Will lose {} pairs",
+                                rationale, opponent_capture_deltas.size(),
+                                -highest_opponent_capture_delta);
+
+        return {Position(highest_opponent_capture_delta_move), rationale};
+    }
+
+    else if (opponent_capture_deltas.size() == 1)
+    {
+        auto [highest_opponent_capture_delta,
+              highest_opponent_capture_delta_move] =
+            opponent_capture_deltas.top();
+
+        rationale =
+            fmt::format("{} Prevents opponent from capturing.", rationale);
+
+        return {Position(highest_opponent_capture_delta_move), rationale};
+    }
+
+    else
+    {
+        rationale =
+            fmt::format("{} There are no opponent capturing moves.", rationale);
     }
 
     if (pseudo_scores.top().first != 0)
