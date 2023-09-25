@@ -16,7 +16,7 @@ StrategicMove Strategy::get_move()
 
     if (available_moves.size() == 1)
     {
-        rationale = "Only move.";
+        rationale = "it is the only available move.";
         return {*available_moves.begin(), rationale};
     }
 
@@ -67,7 +67,7 @@ StrategicMove Strategy::get_move()
 
     if (winning_move_deltas.size() == 1)
     {
-        rationale = "Winning move.";
+        rationale = "it is a winning move.";
         auto winning_move = winning_move_deltas.top().second;
         return {Position(winning_move), rationale};
     }
@@ -89,11 +89,10 @@ StrategicMove Strategy::get_move()
 
         if (highest_win_delta > second_highest_win_delta)
         {
-            rationale =
-                fmt::format("{}There are {} winning moves. "
-                            "So, choosing the one that gets the most points. "
-                            "It wins {} more points than current score.",
-                            rationale, no_winning_moves, highest_win_delta);
+            rationale = fmt::format(
+                "it gets the most points. It wins {} more points than the "
+                "current score. There are {} winning moves. {}",
+                highest_win_delta, no_winning_moves, rationale);
 
             return {Position(highest_win_delta_move), rationale};
         }
@@ -117,8 +116,8 @@ StrategicMove Strategy::get_move()
         auto [highest_opponent_win_delta, highest_opponent_win_delta_move] =
             opponent_winning_move_deltas.top();
 
-        rationale = fmt::format("{} Opponent's winning move.", rationale,
-                                highest_opponent_win_delta);
+        rationale =
+            fmt::format("opponent can win by playing here. {}", rationale);
 
         return {Position(highest_opponent_win_delta_move), rationale};
     }
@@ -133,10 +132,9 @@ StrategicMove Strategy::get_move()
                      second_highest_opponent_win_delta_move] =
             opponent_winning_move_deltas.top();
 
-        rationale = fmt::format("{}There are {} opponent winning moves. "
-                                "So, choosing the one that gives opponent the "
-                                "least points.",
-                                rationale, opponent_winning_move_deltas.size());
+        rationale = fmt::format(" it gives the opponent the least points. "
+                                "Opponent has {} winning moves. {}",
+                                opponent_winning_move_deltas.size(), rationale);
 
         return {Position(highest_opponent_win_delta_move), rationale};
     }
@@ -152,11 +150,10 @@ StrategicMove Strategy::get_move()
         auto [highest_capture_delta, highest_capture_delta_move] =
             capturing_move_deltas.top();
 
-        rationale = fmt::format(
-            "{} There are {} capturing moves. "
-            "So, choosing the capturing move that gets the most points. "
-            "It captures {} points.",
-            rationale, capturing_move_deltas.size(), highest_capture_delta);
+        rationale = fmt::format("it captures the most points. There are {} "
+                                "capturing moves, and it captures {} pairs. {}",
+                                capturing_move_deltas.size(),
+                                highest_capture_delta, rationale);
 
         return {Position(highest_capture_delta_move), rationale};
     }
@@ -184,12 +181,11 @@ StrategicMove Strategy::get_move()
               highest_opponent_capture_delta_move] =
             opponent_capture_deltas.top();
 
-        rationale = fmt::format("{} There are {} opponent capturing moves. "
-                                "So, choosing the capturing move that gives "
-                                "opponent the least capture. "
-                                "Will lose {} pairs",
-                                rationale, opponent_capture_deltas.size(),
-                                -highest_opponent_capture_delta);
+        rationale = fmt::format(
+            "it prevents the opponent from capturing the most pairs. There "
+            "are {} opponent capturing moves, and it will lose {} pairs. {}",
+            opponent_capture_deltas.size(), highest_opponent_capture_delta,
+            rationale);
 
         return {Position(highest_opponent_capture_delta_move), rationale};
     }
@@ -201,7 +197,7 @@ StrategicMove Strategy::get_move()
             opponent_capture_deltas.top();
 
         rationale =
-            fmt::format("{} Prevents opponent from capturing.", rationale);
+            fmt::format("it prevents opponent from capturing. {}", rationale);
 
         return {Position(highest_opponent_capture_delta_move), rationale};
     }
@@ -217,13 +213,13 @@ StrategicMove Strategy::get_move()
         auto const& [highest_pseudo_score, highest_pseudo_score_move] =
             pseudo_scores.top();
 
-        rationale =
-            fmt::format("{} Choosing the most optimal move.", rationale);
+        rationale = fmt::format("it is the most optimal move. {}", rationale);
 
         return {Position(highest_pseudo_score_move), rationale};
     }
 
-    rationale = fmt::format("{} Choosing a random available move.", rationale);
+    rationale = fmt::format(
+        "all moves are similar, so choosing a random move. {}", rationale);
 
     auto random_move = get_random_element(available_moves);
     return {random_move, rationale};

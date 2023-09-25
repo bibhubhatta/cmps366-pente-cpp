@@ -184,12 +184,12 @@ bool MoveAnalysis::is_opponent_winning_move() const
 
 bool MoveAnalysis::is_opponent_scoring_move() const
 {
-    return opponent_score_delta() < 0;
+    return opponent_score_delta() != 0;
 }
 
 bool MoveAnalysis::is_opponent_capturing_move() const
 {
-    return opponent_capture_delta() < 0;
+    return opponent_capture_delta() != 0;
 }
 
 int MoveAnalysis::opponent_capture_delta() const
@@ -207,6 +207,5 @@ int MoveAnalysis::opponent_capture_delta() const
 
     auto captured_pairs_after = board_.get_no_captured_pairs(current_player);
 
-    // delta is negative because we want to know how many pairs we lose
-    return captured_pairs_before - captured_pairs_after;
+    return captured_pairs_after - captured_pairs_before;
 }
