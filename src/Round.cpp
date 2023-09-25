@@ -8,6 +8,11 @@
 
 Round::Round(const Roster& roster) : roster(roster) {}
 
+Round::Round(const Roster& roster, const Board& board)
+    : roster(roster), board(board)
+{
+}
+
 void Round::play()
 {
     Player* current_player = first_player();

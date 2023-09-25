@@ -12,6 +12,7 @@ class Round
 {
   public:
     Round(const Roster& roster);
+    Round(const Roster& roster, const Board& board);
     void play();
 
     Score get_score(Player* player) const;
