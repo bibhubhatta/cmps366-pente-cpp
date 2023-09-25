@@ -21,6 +21,8 @@ StrategicMove Strategy::get_move()
     }
 
     std::priority_queue<std::pair<int, std::string>> winning_move_deltas;
+    std::priority_queue<std::pair<int, std::string>>
+        opponent_winning_move_deltas;
     std::priority_queue<std::pair<int, std::string>> capturing_move_deltas;
     std::priority_queue<std::pair<int, std::string>> pseudo_scores;
 
@@ -32,8 +34,15 @@ StrategicMove Strategy::get_move()
 
         if (move_analysis.is_winning_move())
         {
-            winning_move_deltas.emplace(move_analysis.win_delta(),
+            winning_move_deltas.emplace(move_analysis.score_delta(),
                                         move.to_string());
+            continue;
+        }
+
+        if (move_analysis.is_opponent_winning_move())
+        {
+            opponent_winning_move_deltas.emplace(
+                move_analysis.opponent_score_delta(), move.to_string());
             continue;
         }
 
@@ -93,6 +102,41 @@ StrategicMove Strategy::get_move()
     else
     {
         rationale = fmt::format("{}There are no winning moves.", rationale);
+    }
+
+    if (opponent_winning_move_deltas.size() == 1)
+    {
+        auto [highest_opponent_win_delta, highest_opponent_win_delta_move] =
+            opponent_winning_move_deltas.top();
+
+        rationale = fmt::format("{} Opponent's winning move.", rationale,
+                                highest_opponent_win_delta);
+
+        return {Position(highest_opponent_win_delta_move), rationale};
+    }
+
+    else if (opponent_winning_move_deltas.size() > 1)
+    {
+        auto const& [highest_opponent_win_delta,
+                     highest_opponent_win_delta_move] =
+            opponent_winning_move_deltas.top();
+
+        auto const& [second_highest_opponent_win_delta,
+                     second_highest_opponent_win_delta_move] =
+            opponent_winning_move_deltas.top();
+
+        rationale = fmt::format("{}There are {} opponent winning moves. "
+                                "So, choosing the one that gives opponent the "
+                                "least points.",
+                                rationale, opponent_winning_move_deltas.size());
+
+        return {Position(highest_opponent_win_delta_move), rationale};
+    }
+
+    else
+    {
+        rationale =
+            fmt::format("{} There are no opponent scoring moves.", rationale);
     }
 
     if (!capturing_move_deltas.empty())

@@ -19,12 +19,13 @@ class MoveAnalysis
     bool is_win_blocking_move() const;
     bool is_losing_move() const;
     bool is_opponent_winning_move() const;
+    bool is_opponent_scoring_move() const;
 
     Score pseudo_score_after_move() const;
 
     const Board    board;
     const Position move;
     int            capture_delta() const;
-    int            win_delta() const;
-    int            opponent_win_delta() const;
+    int            score_delta() const;
+    int            opponent_score_delta() const;
 };
