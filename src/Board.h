@@ -96,6 +96,10 @@ class Board
 
     std::string to_string() const;
 
+    Position get_center() const;
+
+    std::set<Position> get_neighbors(const Position& position) const;
+
   protected:
     template <typename T> void set_stone(const T& position, Stone stone);
 
@@ -112,7 +116,6 @@ class Board
     BoardSequence get_row(int row) const;
     BoardSequence get_col(int col) const;
 
-    Position           get_center() const;
     std::set<Position> get_empty_positions() const;
     int                get_no_moves_so_far() const;
 

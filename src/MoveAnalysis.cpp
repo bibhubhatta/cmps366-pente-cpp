@@ -230,3 +230,9 @@ int MoveAnalysis::opponent_capture_delta() const
 
     return captured_pairs_after - captured_pairs_before;
 }
+
+int MoveAnalysis::distance_from_center() const
+{
+    auto center = board.get_center();
+    return move.distance(center);
+}

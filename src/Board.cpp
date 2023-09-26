@@ -590,6 +590,36 @@ std::string Board::to_string() const
     return board_string;
 }
 
+std::set<Position> Board::get_neighbors(const Position& position) const
+{
+    std::set<Position> neighbors;
+
+    int row = position.row;
+    int col = position.col;
+
+    if (row > 0)
+    {
+        neighbors.insert(Position(row - 1, col));
+    }
+
+    if (row < no_rows - 1)
+    {
+        neighbors.insert(Position(row + 1, col));
+    }
+
+    if (col > 0)
+    {
+        neighbors.insert(Position(row, col - 1));
+    }
+
+    if (col < no_cols - 1)
+    {
+        neighbors.insert(Position(row, col + 1));
+    }
+
+    return neighbors;
+}
+
 template <typename T> void Board::handle_capture(const T& position)
 {
     Position position_ {position};

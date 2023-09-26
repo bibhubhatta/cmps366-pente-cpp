@@ -32,4 +32,6 @@ class MoveAnalysis
     int            opponent_score_delta() const;
     int            opponent_capture_delta() const;
     Score          opponent_pseudo_score_after_move() const;
+
+    int distance_from_center() const;
 };
