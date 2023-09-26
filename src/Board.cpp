@@ -757,7 +757,7 @@ template <typename T> void Board::handle_capture(const T& position)
     }
 
     // Handle captures in the diagonal - down right
-    if (row <= no_rows - 4 && col <= no_cols - 4)
+    if (row >= 3 && col <= no_cols - 4)
     {
         BoardSequence diagonal;
         for (int i = row, j = col; i >= row - 3 && j <= col + 3; i--, j++)
@@ -774,7 +774,7 @@ template <typename T> void Board::handle_capture(const T& position)
     }
 
     // Handle captures in the diagonal - up right
-    if (row >= 3 && col <= no_cols - 4)
+    if (row <= no_rows - 4 && col <= no_cols - 4)
     {
         BoardSequence diagonal;
         for (int i = row, j = col; i <= row + 3 && j <= col + 3; i++, j++)
@@ -791,7 +791,7 @@ template <typename T> void Board::handle_capture(const T& position)
     }
 
     // Handle captures in the diagonal - down left
-    if (row <= no_rows - 4 && col >= 3)
+    if (row >= 3 && col >= 3)
     {
         BoardSequence diagonal;
         for (int i = row, j = col; i >= row - 3 && j >= col - 3; i--, j--)
@@ -808,7 +808,7 @@ template <typename T> void Board::handle_capture(const T& position)
     }
 
     // Handle captures in the diagonal - up left
-    if (row >= 3 && col >= 3)
+    if (row <= no_rows - 4 && col >= 3)
     {
         BoardSequence diagonal;
         for (int i = row, j = col; i <= row + 3 && j >= col - 3; i++, j--)
