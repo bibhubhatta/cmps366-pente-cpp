@@ -107,7 +107,7 @@ int MoveAnalysis::opponent_score_delta() const
     }
 
     Score new_opponent_score = board_.get_score(opponent);
-    return opponent_score - new_opponent_score;
+    return new_opponent_score - opponent_score;
 }
 
 int MoveAnalysis::capture_delta() const

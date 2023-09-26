@@ -10,8 +10,8 @@ Strategy::Strategy(Board board) : board(board) {}
 
 StrategicMove Strategy::get_move()
 {
-    using analysis =
-        std::tuple<int, int, int, int, int, Score, Score, int, std::string>;
+    using analysis = std::tuple<int, int, int, int, int, int, Score, Score, int,
+                                std::string>;
     std::vector<analysis> move_analyses;
 
     std::set<Position> available_moves = board.get_available_positions();
@@ -22,8 +22,9 @@ StrategicMove Strategy::get_move()
         move_analyses.emplace_back(
             move_analysis.is_winning_move(),
             move_analysis.is_opponent_winning_move(),
+            move_analysis.score_delta(), move_analysis.opponent_score_delta(),
             move_analysis.capture_delta(),
-            move_analysis.opponent_capture_delta(), move_analysis.score_delta(),
+            move_analysis.opponent_capture_delta(),
             move_analysis.is_capture_safe(),
             move_analysis.pseudo_score_after_move(),
             -move_analysis.distance_from_center(), move.to_string());
@@ -31,10 +32,10 @@ StrategicMove Strategy::get_move()
 
     std::sort(move_analyses.begin(), move_analyses.end());
 
-    auto const& [winning_move, opponent_winning_move, capturing_move,
-                 opponent_capturing_move, score_after_move, is_capture_safe,
-                 pseudo_score_after_move, neg_distance_from_center,
-                 position_str] = move_analyses.back();
+    auto const& [winning_move, opponent_winning_move, score_delta,
+                 opponent_score_delta, capturing_move, opponent_capturing_move,
+                 is_capture_safe, pseudo_score_after_move,
+                 neg_distance_from_center, position_str] = move_analyses.back();
 
     Position    position {position_str};
     std::string rationale;
