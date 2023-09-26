@@ -48,27 +48,77 @@ StrategicMove Strategy::get_move()
 
     if (winning_move)
     {
-        rationale = "it is a winning move.";
+
+        auto second_best_move = move_analyses.back();
+        move_analyses.pop_back();
+
+        if (std::get<0>(second_best_move))
+        {
+            Score second_best_score_delta = std::get<2>(second_best_move);
+            if (score_delta > second_best_score_delta)
+            {
+                rationale = fmt::format(
+                    "it is the best winning move; it scores {} more points "
+                    "than the second best winning move.",
+                    score_delta - second_best_score_delta);
+
+                return {position, rationale};
+            }
+            else
+            {
+
+                for (auto x : move_analyses)
+                {
+                    if (std::get<2>(x))
+                    {
+                        rationale = fmt::format(
+                            "even though there are more than one winning moves "
+                            "that lead to same score, opponent can win on "
+                            "their next move. So playing the winning move.");
+                        return {position, rationale};
+                    }
+                }
+                
+                rationale =
+                    fmt::format("There are more than one winning moves that "
+                                "lead to the same score, so holding off.");
+                while (std::get<0>(move_analyses.back()))
+                {
+                    move_analyses.pop_back();
+                }
+            }
+        }
     }
-    else if (opponent_winning_move)
+
+    auto const& [winning_move_, opponent_winning_move_, score_delta_,
+                 opponent_score_delta_, capturing_move_,
+                 opponent_capturing_move_, is_capture_safe_,
+                 pseudo_score_after_move_, neg_distance_from_center_,
+                 position_str_] = move_analyses.back();
+
+    if (opponent_winning_move_)
     {
-        rationale = "it prevents the opponent from making a winning move.";
+        rationale = fmt::format(
+            "it prevents the opponent from making a winning move. {}",
+            rationale);
     }
-    else if (capturing_move)
+    else if (capturing_move_)
     {
-        rationale = "it is a capturing move.";
+        rationale = fmt::format("it is a capturing move. {}", rationale);
     }
-    else if (opponent_capturing_move)
+    else if (opponent_capturing_move_)
     {
-        rationale = "it is a capture blocking move.";
+        rationale = fmt::format("it is a capture blocking move. {}", rationale);
     }
-    else if (pseudo_score_after_move > 0)
+    else if (pseudo_score_after_move_ > 0)
     {
-        rationale = "it is the most optimal move.";
+        rationale = fmt::format("it is the most optimal move. {}", rationale);
     }
     else
     {
-        rationale = "it is an arbitrary move. All moves are equally optimal.";
+        rationale = fmt::format(
+            "it is an arbitrary move. All moves are equally optimal. {}",
+            rationale);
     }
 
     return {position, rationale};
