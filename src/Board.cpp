@@ -186,7 +186,11 @@ Stone Board::get_turn() const
     }
     else
     {
-        throw std::runtime_error("Invalid number of stones on board");
+        throw std::runtime_error(fmt::format(
+            "Invalid number of stones on board. There are {} white stones and "
+            "{} black stones after accounting for captured pairs. The "
+            "difference must be 0 or 1.",
+            no_white_stones, no_black_stones));
     }
 }
 
