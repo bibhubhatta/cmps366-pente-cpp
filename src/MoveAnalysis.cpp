@@ -132,9 +132,17 @@ Score MoveAnalysis::pseudo_score_after_move() const
     Stone current_player = board_.get_turn();
 
     board_.make_move(move);
+    Score score = calculate_pseudo_score(board_, current_player);
+
+    return score;
+}
+
+Score MoveAnalysis::calculate_pseudo_score(const Board& board_,
+                                           const Stone& stone) const
+{
     Score score = 0;
 
-    auto all_stone_sequences = board_.get_stone_sequences(current_player, move);
+    auto all_stone_sequences = board_.get_stone_sequences(stone, move);
 
     std::map<int, int> sequence_length_count;
 
