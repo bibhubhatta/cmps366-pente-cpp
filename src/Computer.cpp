@@ -1,15 +1,13 @@
 #include "Computer.h"
-#include <iostream>
-
 #include "Strategy.h"
-#include "helpers.h"
+
+#include "fmt/core.h"
 
 Position Computer::get_move(const Board& board) const
 {
     auto [move, rationale] = Strategy(board).get_move();
 
-    std::cout << "Computer's move: " << move.to_string() << std::endl;
-    std::cout << "Rationale: " << rationale << std::endl;
+    fmt::print("Computer chose {} because {}\n", move.to_string(), rationale);
 
     return move;
 }
