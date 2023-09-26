@@ -127,5 +127,5 @@ StrategicMove Strategy::get_move()
             rationale);
     }
 
-    return {position, rationale};
+    return {position_str_, rationale};
 }
