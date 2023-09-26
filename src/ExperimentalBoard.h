@@ -6,6 +6,8 @@ class ExperimentalBoard : public Board
 {
   public:
     template <typename T> void set_stone(const T& position, Stone stone);
+    ExperimentalBoard() = default;
+    ExperimentalBoard(const Board& board) : Board(board) {};
 };
 
 template <typename T>

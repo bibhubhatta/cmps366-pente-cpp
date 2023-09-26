@@ -29,7 +29,7 @@ StrategicMove Strategy::get_move()
             -move_analysis.distance_from_center(), move.to_string());
     }
 
-    std::ranges::sort(move_analyses.begin(), move_analyses.end());
+    std::sort(move_analyses.begin(), move_analyses.end());
 
     auto const& [winning_move, opponent_winning_move, capturing_move,
                  opponent_capturing_move, score_after_move, is_capture_safe,
