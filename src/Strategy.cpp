@@ -52,7 +52,7 @@ StrategicMove Strategy::get_move()
     }
     else if (opponent_winning_move)
     {
-        rationale = "it prevents the opponent from winning.";
+        rationale = "it prevents the opponent from making a winning move.";
     }
     else if (capturing_move)
     {

@@ -17,7 +17,7 @@ tabulate::Table RoundDisplay::get_table() const
     history_and_score_table.format().width(50).hide_border();
     history_and_score_table.add_row({"Round Details & Scores"});
     history_and_score_table.add_row({score_table});
-    history_and_score_table.add_row({"Move History (Last 15 Moves)"});
+    history_and_score_table.add_row({"Move History (Last 10 Moves)"});
     history_and_score_table.add_row({history_table});
     history_and_score_table[0]
         .format()
