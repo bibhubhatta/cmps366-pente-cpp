@@ -57,6 +57,16 @@ Board Board::from_string(const std::string& board_string,
 {
     auto board_ = Board(no_rows, no_cols);
 
+    int expected_board_string_size = no_rows * no_cols;
+
+    if (board_string.size() != no_rows * no_cols)
+    {
+        throw std::runtime_error(
+            fmt::format("Invalid board string. There must be {} cells/stones "
+                        "in a board, but there are {}.",
+                        expected_board_string_size, board_string.size()));
+    }
+
     // Loop through board string and set stones
     for (int row = 0; row < no_rows; row++)
     {
@@ -65,6 +75,12 @@ Board Board::from_string(const std::string& board_string,
             char        row_char = 'A' + col;
             std::string position = fmt::format("{}{}", row_char, row + 1);
             Stone       stone = board_string[row * no_cols + col];
+            if (!(stone == EMPTY || stone == WHITE_STONE ||
+                  stone == BLACK_STONE))
+            {
+                throw std::runtime_error(
+                    fmt::format("Invalid stone at position {}", position));
+            }
             board_.set_stone(position, stone);
         }
     }

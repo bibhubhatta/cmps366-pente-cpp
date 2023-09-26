@@ -49,6 +49,7 @@ void Tournament::update_from_file(const std::string& filename)
     roster.add_score(computer, serial.get_computer_score());
 
     Board board = serial.get_board();
+    board.get_turn();
 
     Player* white_player = nullptr;
     Player* black_player = nullptr;
