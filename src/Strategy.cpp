@@ -61,8 +61,6 @@ StrategicMove Strategy::get_move()
         return {position, rationale};
     }
 
-    move_analyses.pop_back();
-
     if (winning_move)
     {
         if (no_winning_moves == 1)
