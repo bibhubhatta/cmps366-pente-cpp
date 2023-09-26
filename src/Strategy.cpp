@@ -40,12 +40,18 @@ StrategicMove Strategy::get_move()
     Position    position {position_str};
     std::string rationale;
 
+    int no_winning_moves = 0;
     int no_opponent_winning_moves = 0;
     for (auto x : move_analyses)
     {
         if (std::get<1>(x))
         {
             no_opponent_winning_moves++;
+        }
+
+        if (std::get<0>(x))
+        {
+            no_winning_moves++;
         }
     }
 
@@ -55,8 +61,15 @@ StrategicMove Strategy::get_move()
         return {position, rationale};
     }
 
+    move_analyses.pop_back();
+
     if (winning_move)
     {
+        if (no_winning_moves == 1)
+        {
+            rationale = "it is the only winning move";
+            return {position, rationale};
+        }
 
         auto second_best_move = move_analyses.back();
         move_analyses.pop_back();
