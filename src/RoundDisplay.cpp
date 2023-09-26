@@ -98,6 +98,9 @@ void RoundDisplay::show() const
 
 void RoundDisplay::announce_scores_and_winner() const
 {
+    Board board = round.get_board();
+    BoardDisplay(board).render();
+
     Table score_table = RoundDisplay(round).score_table();
 
     Table winner_table;
