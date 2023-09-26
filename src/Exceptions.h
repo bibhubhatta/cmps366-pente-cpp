@@ -63,3 +63,13 @@ class GameDrawn : public GameOver
 
     const std::string message;
 };
+
+class Quit : public std::exception
+{
+  public:
+    Quit() : message("Quit") {}
+
+    const char* what() const noexcept override { return message.c_str(); }
+
+    const std::string message;
+};

@@ -94,6 +94,8 @@ class Board
 
     void check_win() const;
 
+    std::string to_string() const;
+
   protected:
     template <typename T> void set_stone(const T& position, Stone stone);
 

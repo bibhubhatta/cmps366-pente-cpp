@@ -11,13 +11,18 @@ Position Human::get_move(const Board& board) const
     std::string input;
     while (true) // Loop to validate input
     {
-        std::cout << "Enter a move (e.g. A10) or ask for help (h): ";
+        std::cout << "Enter a move (e.g. A10), ask for help (h), or quit (q): ";
         std::cin >> input;
 
         if (input == "h")
         {
             get_help(board);
             continue;
+        }
+
+        if (input == "q")
+        {
+            throw Quit();
         }
 
         char col = input[0];

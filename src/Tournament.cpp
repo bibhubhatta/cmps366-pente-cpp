@@ -71,3 +71,8 @@ void Tournament::update_from_file(const std::string& filename)
 }
 
 void Tournament::add_new_round() { rounds.push_back(Round(roster)); }
+
+std::string Tournament::get_serial() const
+{
+    return rounds.back().get_serial_string();
+}

@@ -17,6 +17,8 @@ class Tournament
 
     void update_from_file(const std::string& filename);
 
+    std::string get_serial() const;
+
   private:
     Roster             roster;
     void               update_scores(const Round& round);

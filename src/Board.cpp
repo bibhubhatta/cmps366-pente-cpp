@@ -576,6 +576,20 @@ void Board::check_win() const
     check_win_by_no_capture();
 }
 
+std::string Board::to_string() const
+{
+    std::string board_string;
+    for (int row = 0; row < no_rows; row++)
+    {
+        for (int col = 0; col < no_cols; col++)
+        {
+            board_string += get_stone(row, col);
+        }
+        board_string += "\n";
+    }
+    return board_string;
+}
+
 template <typename T> void Board::handle_capture(const T& position)
 {
     Position position_ {position};

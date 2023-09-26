@@ -20,16 +20,7 @@ void Round::play()
 {
     RoundDisplay display(*this);
 
-    Stone current_stone = board.get_turn();
-
-    Player* current_player = nullptr;
-    for (auto& [player, stone] : player_to_stone)
-    {
-        if (stone == current_stone)
-        {
-            current_player = player;
-        }
-    }
+    Player* current_player = get_current_player();
 
     if (current_player == nullptr)
     {
@@ -73,6 +64,22 @@ void Round::play()
     }
 
     display.announce_scores_and_winner();
+}
+
+Player* Round::get_current_player() const
+{
+    Stone current_stone = board.get_turn();
+
+    Player* current_player = nullptr;
+    for (auto& [player, stone] : player_to_stone)
+    {
+        if (stone == current_stone)
+        {
+            current_player = player;
+        }
+    }
+
+    return current_player;
 }
 
 Score Round::get_score(Player* player) const
@@ -187,3 +194,42 @@ MoveHistory Round::get_move_history() const { return move_history; }
 std::string Round::get_winning_reason() const { return win_by; }
 
 bool Round::is_round_over() const { return is_over; }
+
+std::string Round::get_serial_string() const
+{
+
+    std::string board_str = board.to_string();
+
+    Player* human = get_human_player();
+    Player* computer = get_computer_player();
+
+    int human_captured_pairs = get_no_captures(human);
+    int human_score = roster.get_score(human);
+
+    int computer_captured_pairs = get_no_captures(computer);
+    int computer_score = roster.get_score(computer);
+
+    Player*     next_player = get_current_player();
+    std::string next_player_str = (next_player == human) ? "Human" : "Computer";
+    Stone       next_stone = board.get_turn();
+    std::string next_stone_str =
+        (next_stone == Board::WHITE_STONE) ? "White" : "Black";
+
+    std::string serial = fmt::format(
+        "Board:\n"
+        "{}" // Board
+        "\n"
+        "Human:\n"
+        "Captured pairs: {}\n"
+        "Score: {}\n"
+        "\n"
+        "Computer:\n"
+        "Captured pairs: {}\n"
+        "Score: {}\n"
+        "\n"
+        "Next Player: {} - {}",
+
+        board_str, human_captured_pairs, human_score, computer_captured_pairs,
+        computer_score, next_player_str, next_stone_str);
+    return serial;
+}

@@ -32,6 +32,8 @@ class Round
 
     bool is_round_over() const;
 
+    std::string get_serial_string() const;
+
   private:
     Roster                   roster;
     Board                    board {19, 19};
@@ -48,4 +50,5 @@ class Round
     Human*               get_human_player() const;
     Player*              get_computer_player() const;
     Player*              next_player(Player* player) const;
+    Player*              get_current_player() const;
 };
