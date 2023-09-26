@@ -10,6 +10,8 @@ class Serial
   public:
     Serial(const std::string& serial_string);
 
+    static Serial from_file(const std::string& filename);
+
     int get_human_score() const;
 
     int get_computer_score() const;

@@ -12,7 +12,9 @@ class Round
 {
   public:
     Round(const Roster& roster);
-    Round(const Roster& roster, const Board& board);
+    Round(const Roster& roster, const Board& board, Player* white_player,
+          Player* black_player);
+
     void play();
 
     Score get_score(Player* player) const;

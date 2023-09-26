@@ -1,3 +1,4 @@
+#include <fstream>
 #include <sstream>
 
 #include "Serial.h"
@@ -108,3 +109,27 @@ char Serial::get_computer_stone() const
 }
 
 char Serial::other_stone(char stone) const { return stone == 'W' ? 'B' : 'W'; }
+
+Serial Serial::from_file(const std::string& filename)
+{
+
+    std::ifstream file;
+
+    file.open(filename);
+
+    if (!file.is_open())
+    {
+        throw std::runtime_error("Failed to open file");
+    }
+
+    std::string serial_string;
+    std::string line;
+    while (std::getline(file, line))
+    {
+        serial_string += line + "\n";
+    }
+
+    file.close();
+
+    return {serial_string};
+}

@@ -8,20 +8,36 @@
 
 Round::Round(const Roster& roster) : roster(roster) {}
 
-Round::Round(const Roster& roster, const Board& board)
+Round::Round(const Roster& roster, const Board& board, Player* white_player,
+             Player* black_player)
     : roster(roster), board(board)
 {
+    player_to_stone[white_player] = Board::WHITE_STONE;
+    player_to_stone[black_player] = Board::BLACK_STONE;
 }
 
 void Round::play()
 {
-    Player* current_player = first_player();
-    Player* other_player = next_player(current_player);
-
     RoundDisplay display(*this);
 
-    player_to_stone[current_player] = Board::WHITE_STONE;
-    player_to_stone[other_player] = Board::BLACK_STONE;
+    Stone current_stone = board.get_turn();
+
+    Player* current_player = nullptr;
+    for (auto& [player, stone] : player_to_stone)
+    {
+        if (stone == current_stone)
+        {
+            current_player = player;
+        }
+    }
+
+    if (current_player == nullptr)
+    {
+        current_player = first_player();
+        Player* other_player = next_player(current_player);
+        player_to_stone[current_player] = Board::WHITE_STONE;
+        player_to_stone[other_player] = Board::BLACK_STONE;
+    }
 
     while (true)
     {

@@ -15,7 +15,11 @@ class Tournament
     Roster  get_roster() const;
     Player* get_winner() const;
 
+    void update_from_file(const std::string& filename);
+
   private:
-    Roster roster;
-    void   update_scores(const Round& round);
+    Roster             roster;
+    void               update_scores(const Round& round);
+    std::vector<Round> rounds;
+    void               add_new_round();
 };
