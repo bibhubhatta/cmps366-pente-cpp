@@ -40,6 +40,15 @@ StrategicMove Strategy::get_move()
     Position    position {position_str};
     std::string rationale;
 
+    int no_opponent_winning_moves = 0;
+    for (auto x : move_analyses)
+    {
+        if (std::get<1>(x))
+        {
+            no_opponent_winning_moves++;
+        }
+    }
+
     if (move_analyses.size() == 1)
     {
         rationale = "it is the only available move.";
@@ -67,18 +76,15 @@ StrategicMove Strategy::get_move()
             else
             {
 
-                for (auto x : move_analyses)
+                if (no_opponent_winning_moves > 0)
                 {
-                    if (std::get<2>(x))
-                    {
-                        rationale = fmt::format(
-                            "even though there are more than one winning moves "
-                            "that lead to same score, opponent can win on "
-                            "their next move. So playing the winning move.");
-                        return {position, rationale};
-                    }
+                    rationale = fmt::format(
+                        "even though there are more than one winning moves "
+                        "that lead to same score, opponent can win on "
+                        "their next move. So playing the winning move.");
+                    return {position, rationale};
                 }
-                
+
                 rationale =
                     fmt::format("There are more than one winning moves that "
                                 "lead to the same score, so holding off.");
