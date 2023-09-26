@@ -10,20 +10,10 @@ Strategy::Strategy(Board board) : board(board) {}
 
 StrategicMove Strategy::get_move()
 {
-    std::string rationale;
-
-    std::set<Position> available_moves = board.get_available_positions();
-
-    if (available_moves.size() == 1)
-    {
-        rationale = "it is the only available move.";
-        return {*available_moves.begin(), rationale};
-    }
-
     using analysis = std::tuple<int, int, int, int, Score, Score, std::string>;
-
     std::vector<analysis> move_analyses;
 
+    std::set<Position> available_moves = board.get_available_positions();
     for (const auto& move : available_moves)
     {
         MoveAnalysis move_analysis(board, move);
@@ -42,7 +32,14 @@ StrategicMove Strategy::get_move()
                  opponent_capturing_move, score_after_move,
                  pseudo_score_after_move, position_str] = move_analyses.back();
 
-    Position position {position_str};
+    Position    position {position_str};
+    std::string rationale;
+
+    if (move_analyses.size() == 1)
+    {
+        rationale = "it is the only available move.";
+        return {position, rationale};
+    }
 
     if (winning_move)
     {
