@@ -134,7 +134,7 @@ Score MoveAnalysis::pseudo_score_after_move() const
     board_.make_move(move);
     Score score = calculate_pseudo_score(board_, current_player);
 
-    return score;
+    return score + opponent_pseudo_score_after_move();
 }
 
 Score MoveAnalysis::calculate_pseudo_score(const Board& board_,
@@ -161,6 +161,19 @@ Score MoveAnalysis::calculate_pseudo_score(const Board& board_,
 
         score += count * length;
     }
+
+    return score * (board_.get_score(stone) + 1);
+}
+
+Score MoveAnalysis::opponent_pseudo_score_after_move() const
+{
+    ExperimentalBoard board_ = static_cast<ExperimentalBoard>(board);
+    Stone             current_player = board_.get_turn();
+    Stone opponent = current_player == Board::WHITE_STONE ? Board::BLACK_STONE
+                                                          : Board::WHITE_STONE;
+
+    board_.set_stone(move, opponent);
+    Score score = calculate_pseudo_score(board_, opponent);
 
     return score;
 }

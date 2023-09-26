@@ -23,6 +23,7 @@ class MoveAnalysis
     bool is_opponent_capturing_move() const;
 
     Score pseudo_score_after_move() const;
+    Score calculate_pseudo_score(const Board& board_, const Stone& stone) const;
 
     const Board    board;
     const Position move;
@@ -30,4 +31,5 @@ class MoveAnalysis
     int            score_delta() const;
     int            opponent_score_delta() const;
     int            opponent_capture_delta() const;
+    Score          opponent_pseudo_score_after_move() const;
 };
