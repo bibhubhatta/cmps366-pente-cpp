@@ -617,7 +617,67 @@ std::set<Position> Board::get_neighbors(const Position& position) const
         neighbors.insert(Position(row, col + 1));
     }
 
+    // Diagonals
+
+    if (row > 0 && col > 0)
+    {
+        neighbors.insert(Position(row - 1, col - 1));
+    }
+
+    if (row > 0 && col < no_cols - 1)
+    {
+        neighbors.insert(Position(row - 1, col + 1));
+    }
+
+    if (row < no_rows - 1 && col > 0)
+    {
+        neighbors.insert(Position(row + 1, col - 1));
+    }
+
+    if (row < no_rows - 1 && col < no_cols - 1)
+    {
+        neighbors.insert(Position(row + 1, col + 1));
+    }
+
     return neighbors;
+}
+std::set<Position>
+
+Board::get_available_sequence_neighbors(const Position& position) const
+{
+    std::set<Position> available_sequence_neighbors;
+
+    auto               neighbors = get_neighbors(position);
+    auto               moves = get_available_positions();
+    std::set<Position> visited;
+
+    while (!neighbors.empty())
+    {
+        Position neighbor = *neighbors.begin();
+        neighbors.erase(neighbors.begin());
+
+        if (visited.contains(neighbor))
+        {
+            continue;
+        }
+
+        visited.insert(neighbor);
+
+        if (moves.contains(neighbor))
+        {
+            available_sequence_neighbors.insert(neighbor);
+        }
+        else if (get_stone(neighbor) == get_stone(position))
+        {
+            auto neighbor_neighbors = get_neighbors(neighbor);
+            for (auto const& neighbor_neighbor : neighbor_neighbors)
+            {
+                neighbors.insert(neighbor_neighbor);
+            }
+        }
+    }
+
+    return available_sequence_neighbors;
 }
 
 template <typename T> void Board::handle_capture(const T& position)

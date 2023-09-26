@@ -99,6 +99,8 @@ class Board
     Position get_center() const;
 
     std::set<Position> get_neighbors(const Position& position) const;
+    std::set<Position>
+    get_available_sequence_neighbors(const Position& position) const;
 
   protected:
     template <typename T> void set_stone(const T& position, Stone stone);

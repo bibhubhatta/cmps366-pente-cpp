@@ -118,8 +118,13 @@ int MoveAnalysis::capture_delta() const
     auto captured_pairs_before = board.get_no_captured_pairs(opponent);
 
     Board board_ = board;
-
-    board_.make_move(move);
+    try
+    {
+        board_.make_move(move);
+    }
+    catch (const GameOver& e)
+    {
+    }
 
     auto captured_pairs_after = board_.get_no_captured_pairs(opponent);
 
@@ -131,7 +136,14 @@ Score MoveAnalysis::pseudo_score_after_move() const
     Board board_ = board;
     Stone current_player = board_.get_turn();
 
-    board_.make_move(move);
+    try
+    {
+        board_.make_move(move);
+    }
+    catch (const GameWon& e)
+    {
+    }
+
     Score score = calculate_pseudo_score(board_, current_player);
 
     return score + opponent_pseudo_score_after_move();
@@ -229,6 +241,30 @@ int MoveAnalysis::opponent_capture_delta() const
     auto captured_pairs_after = board_.get_no_captured_pairs(current_player);
 
     return captured_pairs_after - captured_pairs_before;
+}
+
+bool MoveAnalysis::is_capture_safe() const
+{
+    Board board_ = board;
+    try
+    {
+        board_.make_move(move);
+    }
+    catch (const GameOver& e)
+    {
+        return true;
+    }
+
+    auto neighborhood = board_.get_available_sequence_neighbors(move);
+    for (const auto& position : neighborhood)
+    {
+        if (MoveAnalysis(board_, position).is_capturing_move())
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 int MoveAnalysis::distance_from_center() const

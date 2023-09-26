@@ -21,6 +21,7 @@ class MoveAnalysis
     bool is_opponent_winning_move() const;
     bool is_opponent_scoring_move() const;
     bool is_opponent_capturing_move() const;
+    bool is_capture_safe() const;
 
     Score pseudo_score_after_move() const;
     Score calculate_pseudo_score(const Board& board_, const Stone& stone) const;
