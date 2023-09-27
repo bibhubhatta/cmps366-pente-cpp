@@ -207,7 +207,7 @@ std::set<Position> Board::get_available_positions() const
         available_positions.insert(center);
     }
 
-    else if (no_moves_so_far == 1)
+    else if (no_moves_so_far == 2)
     {
         // Second move
         for (auto& position : get_empty_positions())
@@ -838,7 +838,7 @@ template <typename T> void Board::make_move(const T& position)
         {
             reason += " The first move must be at the center of the board.";
         }
-        else if (no_moves_so_far == 1)
+        else if (no_moves_so_far == 2)
         {
             reason += " The second move must be at least 3 intersections away "
                       "from the center.";
