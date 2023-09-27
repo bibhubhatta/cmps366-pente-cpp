@@ -42,7 +42,7 @@ Board Serial::get_board() const
     std::string board_string;
     for (int i = 1; i < 20; i++)
     {
-        board_string += lines[i];
+        board_string = lines[i] + board_string;
     }
 
     char human_stone = get_human_stone();
