@@ -1,3 +1,4 @@
+#include <iostream>
 #include <set>
 #include <stdexcept>
 
@@ -21,6 +22,10 @@ Board::Board(int no_rows, int no_cols) : no_rows(no_rows), no_cols(no_cols)
     // by the opponent
     captured_pairs[WHITE_STONE] = 0;
     captured_pairs[BLACK_STONE] = 0;
+
+    // Initialize stone offsets for loading erroneous boards
+    stone_offsets[WHITE_STONE] = 0;
+    stone_offsets[BLACK_STONE] = 0;
 }
 
 template <typename T> Stone Board::get_stone(const T& position) const
@@ -52,7 +57,8 @@ template void Board::set_stone<std::string>(const std::string& position,
 
 Board Board::from_string(const std::string& board_string,
                          const int          no_captured_white_pairs,
-                         const int no_captured_black_pairs, const int no_rows,
+                         const int          no_captured_black_pairs,
+                         const Stone next_stone, const int no_rows,
                          const int no_cols)
 {
     auto board_ = Board(no_rows, no_cols);
@@ -88,6 +94,54 @@ Board Board::from_string(const std::string& board_string,
     board_.captured_pairs[WHITE_STONE] = no_captured_white_pairs;
     board_.captured_pairs[BLACK_STONE] = no_captured_black_pairs;
 
+    // Fix errors in file
+    while (true)
+    {
+        auto other_stone =
+            next_stone == WHITE_STONE ? BLACK_STONE : WHITE_STONE;
+        try
+        {
+            auto next_player = board_.get_turn();
+            if (next_player != next_stone)
+            {
+                fmt::print(
+                    "According to the board, the next player should be {}, but "
+                    "serial says it should be {}. Setting next stone to {}\n",
+                    next_player, next_stone, next_stone);
+                board_.stone_offsets[other_stone]++;
+            }
+            break;
+        }
+        catch (const std::runtime_error& e)
+        {
+            fmt::print("Error: {}\n", e.what());
+
+            fmt::print("Loading anyway...\n");
+
+            fmt::print("Setting next stone to {}\n", next_stone);
+
+            int black_stones_played =
+                board_.get_total_no_stone_played(BLACK_STONE);
+            int white_stones_played =
+                board_.get_total_no_stone_played(WHITE_STONE);
+
+            int diff = white_stones_played - black_stones_played;
+
+            if (diff > 1)
+            {
+                board_.stone_offsets[BLACK_STONE] = diff;
+            }
+            else if (diff < 0)
+            {
+                board_.stone_offsets[WHITE_STONE] = diff;
+            }
+
+            if (board_.get_turn() != next_stone)
+            {
+                board_.stone_offsets[other_stone]++;
+            }
+        }
+    }
     return board_;
 }
 
@@ -168,7 +222,8 @@ Stone Board::get_stone(int row, int col) const
 
 int Board::get_total_no_stone_played(Stone stone) const
 {
-    return get_no_stone_on_board(stone) + get_no_captured_pairs(stone) * 2;
+    return get_no_stone_on_board(stone) + get_no_captured_pairs(stone) * 2 +
+           stone_offsets.at(stone);
 }
 
 Stone Board::get_turn() const

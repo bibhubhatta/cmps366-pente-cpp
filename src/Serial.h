@@ -24,6 +24,8 @@ class Serial
 
     char get_computer_stone() const;
 
+    char get_next_turn() const;
+
     Board get_board() const;
 
   private:

@@ -39,8 +39,8 @@ class Board
      */
     static Board from_string(const std::string& board_string,
                              int                no_captured_white_pairs,
-                             int no_captured_black_pairs, int no_rows = 19,
-                             int no_cols = 19);
+                             int no_captured_black_pairs, Stone next_stone,
+                             int no_rows = 19, int no_cols = 19);
 
     static std::vector<BoardSequence>
     get_stone_sequences(const BoardSequence& sequence);
@@ -110,6 +110,7 @@ class Board
   private:
     BoardSequence        board;
     std::map<Stone, int> captured_pairs;
+    std::map<Stone, int> stone_offsets;
 
     Stone get_stone(int row, int col) const;
 

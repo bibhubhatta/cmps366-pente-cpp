@@ -66,7 +66,7 @@ Board Serial::get_board() const
     }
 
     Board board = Board::from_string(board_string, no_captured_white_pairs,
-                                     no_captured_black_pairs);
+                                     no_captured_black_pairs, get_next_turn());
 
     return board;
 }
@@ -132,4 +132,23 @@ Serial Serial::from_file(const std::string& filename)
     file.close();
 
     return {serial_string};
+}
+
+char Serial::get_next_turn() const
+{
+    // Line 30: "Next Player: Human - Black"
+
+    // Get the string after the colon
+    std::string line = lines[29];
+    std::string player_stone =
+        line.substr(line.find(':') + 2, line.length() - 1);
+
+    // Split the string by the dash
+    std::string delimiter = " - ";
+    std::string player = player_stone.substr(0, player_stone.find(delimiter));
+    std::string stone =
+        player_stone.substr(player_stone.find(delimiter) + delimiter.length(),
+                            player_stone.length() - 1);
+
+    return stone[0];
 }
