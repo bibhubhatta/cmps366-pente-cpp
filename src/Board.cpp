@@ -634,7 +634,7 @@ void Board::check_win() const
 std::string Board::to_string() const
 {
     std::string board_string;
-    for (int row = 0; row < no_rows; row++)
+    for (int row = no_rows - 1; row >= 0; row--)
     {
         for (int col = 0; col < no_cols; col++)
         {
