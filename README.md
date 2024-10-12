@@ -10,6 +10,31 @@ This project is a part of the CMPS 366, [Organization of Programming Languages](
 
 ### [Logic - Prolog](https://github.com/bibhubhatta/cmps366-pente-prolog)
 
+## Build Instructions
+
+To build the project, CMake version 3.25.2 or higher is required. The project has been tested with GCC 9.4.0.
+
+To build, run the following commands:
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+To run the tests, run the following command from the `build` directory:
+
+```bash
+ctest
+```
+
+To run the game, run the following command from the `build` directory:
+
+```bash
+./src/pente
+```
+
 ## Pente
 
 Pente is a two-player board game that is played on a 19x19 board. The game is played with black and white stones. The objective of the game is to place five stones in a row, either horizontally, vertically, or diagonally. The game is played in turns, with each player placing one stone on the board per turn. The game ends when one player has five stones in a row, or when the board is full and no player has won. The player with five stones in a row wins the game.
